@@ -7,10 +7,15 @@ import os.path
 import tempfile
 import time
 import logging
+from concurrent.futures import thread
+from threading import Thread
+
 import pika
 import yaml
 import sys
 import copy
+
+from time import sleep
 
 from toscaparser.tosca_template import ToscaTemplate
 
@@ -20,7 +25,6 @@ from util import tosca_helper
 
 logger = logging.getLogger(__name__)
 
-
 # if not getattr(logger, 'handler_set', None):
 # logger.setLevel(logging.INFO)
 # h = logging.StreamHandler()
@@ -28,6 +32,8 @@ logger = logging.getLogger(__name__)
 # h.setFormatter(formatter)
 # logger.addHandler(h)
 # logger.handler_set = True
+
+done = False
 
 
 def init_chanel(args):
@@ -41,7 +47,7 @@ def init_chanel(args):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
     channel = connection.channel()
     channel.queue_declare(queue=queue_name)
-    return channel
+    return channel, connection
 
 
 def start(this_channel):
@@ -62,12 +68,13 @@ def on_request(ch, method, props, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
-def handle_delivery(message):
+def handle_delivery(message, sys=None):
     logger.info("Got: " + str(message))
     try:
         message = message.decode()
     except (UnicodeDecodeError, AttributeError):
-        pass
+        e = sys.exc_info()[0]
+        logger.info("Parsing Error: " + str(e))
     parsed_json_message = json.loads(message)
     owner = parsed_json_message['owner']
     tosca_file_name = 'tosca_template'
@@ -97,7 +104,7 @@ def handle_delivery(message):
     spec_service = SpecService(conf)
     test_planner = Planner(tosca_path=input_tosca_file_path, spec_service=spec_service)
     tosca_template = test_planner.resolve_requirements()
-    tosca_template = test_planner.set_infrastructure_specifications()
+    tosca_template = test_planner.set_node_templates_properties()
     template_dict = tosca_helper.get_tosca_template_2_topology_template_dictionary(tosca_template)
 
     Planner(yaml_dict_tpl=template_dict, spec_service=spec_service)
@@ -106,12 +113,17 @@ def handle_delivery(message):
     response = {'toscaTemplate': template_dict}
     output_current_milli_time = int(round(time.time() * 1000))
     response["creationDate"] = output_current_milli_time
-    response["parameters"] = []
     if queue_name == "planner_queue":
         logger.info("Planning")
     logger.info("Returning plan")
     logger.info("Output message:" + json.dumps(response))
     return json.dumps(response)
+
+
+def threaded_function(args):
+    while not done:
+        connection.process_data_events()
+        sleep(5)
 
 
 if __name__ == "__main__":
@@ -123,7 +135,7 @@ if __name__ == "__main__":
         spec_service = SpecService(conf)
         test_planner = Planner(input_tosca_file_path, spec_service)
         test_tosca_template = test_planner.resolve_requirements()
-        test_tosca_template = test_planner.set_infrastructure_specifications()
+        test_tosca_template = test_planner.set_node_templates_properties()
         template_dict = tosca_helper.get_tosca_template_2_topology_template_dictionary(test_tosca_template)
         logger.info("template ----: \n" + yaml.dump(template_dict))
 
@@ -132,9 +144,21 @@ if __name__ == "__main__":
         test_response = {'toscaTemplate': template_dict}
         logger.info("Output message:" + json.dumps(test_response))
     else:
-        print("Input args: " + sys.argv[0] + ' ' + sys.argv[1] + ' ' + sys.argv[2])
         logger.info("Input args: " + sys.argv[0] + ' ' + sys.argv[1] + ' ' + sys.argv[2])
-        channel = init_chanel(sys.argv)
+        global channel
+        global connection
+        channel, connection = init_chanel(sys.argv)
         global queue_name
         queue_name = sys.argv[2]
-        start(channel)
+
+        # thread = Thread(target=threaded_function, args=(1,))
+        # thread.start()
+
+        logger.info("Awaiting RPC requests")
+        try:
+            start(channel)
+        except Exception as e:
+            e = sys.exc_info()[0]
+            logger.info("Error: " + str(e))
+            print(e)
+            exit(-1)

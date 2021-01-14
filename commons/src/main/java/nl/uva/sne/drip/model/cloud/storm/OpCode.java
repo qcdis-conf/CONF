@@ -28,7 +28,8 @@ public class OpCode {
         VSCALE("vscale"),
         HSCALE("hscale"),
         RECOVER("recover"),
-        START("start");
+        START("start"),
+        STOP("stop");
 
         private String value;
 

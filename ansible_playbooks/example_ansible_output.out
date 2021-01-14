@@ -1,0 +1,64 @@
+
+PLAY [k8-master] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [145.100.133.173]
+
+TASK [install pip modules] *****************************************************
+changed: [145.100.133.173]
+
+TASK [copy task src: /home/alogo/workspace/DRIP/deployer/k8s/dashboard.yaml dest: /tmp/dashboard.yaml] ***
+ok: [145.100.133.173]
+
+TASK [create_dashboard] ********************************************************
+changed: [145.100.133.173]
+
+TASK [create_admin_dashboard] **************************************************
+ok: [145.100.133.173]
+
+TASK [create_admin_cluster_role_binding] ***************************************
+ok: [145.100.133.173]
+
+TASK [get token] ***************************************************************
+changed: [145.100.133.173]
+
+TASK [print token] *************************************************************
+ok: [145.100.133.173] => {
+    "dashboard_token": {
+        "changed": true,
+        "cmd": "kubectl describe secret $(kubectl get secret | grep admin-user | awk '{print $1}')",
+        "delta": "0:00:00.492453",
+        "end": "2020-03-11 17:26:29.268296",
+        "failed": false,
+        "rc": 0,
+        "start": "2020-03-11 17:26:28.775843",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "Name:         admin-user-token-c857d\nNamespace:    default\nLabels:       <none>\nAnnotations:  kubernetes.io/service-account.name: admin-user\n              kubernetes.io/service-account.uid: 78b17dda-d38c-4ea3-b98e-e6413a81e9ae\n\nType:  kubernetes.io/service-account-token\n\nData\n====\nca.crt:     1025 bytes\nnamespace:  7 bytes\ntoken:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjRwT3AyYVlJWjJRNm90dGlZUUJLVU5kOGo0N1ZXSXptSnFfS2pWeWJndU0ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFkbWluLXVzZXItdG9rZW4tYzg1N2QiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiYWRtaW4tdXNlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6Ijc4YjE3ZGRhLWQzOGMtNGVhMy1iOThlLWU2NDEzYTgxZTlhZSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmFkbWluLXVzZXIifQ.JG3DLoGbow-9WQkMl26fX-tD_ppt86Bavz5VE4eW_9oHiZoIdr5-ePEWMAuOP1QEiXMex4wTBxnNv1D4AFQdvdvrsWua6EoiCGioeYeMwV2Bxz5nzq6Qo0y7D9ZO5zyIoQ7eZeOptm9CdsAepABP9cvmNZZydKWh_KRl_0uaGL008-1FLqBSqIh5LHseR9YPQYkIj9e8mlUIUaT-2WshilSzVBl1YjmJcbm9VJkH0GCBzzbhCcszsyMk9V50mfg_ZNtMms_7D2ExZaCYqd-aamug0ku8e5JsXuaKq9Jr3qIXRizZT8_QEM48o--O0e25KZtCqEVwe1g58YbJ5I3obQ",
+        "stdout_lines": [
+            "Name:         admin-user-token-c857d",
+            "Namespace:    default",
+            "Labels:       <none>",
+            "Annotations:  kubernetes.io/service-account.name: admin-user",
+            "              kubernetes.io/service-account.uid: 78b17dda-d38c-4ea3-b98e-e6413a81e9ae",
+            "",
+            "Type:  kubernetes.io/service-account-token",
+            "",
+            "Data",
+            "====",
+            "ca.crt:     1025 bytes",
+            "namespace:  7 bytes",
+            "token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjRwT3AyYVlJWjJRNm90dGlZUUJLVU5kOGo0N1ZXSXptSnFfS2pWeWJndU0ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFkbWluLXVzZXItdG9rZW4tYzg1N2QiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiYWRtaW4tdXNlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6Ijc4YjE3ZGRhLWQzOGMtNGVhMy1iOThlLWU2NDEzYTgxZTlhZSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmFkbWluLXVzZXIifQ.JG3DLoGbow-9WQkMl26fX-tD_ppt86Bavz5VE4eW_9oHiZoIdr5-ePEWMAuOP1QEiXMex4wTBxnNv1D4AFQdvdvrsWua6EoiCGioeYeMwV2Bxz5nzq6Qo0y7D9ZO5zyIoQ7eZeOptm9CdsAepABP9cvmNZZydKWh_KRl_0uaGL008-1FLqBSqIh5LHseR9YPQYkIj9e8mlUIUaT-2WshilSzVBl1YjmJcbm9VJkH0GCBzzbhCcszsyMk9V50mfg_ZNtMms_7D2ExZaCYqd-aamug0ku8e5JsXuaKq9Jr3qIXRizZT8_QEM48o--O0e25KZtCqEVwe1g58YbJ5I3obQ"
+        ]
+    }
+}
+
+TASK [Create a Service object0] ************************************************
+ok: [145.100.133.173]
+
+TASK [Create a deployment object0] *********************************************
+ok: [145.100.133.173]
+
+PLAY RECAP *********************************************************************
+145.100.133.173            : ok=10   changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

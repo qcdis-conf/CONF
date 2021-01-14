@@ -1,0 +1,68 @@
+{
+  "owner": "user",
+  "creationDate": 1585660820879,
+  "toscaTemplate": {
+    "tosca_definitions_version": "tosca_simple_yaml_1_0",
+    "tosca_default_namespace": null,
+    "template_name": null,
+    "topology_template": {
+      "description": null,
+      "inputs": null,
+      "node_templates": {
+        "ws-pema": {
+          "properties": {
+            "ports": [
+              "30001:8080"
+            ]
+          },
+          "type": "tosca.nodes.QC.Container.Application.Docker",
+          "artifacts": {
+            "image": {
+              "type": "tosca.artifacts.Deployment.Image.Container.Docker",
+              "file": "alogo53/ws-pema-lifewatch",
+              "repository": "docker_hub"
+            }
+          }
+        }
+      },
+      "relationship_templates": null,
+      "outputs": null,
+      "groups": null,
+      "substitution_mappings": null,
+      "policies": null
+    },
+    "template_author": null,
+    "template_version": null,
+    "description": "TOSCA example\n",
+    "imports": [
+      {
+        "nodes": "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/nodes.yaml"
+      },
+      {
+        "data": "https://raw.githubusercontent.com/skoulouzis/CONF/develop/TOSCA/types/data.yml"
+      },
+      {
+        "capabilities": "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/capabilities.yaml"
+      },
+      {
+        "policies": "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/policies.yaml"
+      },
+      {
+        "interfaces": "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/interfaces.yml"
+      }
+    ],
+    "dsl_definitions": null,
+    "node_types": null,
+    "relationship_types": null,
+    "relationship_templates": null,
+    "capability_types": null,
+    "artifact_types": null,
+    "data_types": null,
+    "interface_types": null,
+    "policy_types": null,
+    "group_types": null,
+    "repositories": {
+      "docker_hub": "https://hub.docker.com/"
+    }
+  }
+}

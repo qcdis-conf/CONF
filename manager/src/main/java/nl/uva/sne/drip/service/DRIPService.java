@@ -7,14 +7,16 @@ package nl.uva.sne.drip.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.uva.sne.drip.api.NotFoundException;
 import nl.uva.sne.drip.commons.utils.ToscaHelper;
+import nl.uva.sne.drip.commons.utils.Constants.NODE_STATES;
+import nl.uva.sne.drip.model.Exceptions.MissingCredentialsException;
+import nl.uva.sne.drip.model.Exceptions.MissingVMTopologyException;
+import nl.uva.sne.drip.model.Exceptions.TypeExeption;
 import nl.uva.sne.drip.model.Message;
 import nl.uva.sne.drip.model.NodeTemplateMap;
 import nl.uva.sne.drip.model.tosca.Credential;
@@ -22,6 +24,7 @@ import nl.uva.sne.drip.model.tosca.ToscaTemplate;
 import nl.uva.sne.drip.rpc.DRIPCaller;
 import nl.uva.sne.drip.sure.tosca.client.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,69 +43,53 @@ public class DRIPService {
     @Autowired
     CredentialService credentialService;
 
-    private String requestQeueName;
-
     @Autowired
     private ToscaHelper helper;
 
     @Autowired
     ProvisionerService provisionerService;
-    private static final String OPERATION_PROVISION = "provision";
 
-    private String execute(ToscaTemplate toscaTemplate) throws JsonProcessingException, ApiException, Exception {
+    @Value("${message.broker.queue.provisioner}")
+    private String provisionerQueueName;
 
-        try {
-            caller.init();
-            Logger.getLogger(DRIPService.class.getName()).log(Level.INFO, "toscaTemplate:\n{0}", toscaTemplate);
-            Message message = new Message();
-            message.setOwner("user");
-            message.setCreationDate(System.currentTimeMillis());
-            message.setToscaTemplate(toscaTemplate);
+    @Value("${message.broker.queue.planner}")
+    private String plannerQueueName;
 
-            caller.setRequestQeueName(requestQeueName);
-            Message plannerResponse = caller.call(message);
-            ToscaTemplate plannedToscaTemplate = plannerResponse.getToscaTemplate();
+    @Value("${message.broker.queue.deployer}")
+    private String deployerQueueName;
 
-            return toscaTemplateService.save(plannedToscaTemplate);
-        } catch (IOException | TimeoutException | InterruptedException ex) {
-            Logger.getLogger(DRIPService.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                caller.close();
-            } catch (IOException | TimeoutException ex) {
-                Logger.getLogger(DRIPService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return null;
-    }
+    private String execute(ToscaTemplate toscaTemplate, String requestQeueName) throws JsonProcessingException, ApiException, IOException, TimeoutException, InterruptedException {
+        caller.init();
+        Logger.getLogger(DRIPService.class.getName()).log(Level.INFO, "toscaTemplate:\n{0}", toscaTemplate);
+        Message message = new Message();
+        message.setOwner("user");
+        message.setCreationDate(System.currentTimeMillis());
+        message.setToscaTemplate(toscaTemplate);
 
-    /**
-     * @return the requestQeueName
-     */
-    public String getRequestQeueName() {
-        return requestQeueName;
-    }
+        caller.setRequestQeueName(requestQeueName);
+        Message plannerResponse = caller.call(message);
+        ToscaTemplate updatedToscaTemplate = plannerResponse.getToscaTemplate();
+        caller.close();
+        return toscaTemplateService.save(updatedToscaTemplate);
 
-    /**
-     * @param requestQeueName the requestQeueName to set
-     */
-    public void setRequestQeueName(String requestQeueName) {
-        this.requestQeueName = requestQeueName;
     }
 
     private Credential getBestCredential(List<Credential> credentials) {
         return credentials.get(0);
     }
 
-    private ToscaTemplate addCredentials(ToscaTemplate toscaTemplate) throws IOException, JsonProcessingException, ApiException, Exception {
+    protected ToscaTemplate addCredentials(ToscaTemplate toscaTemplate) throws MissingCredentialsException, ApiException, TypeExeption, MissingVMTopologyException {
         List<NodeTemplateMap> vmTopologies = helper.getVMTopologyTemplates();
-        List<Credential> credentials = null;
+        if (vmTopologies == null) {
+            throw new MissingVMTopologyException("ToscaTemplate: " + toscaTemplate + " has no VM topology");
+        }
+        List<Credential> credentials;
         for (NodeTemplateMap vmTopologyMap : vmTopologies) {
             String provider = helper.getTopologyProvider(vmTopologyMap);
             if (needsCredentials(provider)) {
                 credentials = credentialService.findByProvider(provider);
                 if (credentials == null || credentials.size() <= 0) {
-                    throw new Exception("Provider: " + provider + " needs credentials but non clould be found");
+                    throw new MissingCredentialsException("Provider: " + provider + " needs credentials but non clould be found");
                 } else {
                     Credential credential = getBestCredential(credentials);
                     vmTopologyMap = helper.setCredentialsInVMTopology(vmTopologyMap, credential);
@@ -111,36 +98,36 @@ public class DRIPService {
             }
 
         }
+        Logger.getLogger(ToscaHelper.class.getName()).log(Level.FINE, "Added credetials to ToscaTemplate");
         return toscaTemplate;
     }
 
-    public String plan(String id) throws ApiException, Exception {
+    public String plan(String id) throws ApiException, NotFoundException, IOException, JsonProcessingException, TimeoutException, InterruptedException {
         ToscaTemplate toscaTemplate = initExecution(id);
-        return execute(toscaTemplate);
+        return execute(toscaTemplate, plannerQueueName);
     }
 
-    public String provision(String id) throws JsonProcessingException, NotFoundException, IOException, Exception {
+    public String provision(String id) throws MissingCredentialsException, ApiException, TypeExeption, IOException, JsonProcessingException, TimeoutException, InterruptedException, NotFoundException, MissingVMTopologyException {
         ToscaTemplate toscaTemplate = initExecution(id);
         toscaTemplate = addCredentials(toscaTemplate);
-        toscaTemplate = setProvisionOperation(toscaTemplate, OPERATION_PROVISION);
-        return execute(toscaTemplate);
+        //Update ToscaTemplate so we can include the credentials
+        helper.uploadToscaTemplate(toscaTemplate);
+        List<NodeTemplateMap> vmTopologies = helper.getVMTopologyTemplates();
+        if (vmTopologies == null || vmTopologies.isEmpty()) {
+            throw new MissingVMTopologyException("ToscaTemplate: " + toscaTemplate + " has no VM Topologies");
+        }
+        for (NodeTemplateMap vmTopology : vmTopologies) {
+            toscaTemplate = setDesieredSate(toscaTemplate, vmTopology, NODE_STATES.RUNNING);
+        }
+        return execute(toscaTemplate, provisionerQueueName);
     }
 
-    private ToscaTemplate setProvisionOperation(ToscaTemplate toscaTemplate, String operation) throws IOException, JsonProcessingException, ApiException, Exception {
-//        helper.uploadToscaTemplate(toscaTemplate);
-        List<NodeTemplateMap> vmTopologies = helper.getVMTopologyTemplates();
-        for (NodeTemplateMap vmTopologyMap : vmTopologies) {
-            Map<String, Object> provisionerInterface = helper.getProvisionerInterfaceFromVMTopology(vmTopologyMap);
-            if (!provisionerInterface.containsKey("provision")) {
-                Map<String, Object> inputsMap = new HashMap<>();
-                inputsMap.put(operation, caller);
-                Map<String, Object> provisionMap = new HashMap<>();
-                provisionMap.put("inputs", inputsMap);
-                provisionerInterface.put(operation, caller);
-                vmTopologyMap = helper.setProvisionerInterfaceInVMTopology(vmTopologyMap, provisionerInterface);
-                toscaTemplate = helper.setNodeInToscaTemplate(toscaTemplate, vmTopologyMap);
-            }
-        }
+    protected ToscaTemplate setDesieredSate(ToscaTemplate toscaTemplate,
+            NodeTemplateMap node, NODE_STATES nodeState) throws IOException, JsonProcessingException, ApiException {
+        NODE_STATES currentState = helper.getNodeCurrentState(node);
+        NODE_STATES desiredState = helper.getNodeDesiredState(node);
+        node = helper.setNodeDesiredState(node, nodeState);
+        toscaTemplate = helper.setNodeInToscaTemplate(toscaTemplate, node);
         return toscaTemplate;
     }
 
@@ -153,16 +140,40 @@ public class DRIPService {
         }
     }
 
-    public String deploy(String id) throws JsonProcessingException, NotFoundException, IOException, ApiException, Exception {
+    public String deploy(String id, List<String> nodeNames) throws JsonProcessingException, NotFoundException, IOException, ApiException, Exception {
         ToscaTemplate toscaTemplate = initExecution(id);
-        return execute(toscaTemplate);
+        //If no nodes are specified deploy all applications
+        if (nodeNames == null || nodeNames.isEmpty()) {
+            List<NodeTemplateMap> applicationTemplates = helper.getApplicationTemplates();
+            for (NodeTemplateMap applicationTemplate : applicationTemplates) {
+                toscaTemplate = setDesieredSate(toscaTemplate, applicationTemplate, NODE_STATES.RUNNING);
+            }
+        }
+        return execute(toscaTemplate, deployerQueueName);
     }
 
-    private ToscaTemplate initExecution(String id) throws JsonProcessingException, NotFoundException, IOException, ApiException {
+    protected ToscaTemplate initExecution(String id) throws JsonProcessingException, NotFoundException, IOException, ApiException {
         String ymlToscaTemplate = toscaTemplateService.findByID(id);
+        Logger.getLogger(DRIPService.class.getName()).log(Level.FINE, "Found ToscaTemplate with id: {0}", id);
         ToscaTemplate toscaTemplate = toscaTemplateService.getYaml2ToscaTemplate(ymlToscaTemplate);
         helper.uploadToscaTemplate(toscaTemplate);
         return toscaTemplate;
+    }
+
+    public String delete(String id, List<String> nodeNames) throws NotFoundException, IOException, JsonProcessingException, ApiException, TypeExeption, TimeoutException, InterruptedException {
+        ToscaTemplate toscaTemplate = initExecution(id);
+        //If no nodes are specified delete all the infrastructure
+        if (nodeNames == null || nodeNames.isEmpty()) {
+            List<NodeTemplateMap> vmTopologies = helper.getVMTopologyTemplates();
+            for (NodeTemplateMap vmTopology : vmTopologies) {
+                toscaTemplate = setDesieredSate(toscaTemplate, vmTopology, NODE_STATES.DELETED);
+            }
+            return execute(toscaTemplate, provisionerQueueName);
+        } else {
+
+        }
+
+        return null;
     }
 
 }

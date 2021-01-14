@@ -7,6 +7,7 @@ package nl.uva.sne.drip.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import static nl.uva.sne.drip.commons.utils.Constants.CLOUD_STORM_INTERFACE;
 import org.springframework.stereotype.Service;
 import nl.uva.sne.drip.model.Provisioner;
 
@@ -22,7 +23,7 @@ public class ProvisionerService {
         Provisioner provisioner = new Provisioner();
         provisioner.setName("CloudsStorm");
         provisioner.setDescription("Interface for VM topology management with CloudsStorm. More at https://cloudsstorm.github.io/");
-        provisioner.setToscaInterfaceType("tosca.interfaces.ARTICONF.CloudsStorm");
+        provisioner.setToscaInterfaceType(CLOUD_STORM_INTERFACE);
         all.add(provisioner);
         return all;
     }

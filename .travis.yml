@@ -1,0 +1,109 @@
+sudo: required
+services:
+- docker
+matrix:
+  include:
+  #------------sure_tosca-server-----------------
+  - language: python
+    python: 3.7
+    before_script:
+    - cd sure_tosca-flask-server
+    - pip install -r requirements.txt
+    - pip install -r test-requirements.txt
+    script:
+    - python -m unittest discover
+    - docker build -t qcdis/sure-tosca:3.0.0 .
+    
+#------------sure_tosca-client-----------------    
+  - language: python
+    python: 3.8
+    before_script:
+    - cd sure_tosca-client_python_stubs
+    - pip install -r requirements.txt
+    - pip install -r test-requirements.txt
+    - docker stack deploy conf-test -c ../docker-compose/docker-compose-test.yml
+    - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8081);
+    do printf '.' && sleep 10 && count=$((count+1)) && if [ $count -gt 4 ]; then break;
+    fi; done    
+    script:
+    - python -m unittest discover
+    
+#------------semaphore-client------------------
+  - language: python
+    python: 3.8
+    before_script:
+    - cd semaphore-python-client-generated
+    - pip install -r requirements.txt
+    - pip install -r test-requirements.txt
+    - docker stack deploy conf-test -c ../docker-compose/docker-compose-test.yml
+    - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8081);
+    do printf '.' && sleep 10 && count=$((count+1)) && if [ $count -gt 4 ]; then break;
+    fi; done    
+    script:
+    - python -m unittest discover    
+    
+#------------planner------------------  
+  - language: python
+    python: 3.8
+    before_script:
+    - cd planner
+    - pip install -r requirements.txt
+    - docker stack deploy conf-test -c ../docker-compose/docker-compose-test.yml
+    - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8081);
+    do printf '.' && sleep 10 && count=$((count+1)) && if [ $count -gt 4 ]; then break;
+    fi; done    
+    script:
+    - python -m unittest discover
+    - docker build -t qcdis/planner:3.0.0 .
+    
+#------------deployer------------------  
+  - language: python
+    python: 3.8
+    before_script:
+    - cd deployer
+    - pip install -r requirements.txt
+    - cd ../semaphore-python-client-generated
+    - python setup.py install
+    - cd ../sure_tosca-client_python_stubs/
+    - python setup.py install
+    - cd ../deployer
+    - docker stack deploy conf-test -c ../docker-compose/docker-compose-test.yml
+    - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8081);
+    do printf '.' && sleep 10 && count=$((count+1)) && if [ $count -gt 5 ]; then break;
+    fi; done   
+    script:
+    - python -m unittest discover
+    - docker build -t qcdis/deployer:3.0.0 .
+
+#------------manager and provisioner------------------      
+  - language: java
+    jdk: openjdk11
+    before_script:
+    - mvn -Dmaven.test.skip=true install
+    - docker stack deploy conf-test -c ../docker-compose/docker-compose-test.yml
+    - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8081);
+    do printf '.' && sleep 10 && count=$((count+1)) && if [ $count -gt 5 ]; then break;
+    fi; done  
+    script:
+    - mvn test
+    - cd manager
+    - mvn -Dmaven.test.skip=true dockerfile:build
+    - cd ../provisioner
+    - mvn -Dmaven.test.skip=true dockerfile:build
+    
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- docker tag manager:3.0.0 qcdis/manager:3.0.0
+- docker push qcdis/manager:3.0.0
+- docker tag sure-tosca:3.0.0 qcdis/sure-tosca:3.0.0
+- docker push qcdis/sure-tosca:3.0.0
+- docker tag planner:3.0.0 qcdis/planner:3.0.0
+- docker push qcdis/planner:3.0.0
+- docker tag provisioner:3.0.0 qcdis/provisioner:3.0.0
+- docker push qcdis/provisioner:3.0.0
+- docker tag deployer:3.0.0 qcdis/deployer:3.0.0
+- docker push qcdis/deployer:3.0.0
+env:
+  global:
+  - secure: ymUnVWoFsn6dGShBx+mJvOOtkdTdtkXuKDWUxDitn+M5SVYdFUGN+UbvrMp8hKQfC8ZQT+/sOGIvdWWE2ruQEeAx9cBSQ4+4x7eup7kORNxzAH2OplWZwoYh+TAl3zx/kHiVh5k6+GnoRWPS3fDvlb/AALdUCsUtz3JzUpYLeAWPfs7czc8frc3gBvnBwORC4iomSrAw+/cmjPhcysyq7zMCnpiriC/APstbotzAuOzDyeOds8pZqUuUri8XKlzlMQtIqVX851S/P/dwf5XcOTX1RUFhRCcYosmkbfR98nabYekhbSyW/ONMQdGMsdurDLJ4obxbD4c/zijvZfUTWMWZnDIlmR1dTy9at8lNJ7OPQw7zHDkj1T4YuofrBZ+LNlDYz7Ad2U6Uo3vD8bTcgaBk9I/0/inJ4JjE6hAxCl9V19revyy+/89ogA7v30cTXW48tJ8JziZqmyXUYR4eLZGyTlR3Ee79Bsu3vsTqX06/8IWFbc1XfIg6ZrwsP1EfCTRDiK4nqAGInhiLo1x9y3kdZkI3X0m90Jr88T8VpUIp1Dvp7OScpEXnE/J1Lgo3e082l1k4ehXTb6ocwKrA3gSlKFV6vJCIhxmU9nUO67axzBz6Sz4gaY//+jhoDL59UOsUQ/dJATVmawkQJIVH1EcU42SD64bAGvjS1mSFEek=
+  - secure: MbzxQ8WmXsKCQvmGw99OX/CrzCFMK33FeRdH3wch5aggWXhdsgpr4/imOZKfMJDIn1ReDVCYHFbD6ObeLL22eFJoyoHjqruxIRf3IEVJlMQD794GDank5usJkaRb0KrRoOya50ahFxCKO93/SKKWfwFxr4kHEfes+Go9dhO/cy/niEC77YFX+6BZryuw0Iw3B1xqrtMW6JPHmIy2b051UCfos+V7MnHnCruhkF8uIrHH8OKXnUowKlwIJerJHIm8A7eQiqJI99UU/fBlkOEG8tAKk5y344vjXXjVYhBnSjA6Gzh+efXveiEB0luEm145mGsPOx10r5KHCjZx4AHK4XdGTqnsEDwlLx+FnwJ+bgLCVGYHNBUqKPqdQvpOe8EeYX0GINMLu5m0i75LJd3HuWxCUUIOueoOnqM08Kek4ehE2aONIVbaaM0gkp+UL7ptBX7NK+ubd+9nBNECaiW0IwN1INPQRwtEpg5+Xxy5tLtbaS8ka7zrwMJGz8r4cAaU7/ImwSM9frt4D3l37T8IIYUdWTu0xv12zr8h+V2EbcxYSGSzzdGPBwoeVP5RjUWBjqBuw/gK7zCCiAGvZs8EpKn/0SAl4XTeCtQRnX6ZK0taGYaY3hFi/6GIl2Ju7KOYNM+WInondvX+NK4UEdT7NPJAPnAHcafEzHFSP+J5wDc=

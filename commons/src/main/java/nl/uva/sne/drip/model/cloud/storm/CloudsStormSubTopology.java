@@ -81,7 +81,6 @@ public class CloudsStormSubTopology {
         this.topology = topology;
         return this;
     }
-
     /**
      * Get topology
      *

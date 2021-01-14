@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: manager
+  name: manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: manager  
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: manager
+    spec:
+      containers:
+      - env:
+        - name: MONGO_HOST
+          value: mongo
+        - name: RABBITMQ_HOST
+          value: rabbit
+        - name: SURE_TOSCA_BASE_PATH
+          value: http://sure-tosca:8081/tosca-sure/1.0.0
+        image: alogo53/manager:3.0.0
+        name: manager
+        ports:
+        - containerPort: 8080
+        resources: {}
+      restartPolicy: Always
+status: {}

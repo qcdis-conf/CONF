@@ -8,7 +8,7 @@
           template_name:
               type: "string"
           topology_template:
-              $ref: "https://raw.githubusercontent.com/skoulouzis/CONF/DRIP_3.0/openAPI/schema/TOSCA/TopologyTemplate.yml#/TopologyTemplate"
+              $ref: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/openAPI/schema/TOSCA/TopologyTemplate.yml#/TopologyTemplate"
           template_author:
               type: "string"
           template_version:

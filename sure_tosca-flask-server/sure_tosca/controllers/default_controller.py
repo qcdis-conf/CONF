@@ -393,6 +393,7 @@ def set_node_properties(id, properties, node_name):  # noqa: E501
     return 'Not Found', 404
 
 
+
 def upload_tosca_template(file):  # noqa: E501
     """upload a tosca template description file
 

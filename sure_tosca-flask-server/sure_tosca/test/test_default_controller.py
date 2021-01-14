@@ -18,10 +18,10 @@ class TestDefaultController(BaseTestCase):
     def test_get_all_ancestor_properties(self):
         """Test case for get_all_ancestor_properties
 
-        
-        """
-        id_example = self.upload_2_topologies_file()
 
+        """
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/ancestors_properties'.format(
                 id=id_example, node_name='compute'),
@@ -33,9 +33,10 @@ class TestDefaultController(BaseTestCase):
     def test_get_all_ancestor_types(self):
         """Test case for get_all_ancestor_types
 
-        
+
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/ancestors_types'.format(
                 id=id_example, node_name='compute'),
@@ -47,10 +48,10 @@ class TestDefaultController(BaseTestCase):
     def test_get_ancestors_requirements(self):
         """Test case for get_ancestors_requirements
 
-        
-        """
-        id_example = self.upload_2_topologies_file()
 
+        """
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/ancestors_requirements'.format(
                 id=id_example, node_name='kubernetes'),
@@ -65,7 +66,8 @@ class TestDefaultController(BaseTestCase):
 
         """
         # query_string = [('anchors', 'anchors_example'), ('derived_from', 'derived_from_example')]
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/dsl_definitions'.format(id=id_example),
             method='GET')
@@ -76,7 +78,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/imports'.format(id=id_example),
             method='GET')
@@ -87,7 +90,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_outputs.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/outputs'.format(
                 id=id_example, node_name='compute'),
@@ -101,7 +105,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/properties'.format(
                 id=id_example, node_name='compute'),
@@ -115,7 +120,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/requirements'.format(
                 id=id_example, node_name='kubernetes'),
@@ -129,7 +135,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         query_string = [('type_name', None),
                         ('node_name', 'compute'),
                         ('has_interfaces', True),
@@ -162,9 +169,25 @@ class TestDefaultController(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.json, list)
 
-        query_string = [('type_name', 'tosca.nodes.ARTICONF.Container.Application.Docker'),
+        query_string = [('type_name', 'tosca.nodes.QC.Container.Application.Docker'),
                         ('node_name', None),
                         ('has_interfaces', None),
+                        ('has_properties', None),
+                        ('has_attributes', None),
+                        ('has_requirements', None),
+                        ('has_capabilities', None),
+                        ('has_artifacts', None)]
+        response = self.client.open(
+            '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates'.format(id=id_example),
+            method='GET',
+            query_string=query_string)
+        self.assertTrue(response.is_json)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.json, list)
+
+        query_string = [('type_name', 'tosca.nodes.QC.Application'),
+                        ('node_name', None),
+                        ('has_interfaces', True),
                         ('has_properties', None),
                         ('has_attributes', None),
                         ('has_requirements', None),
@@ -183,7 +206,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/type_name'.format(
                 id=id_example, node_name='compute'),
@@ -197,7 +221,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/derived_from'.format(
                 id=id_example, node_name='kubernetes'),
@@ -211,10 +236,11 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/related'.format(
-                id=id_example, node_name='mysql'),
+                id=id_example, node_name='ws-pema'),
             method='GET')
         self.assertTrue(response.is_json)
         self.assertEqual(response.status_code, 200)
@@ -225,7 +251,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         query_string = [('type_name', None),
                         ('derived_from', None)]
         response = self.client.open(
@@ -239,7 +266,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template'.format(id=id_example),
             method='GET')
@@ -252,7 +280,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}'.format(id=id_example),
             method='GET')
@@ -265,10 +294,11 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         query_string = [('kind_of_type', 'interface_types'),
                         ('has_interfaces', None),
-                        ('type_name', 'tosca.interfaces.ARTICONF.CloudsStorm'),
+                        ('type_name', 'tosca.interfaces.QC.CloudsStorm'),
                         ('has_properties', None),
                         ('has_attributes', None),
                         ('has_requirements', None),
@@ -304,7 +334,8 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         properties = {'properties': {'cpu_frequency': '2 GHz'}}
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates/{node_name}/properties'.format(
@@ -316,61 +347,15 @@ class TestDefaultController(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.json, list)
 
-    def upload_2_topologies_file(self):
-        tosca_path = "../../../TOSCA/"
-        file_name = 'application_example_2_topologies.yaml'  # 'application_example_updated.yaml'  # 'application_example_2_topologies.yaml'
-        input_tosca_file_path = tosca_path + '/' + file_name
-        if not os.path.exists(input_tosca_file_path):
-            tosca_path = "../TOSCA/"
-            input_tosca_file_path = tosca_path + '/' + file_name
 
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        self.assertEqual(True, os.path.exists(input_tosca_file_path),
-                         'Starting from: ' + dir_path + ' Input TOSCA file: ' + input_tosca_file_path + ' not found')
-
-        with open(input_tosca_file_path, 'r') as file:
-            contents = file.read()
-        byte_contents = bytes(contents, 'utf8')
-        data = dict(file=(BytesIO(byte_contents), input_tosca_file_path))
-        response = self.client.open(
-            '/tosca-sure/1.0.0/tosca_template',
-            method='POST',
-            data=data,
-            content_type='multipart/form-data')
-        file_id = response.data.decode('utf-8').replace('\n', '')
-        return file_id
-
-    def upload_application_example_file(self):
-        tosca_path = "../../../TOSCA/"
-        file_name = 'application_example_updated.yaml'  # 'application_example_updated.yaml'  # 'application_example_2_topologies.yaml'
-        input_tosca_file_path = tosca_path + '/' + file_name
-        if not os.path.exists(input_tosca_file_path):
-            tosca_path = "../TOSCA/"
-            input_tosca_file_path = tosca_path + '/' + file_name
-
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        self.assertEqual(True, os.path.exists(input_tosca_file_path),
-                         'Starting from: ' + dir_path + ' Input TOSCA file: ' + input_tosca_file_path + ' not found')
-
-        with open(input_tosca_file_path, 'r') as file:
-            contents = file.read()
-        byte_contents = bytes(contents, 'utf8')
-        data = dict(file=(BytesIO(byte_contents), input_tosca_file_path))
-        response = self.client.open(
-            '/tosca-sure/1.0.0/tosca_template',
-            method='POST',
-            data=data,
-            content_type='multipart/form-data')
-        file_id = response.data.decode('utf-8').replace('\n', '')
-        return file_id
 
     def test_get_node_templates2(self):
         """Test case for get_node_templates
 
 
         """
-        id_example = self.upload_application_example_file()
-
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/topology_template/node_templates'.format(id=id_example),
             method='GET',
@@ -385,17 +370,40 @@ class TestDefaultController(BaseTestCase):
 
 
         """
-        id_example = self.upload_2_topologies_file()
+        id_example = self.upload_file('application_example_2_topologies.yaml')
+        self.assertTrue(id_example.strip().isdigit())
         query_string = [('instance_name', 'instance_name_example'),
                         ('operation_name', 'provision')]
         response = self.client.open(
             '/tosca-sure/1.0.0/tosca_template/{id}/interface/{interface_type}/default'.format(id=id_example,
-                                                                                              interface_type='tosca.interfaces.ARTICONF.CloudsStorm'),
+                                                                                              interface_type='tosca.interfaces.QC.CloudsStorm'),
             method='GET',
             query_string=query_string)
         self.assertTrue(response.is_json)
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.json, dict)
+
+    def upload_file(self, file_name):
+        tosca_path = "../../../TOSCA/"
+        input_tosca_file_path = tosca_path + '/' + file_name
+        if not os.path.exists(input_tosca_file_path):
+            tosca_path = "../TOSCA/"
+            input_tosca_file_path = tosca_path + '/' + file_name
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        self.assertEqual(True, os.path.exists(input_tosca_file_path),
+                         'Starting from: ' + dir_path + ' Input TOSCA file: ' + input_tosca_file_path + ' not found')
+
+        with open(input_tosca_file_path, 'r') as file:
+            contents = file.read()
+        byte_contents = bytes(contents, 'utf8')
+        data = dict(file=(BytesIO(byte_contents), input_tosca_file_path))
+        response = self.client.open(
+            '/tosca-sure/1.0.0/tosca_template',
+            method='POST',
+            data=data,
+            content_type='multipart/form-data')
+        return response.data.decode('utf-8').replace('\n', '')
 
 
 if __name__ == '__main__':

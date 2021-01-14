@@ -76,3 +76,17 @@
     - name: print nodes
       debug:
         var: nodes_out
+        
+        
+    - name: get api key
+      shell: kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t'
+      register: api_key
+              
+    - name: print api_key
+      debug:
+        var: api_key
+        
+        
+        
+        
+

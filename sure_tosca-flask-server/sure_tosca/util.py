@@ -23,11 +23,16 @@ def _deserialize(data, klass):
         return deserialize_date(data)
     elif klass == datetime.datetime:
         return deserialize_datetime(data)
-    elif hasattr(klass, '__origin__'):
-        if klass.__origin__ == list:
+    elif type(klass) == typing.GenericMeta:
+        if klass.__extra__ == list:
             return _deserialize_list(data, klass.__args__[0])
-        if klass.__origin__ == dict:
+        if klass.__extra__ == dict:
             return _deserialize_dict(data, klass.__args__[1])
+    # elif hasattr(klass, '__origin__'):
+    #     if klass.__origin__ == list:
+    #         return _deserialize_list(data, klass.__args__[0])
+    #     if klass.__origin__ == dict:
+    #         return _deserialize_dict(data, klass.__args__[1])
     else:
         return deserialize_model(data, klass)
 
@@ -90,6 +95,29 @@ def deserialize_datetime(string):
         return string
 
 
+# def deserialize_model(data, klass):
+#     """Deserializes list or dict to model.
+#
+#     :param data: dict, list.
+#     :type data: dict | list
+#     :param klass: class literal.
+#     :return: model object.
+#     """
+#     instance = klass()
+#
+#     if not instance.swagger_types:
+#         return data
+#
+#     for attr, attr_type in six.iteritems(instance.swagger_types):
+#         if data is not None \
+#                 and instance.attribute_map[attr] in data \
+#                 and isinstance(data, (list, dict)):
+#             value = data[instance.attribute_map[attr]]
+#             setattr(instance, attr, _deserialize(value, attr_type))
+#
+#     return instance
+
+
 def deserialize_model(data, klass):
     """Deserializes list or dict to model.
 
@@ -104,10 +132,15 @@ def deserialize_model(data, klass):
         return data
 
     for attr, attr_type in six.iteritems(instance.swagger_types):
-        if data is not None \
-                and instance.attribute_map[attr] in data \
-                and isinstance(data, (list, dict)):
-            value = data[instance.attribute_map[attr]]
+        # print(attr)
+        # print(attr_type)
+        if data is not None and isinstance(data, (list, dict)):
+            value = None
+            if instance.attribute_map[attr] in data:
+                value = data[instance.attribute_map[attr]]
+            elif attr in data:
+                value = data[attr]
+
             setattr(instance, attr, _deserialize(value, attr_type))
 
     return instance

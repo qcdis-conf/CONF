@@ -1,0 +1,18 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+artifacts:    
+                
+                
+    tosca.datatypes.QC.CloudStorm.Deployment:
+        derived_from: tosca.artifacts.Deployment
+        file_contents:  
+            type: string
+            required: true
+        encoding: 
+            type: string
+            required: true
+        file_ext:
+            type: string
+            required: false
+
+        

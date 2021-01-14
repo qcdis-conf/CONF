@@ -1,7 +1,7 @@
 tosca_definitions_version: tosca_simple_yaml_1_0
 interface_types:
 
-  tosca.interfaces.ARTICONF.CloudsStorm:
+  tosca.interfaces.QC.CloudsStorm:
     description: Interface for VM topology management with CloudsStorm. More at https://cloudsstorm.github.io/
     derived_from: tosca.interfaces.node.lifecycle.Standard
     inputs:
@@ -50,36 +50,55 @@ interface_types:
       description: Upload some input data or files to the remote resources. ObjectType currently can only be VM.
     get:
       description: Download or retrieve output results or files from the remote resources. ObjectType currently can only be VM.
-    vscale:
+    v_scale:
       description: Vertically scale up or down to adapt the computing capability of the infrastructure through directly changing the capacity of some VM. ObjectType can only be VM and REQ.
-    hscale:
+    h_scale:
       description: Horizontally scale out or in to adapt the computing capability of the infrastructure through changing the number of VMs. ObjectType can be SubTopology, VM or REQ.
+    provision:
+      description: provision
     recover:
       description: Recover some failed sub-topologies. ObjectType can be SubTopology or REQ.
-    provision:
+    run:
       description: Provision the defined objects (resources). ObjectType can be SubTopology or VM.
       
       
-      
-      
-  tosca.interfaces.ARTICONF.Kubernetes:
+  tosca.interfaces.QC.Standard:
     derived_from: tosca.interfaces.node.lifecycle.Standard
     inputs:
       inventory_file:
         type: string
         required: false
-      playbook:
-        type: string
+      playbooks:
+        type: list
         required: false
-        default: https://raw.githubusercontent.com/skoulouzis/CONF/DRIP_3.0/ansible_playbooks/install_k8s.yml
-    install:
-      description: install Kubernetes          
-    k8s_scale:
-      description: Set the number of replicas for a Deployment, ReplicaSet, or Replication Controller, or the parallelism attribute of a Job.
-    k8s_create:
-      description: create deployment on a k8s cluster
-    k8s_delete:
-      description: delete deployment on a k8s cluster      
-    k8s_info:
+      repository:
+        type: string
+        required: false        
+      
+  tosca.interfaces.QC.Kubernetes:
+    derived_from: tosca.interfaces.QC.Standard
+    inputs:
+      replicas:
+        type: integer
+        required: false
+    scale:
+      description: Set the number of replicas for a Deployment, ReplicaSet, or Replication Controller, or the parallelism attribute of a Job.  
+    autoscale:
+      description: horizontal_pod_autoscaler           
+    info:
       description: get information on pods,services or deployments
+      
+      
+#tosca.interfaces.node.lifecycle.Standard:
+  #derived_from: tosca.interfaces.Root
+  #create:
+    #description: Standard lifecycle create operation.
+  #configure:
+    #description: Standard lifecycle configure operation.
+  #start:
+    #description: Standard lifecycle start operation.
+  #stop:
+    #description: Standard lifecycle stop operation.
+  #delete:
+    #description: Standard lifecycle delete operation.      
   

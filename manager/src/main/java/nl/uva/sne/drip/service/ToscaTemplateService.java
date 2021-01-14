@@ -14,9 +14,14 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nl.uva.sne.drip.api.NotFoundException;
 import nl.uva.sne.drip.dao.ToscaTemplateDAO;
+import nl.uva.sne.drip.model.Exceptions.TypeExeption;
 import nl.uva.sne.drip.model.tosca.ToscaTemplate;
+import nl.uva.sne.drip.sure.tosca.client.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +44,7 @@ public class ToscaTemplateService {
 
     @Autowired
     private ToscaTemplateDAO dao;
+
 
     public String save(ToscaTemplate tt) {
         dao.save(tt);
@@ -69,14 +75,15 @@ public class ToscaTemplateService {
 
     public String findByID(String id) throws JsonProcessingException, NotFoundException {
         ToscaTemplate tt = dao.findById(id).get();
-        if(tt==null){
-            throw new NotFoundException(404, "ToscaTemplate with id: "+id+" not found");
+        if (tt == null) {
+            throw new NotFoundException(404, "ToscaTemplate with id: " + id + " not found");
         }
         String ymlStr = objectMapper.writeValueAsString(tt);
         return ymlStr;
     }
 
-    public void deleteByID(String id) {
+    public void deleteByID(String id) throws JsonProcessingException, NotFoundException, IOException, ApiException, TypeExeption {
+        ToscaTemplate toscaTemplate = getYaml2ToscaTemplate(findByID(id));
         dao.deleteById(id);
     }
 

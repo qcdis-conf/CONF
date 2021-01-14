@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: conf
+  annotations:
+  labels:
+    io.kompose.service: nginx
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.kompose.service: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/   
+          
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+            - key: htpasswd
+              path: htpasswd      
+            - key: cert.pem
+              path: cert.pem       
+            - key: privkey.pem
+              path: privkey.pem       

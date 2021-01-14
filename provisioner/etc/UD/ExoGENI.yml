@@ -235,6 +235,26 @@ DCMetaInfo:
       OS_URL: "http://geni-images.renci.org/images/standard/ubuntu/ub1404-v1.0.4.xml"
       OS_GUID: "9394ca154aa35eb55e604503ae7943ddaecc6ca5"
       DiskSize: 75
+  - OS: "Ubuntu 18.04"
+    CPU: 4
+    MEM: 12
+    VMType: "XOXLarge"
+    Price: null
+    DefaultSSHAccount: "root"
+    extraInfo:
+      OS_URL: "http://geni-images.renci.org/images/standard/ubuntu-comet/ubuntu-18.04/ubuntu-18.04.xml"
+      OS_GUID: "fe66b08bffa14c385ad64edd124350a2da826af9"
+      DiskSize: 75      
+  - OS: "Ubuntu 18.04"
+    CPU: 2
+    MEM: 6
+    VMType: "XOLarge"
+    Price: null
+    DefaultSSHAccount: "root"
+    extraInfo:
+      OS_URL: "http://geni-images.renci.org/images/standard/ubuntu-comet/ubuntu-18.04/ubuntu-18.04.xml"
+      OS_GUID: "fe66b08bffa14c385ad64edd124350a2da826af9"
+      DiskSize: 50           
 - domain: "RENCI (Chapel Hill, NC USA) XO Rack"
   endpoint: "rcivmsite.rdf#rcivmsite"
   country: USA
@@ -284,6 +304,26 @@ DCMetaInfo:
       OS_URL: "http://geni-images.renci.org/images/standard/ubuntu/ub1404-v1.0.4.xml"
       OS_GUID: "9394ca154aa35eb55e604503ae7943ddaecc6ca5"
       DiskSize: 75
+  - OS: "Ubuntu 18.04"
+    CPU: 4
+    MEM: 12
+    VMType: "XOXLarge"
+    Price: null
+    DefaultSSHAccount: "root"
+    extraInfo:
+      OS_URL: "http://geni-images.renci.org/images/standard/ubuntu-comet/ubuntu-18.04/ubuntu-18.04.xml"
+      OS_GUID: "fe66b08bffa14c385ad64edd124350a2da826af9"
+      DiskSize: 75      
+  - OS: "Ubuntu 18.04"
+    CPU: 2
+    MEM: 6
+    VMType: "XOLarge"
+    Price: null
+    DefaultSSHAccount: "root"
+    extraInfo:
+      OS_URL: "http://geni-images.renci.org/images/standard/ubuntu-comet/ubuntu-18.04/ubuntu-18.04.xml"
+      OS_GUID: "fe66b08bffa14c385ad64edd124350a2da826af9"
+      DiskSize: 50           
 - domain: "FIU (Miami, FL USA) XO Rack"
   endpoint: "fiuvmsite.rdf#fiuvmsite"
   country: USA
@@ -333,6 +373,26 @@ DCMetaInfo:
       OS_URL: "http://geni-images.renci.org/images/standard/ubuntu/ub1404-v1.0.4.xml"
       OS_GUID: "9394ca154aa35eb55e604503ae7943ddaecc6ca5"
       DiskSize: 75
+  - OS: "Ubuntu 18.04"
+    CPU: 4
+    MEM: 12
+    VMType: "XOXLarge"
+    Price: null
+    DefaultSSHAccount: "root"
+    extraInfo:
+      OS_URL: "http://geni-images.renci.org/images/standard/ubuntu-comet/ubuntu-18.04/ubuntu-18.04.xml"
+      OS_GUID: "fe66b08bffa14c385ad64edd124350a2da826af9"
+      DiskSize: 75      
+  - OS: "Ubuntu 18.04"
+    CPU: 2
+    MEM: 6
+    VMType: "XOLarge"
+    Price: null
+    DefaultSSHAccount: "root"
+    extraInfo:
+      OS_URL: "http://geni-images.renci.org/images/standard/ubuntu-comet/ubuntu-18.04/ubuntu-18.04.xml"
+      OS_GUID: "fe66b08bffa14c385ad64edd124350a2da826af9"
+      DiskSize: 50           
 - domain: "UH (Houston, TX USA) XO Rack"
   endpoint: "uhvmsite.rdf#uhvmsite"
   country: USA

@@ -9,8 +9,8 @@
     
     <properties>
         <java.version>1.8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <springfox-version>2.9.2</springfox-version>
         <gson-fire-version>1.8.3</gson-fire-version>
         <swagger-core-version>1.5.24</swagger-core-version>
@@ -21,7 +21,7 @@
     </properties>
     <parent>
         <groupId>nl.uva.sne.drip</groupId>
-        <artifactId>drip</artifactId>
+        <artifactId>conf</artifactId>
         <version>3.0.0</version>
     </parent>
     
@@ -143,7 +143,13 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.25</version>
             <type>jar</type>
-        </dependency>               
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     

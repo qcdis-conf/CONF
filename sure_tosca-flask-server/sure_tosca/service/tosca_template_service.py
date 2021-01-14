@@ -14,6 +14,7 @@ from tinydb.middlewares import CachingMiddleware
 from tinydb.storages import MemoryStorage
 from toscaparser.functions import GetAttribute
 from toscaparser.tosca_template import ToscaTemplate
+from werkzeug.datastructures import FileStorage
 
 from sure_tosca.models.base_model_ import Model
 from sure_tosca.models.node_template import NodeTemplateModel as NodeTemplateModel
@@ -76,12 +77,17 @@ def get_tosca_template_model_by_id(id):
 
 
 def get_tosca_template(tosca_template_dict):
-    return ToscaTemplate(yaml_dict_tpl=copy.deepcopy(tosca_template_dict))
+    start = time.time()
+    logger.info("Checking  ToscaTemplate validity")
+    tt = ToscaTemplate(yaml_dict_tpl=copy.deepcopy(tosca_template_dict))
+    end = time.time()
+    elapsed = end - start
+    logger.info("Time elapsed: " + str(elapsed))
+    return tt
 
 
 def get_tosca_template_dict_by_id(id):
     tosca_template_dict = tosca_templates_db.get(doc_id=int(id))
-
     return tosca_template_dict
 
 
@@ -96,26 +102,22 @@ def purge_all_tables():
     interface_types_db.close()
 
 
-def save(file):
+def save(file: FileStorage):
     # try:
     # tosca_template_file_path = os.path.join(db_dir_path, file.filename)
     start = time.time()
-
-    logger.info("Got request for tosca template")
+    logger.info("Got request for tosca template. File name: "+str(file.filename))
     purge_all_tables()
     dictionary = yaml.safe_load(file.stream)
     # dictionary = yaml.load(file.stream)
     logger.info("tosca template: \n" + str(yaml.dump(dictionary)))
     # print(yaml.dump(dictionary))
-    tosca_template = ToscaTemplate(yaml_dict_tpl=copy.deepcopy(dictionary))
+    tosca_template = get_tosca_template(dictionary)
     # all_custom_def = tosca_template.nodetemplates[0].custom_def
     tosca_template_model = ToscaTemplateModel.from_dict(dictionary)
     doc_id = tosca_templates_db.insert(dictionary)
     # tosca_templates_db.close()
     logger.info("Returning doc_id: " + str(doc_id))
-    end = time.time()
-    elapsed = end - start
-    logger.info("Time elapsed: " + str(elapsed))
     return doc_id
     # except Exception as e:
     #     logger.error(str(e))
@@ -162,17 +164,25 @@ def change_to_node_template_model(query_results):
     return res
 
 
+def get_node_templates_with_ancestor_types(id, type_name):
+    query_results = []
+    node_templates = get_node_templates(id)
+    if node_templates:
+        for node_template in node_templates:
+            ancestor_types = get_all_ancestor_types(id, node_template.name)
+            for ancestor_type in ancestor_types:
+                if ancestor_type == type_name and node_template not in query_results:
+                    query_results.append(node_template)
+                    break
+    return query_results
+
+
 def get_node_templates(id, type_name=None, node_name=None, has_interfaces=None, has_properties=None,
                        has_attributes=None,
                        has_requirements=None, has_capabilities=None, has_artifacts=None):
     if len(node_template_db) <= 1:
         tosca_template_model = get_tosca_template_model_by_id(id)
         object_list = tosca_template_model.topology_template.node_templates
-        # tosca_template = get_tosca_template(tosca_template_model.to_dict())
-        # tosca_node_types = tosca_template.nodetemplates[0].type_definition.TOSCA_DEF
-        # all_custom_def = tosca_template.nodetemplates[0].custom_def
-        # object_list.update(tosca_node_types)
-        # object_list.update(all_custom_def)
         if object_list:
             for key in object_list:
                 node = {root_key: key}
@@ -220,7 +230,14 @@ def get_node_templates(id, type_name=None, node_name=None, has_interfaces=None, 
         queries.append(query.artifacts != prop)
 
     query_results = query_db(queries, db=node_template_db)
-    return change_to_node_template_model(query_results)
+
+    if type_name and not query_results:
+        query_results = get_node_templates_with_ancestor_types(id,type_name)
+        return query_results
+    if query_results:
+        return change_to_node_template_model(query_results)
+    else:
+        return query_results
 
 
 def get_tosca_template_get_dsl_definitions(id, anchors, derived_from):
@@ -376,8 +393,8 @@ def get_related_nodes(id, node_name):
     related_nodes = []
     for name in related_node_names:
         related_node = get_node_templates(id, node_name=name)
-        related_nodes.append(related_node)
-
+        related_nodes = related_nodes + related_node
+    logger.info('Node: '+node_name +' has related nodes: '+str(related_nodes))
     return related_nodes
 
 
@@ -390,7 +407,7 @@ def get_node_type_name(id, node_name):
 
 
 def update(id, tosca_template_dict):
-    tosca_template = ToscaTemplate(yaml_dict_tpl=copy.deepcopy(tosca_template_dict))
+    tosca_template = get_tosca_template(tosca_template_dict)
     tosca_template_model = ToscaTemplateModel.from_dict(tosca_template_dict)
     doc_id = tosca_templates_db.update(tosca_template_dict, doc_ids=[int(id)])
     return doc_id

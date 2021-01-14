@@ -3,7 +3,7 @@
     properties:
       Operation:
         type: "string"
-        enum: [provision , delete , execute , put , get , vscale , hscale , recover , start]
+        enum: [provision , delete , execute , put , get , vscale , hscale , recover , start, stop]
       ObjectType:
         type: "string"
         enum: [SubTopology , VM , REQ]        

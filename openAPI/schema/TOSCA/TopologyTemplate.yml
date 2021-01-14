@@ -10,7 +10,7 @@
           node_templates:
               type: object
               additionalProperties:
-                  $ref: 'https://raw.githubusercontent.com/skoulouzis/CONF/DRIP_3.0/openAPI/schema/TOSCA/NodeTemplate.yml#/NodeTemplate'
+                  $ref: 'https://raw.githubusercontent.com/skoulouzis/CONF/develop/openAPI/schema/TOSCA/NodeTemplate.yml#/NodeTemplate'
           relationship_templates:
               type: object
               additionalProperties:

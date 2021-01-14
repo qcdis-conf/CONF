@@ -127,7 +127,7 @@ paths:
         - read:ToscaTemplate
     delete:
       summary: Deletes a tosca topology template
-      description: ""
+      description: If the topology is provisoned it will delete the provison (Infrastructure). If it is deployed it will delete the deploymet too (Application)
       operationId: deleteToscaTemplateByID
       parameters:
       - name: id
@@ -135,6 +135,14 @@ paths:
         description: ID of topology template to return
         required: true
         type: string
+      - name: node_names
+        in: query
+        description: The node(s) to delete
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
       responses:
         "200":
           description: successful operation
@@ -179,7 +187,7 @@ paths:
   /provisioner/provision/{id}:
     get:
       summary: provision tosca template
-      description: 'provosions the operationId: Plan Tosca Template Returns the provision ID'
+      description: deletes the provisioned Infrastructure
       operationId: provisionPlanToscaTemplateByID
       produces:
       - text/plain
@@ -189,6 +197,43 @@ paths:
         description: ID of topolog template to plan
         required: true
         type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: string
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: ToscaTemplate not found
+        "405":
+          description: Invalid input
+      security:
+      - auth:
+        - write:ToscaTemplate
+        - read:ToscaTemplate
+  /scaler/{id}:
+    get:
+      summary: scale tosca template
+      operationId: scaleProvisionedToscaTemplateByID
+      produces:
+      - text/plain
+      parameters:
+      - name: id
+        in: path
+        description: ID of topolog template to scale
+        required: true
+        type: string
+      - name: node_name
+        in: query
+        description: The node to scale
+        required: true
+        type: string
+      - name: node_num
+        in: query
+        description: The number of nodes to scale
+        required: true
+        type: integer
       responses:
         "200":
           description: successful operation

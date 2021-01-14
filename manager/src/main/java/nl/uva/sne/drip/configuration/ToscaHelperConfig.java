@@ -24,7 +24,7 @@ import org.springframework.context.annotation.PropertySources;
 @ComponentScan(basePackages = {"nl.uva.sne.drip", "nl.uva.sne.drip.api", "nl.uva.sne.drip.configuration", "nl.uva.sne.drip.dao", "nl.uva.sne.drip.model", "nl.uva.sne.drip.service", "nl.uva.sne.drip.commons.utils"})
 public class ToscaHelperConfig {
 
-    @Value("${sure_tosca.base.path}")
+    @Value("${sure-tosca.base.path}")
     private String sureToscaBasePath;
 
     @Bean

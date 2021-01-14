@@ -41,7 +41,29 @@
                 type: "string"
             OS_GUID:
                 type: "string"
-                
+            diskSize:
+                type: "integer"
+            IOPS:
+                type: "integer"
+            vpcId:
+                type: "string"
+            subnetId:
+                type: "string"
+            securityGroupId:
+                type: "string"
+            instanceId:
+                type: "string"
+            volumeId:
+                type: "string"                
+            routeTableId:
+                type: "string"
+            internetGatewayId:
+                type: "string"
+
+
+  
+  
+
                 
                 
                 

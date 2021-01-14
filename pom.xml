@@ -18,7 +18,7 @@
     </properties>
     <modules>
         <module>commons</module>
-        <module>provisioner</module>
         <module>manager</module>
+        <module>provisioner</module>
     </modules>
 </project>

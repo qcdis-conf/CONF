@@ -7,19 +7,14 @@ package nl.uva.sne.drip.api;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.util.List;
 import nl.uva.sne.drip.model.User;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-06T13:31:49.386Z")
 
@@ -34,7 +29,7 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 409, message = "already exists") })
-    @RequestMapping(value = "/user",
+    @RequestMapping(value = "/manager/user",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<String> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
@@ -44,7 +39,7 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
-    @RequestMapping(value = "/user/login",
+    @RequestMapping(value = "/manager/user/login",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<String> userLoginGet(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
@@ -53,7 +48,7 @@ public interface UserApi {
     @ApiOperation(value = "Logs out current logged in user session", nickname = "userLogoutGet", notes = "", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @RequestMapping(value = "/user/logout",
+    @RequestMapping(value = "/manager/user/logout",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Void> userLogoutGet();
@@ -67,7 +62,7 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @RequestMapping(value = "/user/{username}",
+    @RequestMapping(value = "/manager/user/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<Void> userUsernameDelete(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
@@ -82,7 +77,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @RequestMapping(value = "/user/{username}",
+    @RequestMapping(value = "/manager/user/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<User> userUsernameGet(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true) @PathVariable("username") String username);
@@ -96,7 +91,7 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @RequestMapping(value = "/user/{username}",
+    @RequestMapping(value = "/manager/user/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
     ResponseEntity<Void> userUsernamePut(@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);

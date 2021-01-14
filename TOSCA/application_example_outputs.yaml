@@ -1,0 +1,172 @@
+tosca_definitions_version: "tosca_simple_yaml_1_0"
+topology_template:     
+  node_templates:
+    compute:
+      properties:
+        disk_size: "10000 MB"
+        mem_size: "1000 MB"
+        num_cores: 1
+        os: "Ubuntu 18.04"
+        user_name: "vm_user"
+      interfaces:
+        Standard:
+          create: "dumy.yaml"
+      type: "tosca.nodes.QC.VM.Compute"
+    compute_1:
+      properties:
+        disk_size: "10000 MB"
+        mem_size: "1000 MB"
+        num_cores: 1
+        os: "Ubuntu 18.04"
+        user_name: "vm_user"
+      interfaces:
+        Standard:
+          create: "dumy.yaml"
+      type: "tosca.nodes.QC.VM.Compute"
+    kubernetes:
+      requirements:
+      - host:
+          capability: "tosca.capabilities.QC.VM.topology"
+          node: "topology"
+          relationship: "tosca.relationships.HostedOn"
+      interfaces:
+        Standard:
+          configure:
+            inputs:
+              playbook: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/ansible_playbooks/k8s_dashboard.yaml"
+          create:
+            inputs:
+              playbook: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/ansible_playbooks/install_k8s.yaml"
+          delete:
+            inputs:
+              playbook: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/ansible_playbooks/k8s_delete.yaml"
+      type: "tosca.nodes.QC.docker.Orchestrator.Kubernetes"
+    topology:
+      properties:
+        domain: "Frankfurt"
+        provider: "EC2"
+      requirements:
+      - vm:
+          capability: "tosca.capabilities.QC.VM"
+          node: "compute_1"
+          relationship: "tosca.relationships.DependsOn"
+      interfaces:
+        CloudsStorm:
+          delete:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          hscale:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          provision:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          start:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          stop:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+      type: "tosca.nodes.QC.VM.topology"
+    topology_1:
+      properties:
+        domain: "Frankfurt"
+        provider: "EC2"
+      requirements:
+      - vm:
+          capability: "tosca.capabilities.QC.VM"
+          node: "compute_1"
+          relationship: "tosca.relationships.DependsOn"
+      interfaces:
+        CloudsStorm:
+          delete:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          hscale:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          provision:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          start:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+          stop:
+            inputs:
+              code_type: "SEQ"
+              object_type: "SubTopology"
+      type: "tosca.nodes.QC.VM.topology"
+      artifacts:
+        provisioned_files:
+          required: false
+          type: "string"
+    ws-pema:
+      properties:
+        ports:
+        - "30001:8080"
+      requirements:
+      - host:
+          capability: "tosca.capabilities.QC.docker.Orchestrator"
+          node: "kubernetes"
+          relationship: "tosca.relationships.HostedOn"
+      type: "tosca.nodes.QC.Container.Application.Docker"
+      artifacts:
+        image:
+          file: "alogo53/ws-pema-lifewatch"
+          repository: "docker_hub"
+          type: "tosca.artifacts.Deployment.Image.Container.Docker"
+      interfaces:
+        Kubernetes:
+            delete:
+                inputs:
+                    repository: https://github.com/QCAPI-DRIP/playbooks.git
+                    playbooks: 
+                        - delete_service.yml
+            create:
+                inputs:
+                    repository: https://github.com/QCAPI-DRIP/playbooks.git
+                    playbooks: 
+                        - create_service.yml
+            scale:
+                inputs:
+                    repository: https://github.com/QCAPI-DRIP/playbooks.git
+                    playbooks: 
+                        - scale_service.yml  
+                    replicas: 1
+            autoscale:
+                inputs:
+                    repository: https://github.com/QCAPI-DRIP/playbooks.git                
+                    playbooks: 
+                        - autoscale_service.yml  
+                    horizontal_pod_autoscaler: horizontal_pod_autoscaler.yml  
+            info:
+                inputs:
+                    repository: https://github.com/QCAPI-DRIP/playbooks.git   
+                    playbooks: 
+                        - get_info_service.yml
+                        
+             
+  outputs:
+    private_ip_compute:
+        description: The private IP address of the application’s first tier.
+        value: { get_attribute: [compute, private_ip] }
+    private_ip_compute_1:
+        description: The private IP address of the application’s second tier.
+        value: { get_attribute: [compute_1, private_ip] }        
+        
+description: "TOSCA example"
+imports:
+- nodes: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/nodes.yaml"
+- data: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/TOSCA/types/data.yml"
+- capabilities: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/capabilities.yaml"
+- policies: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/policies.yaml"
+- interfaces: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/interfaces.yml"

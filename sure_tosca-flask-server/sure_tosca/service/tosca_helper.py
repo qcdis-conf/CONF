@@ -115,8 +115,8 @@ def node_dict_2_node_template(node_name, node_dict, all_custom_def):
     #         node_dict[node_name].pop(name_to_remove)
 
     node_template = NodeTemplate(node_name, node_templates=copy.deepcopy(node_dict), custom_def=all_custom_def)
-    # For some reason the tosca.nodes.ARTICONF.Orchestrator doesn't  have all definitions so we need to add them
-    # manually. We get 'toscaparser.common.exception.InvalidTypeError: Type "tosca.nodes.ARTICONF.Orchestrator"
+    # For some reason the tosca.nodes.QC.Orchestrator doesn't  have all definitions so we need to add them
+    # manually. We get 'toscaparser.common.exception.InvalidTypeError: Type "tosca.nodes.QC.Orchestrator"
     # is not a valid type.'
     if len(node_template.custom_def) < len(all_custom_def):
         for def_key in all_custom_def:
@@ -144,8 +144,8 @@ def node_type_2_node_template(node_type, all_custom_def):
         node_type[next(iter(node_type))].pop('type')
 
     node_template = NodeTemplate(name, node_template_dict, node_type)
-    # For some reason the tosca.nodes.ARTICONF.Orchestrator doesn't  have all definitions so we need to add them
-    # manually. We get 'toscaparser.common.exception.InvalidTypeError: Type "tosca.nodes.ARTICONF.Orchestrator"
+    # For some reason the tosca.nodes.QC.Orchestrator doesn't  have all definitions so we need to add them
+    # manually. We get 'toscaparser.common.exception.InvalidTypeError: Type "tosca.nodes.QC.Orchestrator"
     # is not a valid type.'
     if len(node_template.custom_def) < len(all_custom_def):
         for def_key in all_custom_def:
@@ -294,6 +294,3 @@ def get_node_template_dict(node_template):
     #        print(node_template.templates)
 
     return node_template_dict
-
-
-

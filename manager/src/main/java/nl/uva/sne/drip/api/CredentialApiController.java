@@ -3,7 +3,6 @@ package nl.uva.sne.drip.api;
 import nl.uva.sne.drip.model.tosca.Credential;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import nl.uva.sne.drip.commons.utils.Converter;
 import nl.uva.sne.drip.service.CredentialService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-10T17:15:46.465Z")
 
@@ -47,8 +43,10 @@ public class CredentialApiController implements CredentialApi {
         if (accept != null && accept.contains("application/json")) {
             String id = credentialService.save(body);
             return new ResponseEntity<>(id, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
 
     @Override

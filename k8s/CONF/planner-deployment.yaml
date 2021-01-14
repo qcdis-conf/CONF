@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: conf
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: planner
+  name: planner
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: planner
+  replicas: 1
+  strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 50%
+            maxUnavailable: 50%
+  minReadySeconds: 10
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: planner
+    spec:
+      containers:
+      - env:
+        - name: RABBITMQ_HOST
+          value: rabbit
+        image: qcdis/planner:3.0.0
+        name: planner
+        imagePullPolicy: Always
+        resources: {}
+      restartPolicy: Always
+status: {}

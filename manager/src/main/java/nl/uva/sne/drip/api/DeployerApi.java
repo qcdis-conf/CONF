@@ -31,7 +31,7 @@ public interface DeployerApi {
         @ApiResponse(code = 404, message = "ToscaTemplate not found")
         ,
         @ApiResponse(code = 405, message = "Invalid input")})
-    @RequestMapping(value = "/deployer/deploy/{id}",
+    @RequestMapping(value = "/manager/deployer/deploy/{id}",
             produces = {"text/plain"},
             method = RequestMethod.GET)
     ResponseEntity<String> deployProvisionToscaTemplateByID(@ApiParam(value = "ID of topolog template to deploy", required = true) @PathVariable("id") String id);

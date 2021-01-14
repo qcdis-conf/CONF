@@ -1,0 +1,72 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+imports:
+  - nodes: https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/nodes.yaml
+  - data: https://raw.githubusercontent.com/skoulouzis/CONF/develop/TOSCA/types/data.yml
+  - capabilities: https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/capabilities.yaml
+  - policies: https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/policies.yaml
+  - interfaces: https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/interfaces.yml
+  
+repositories:
+  docker_hub: https://hub.docker.com/  
+
+description: >
+  TOSCA example
+  
+
+topology_template:
+
+  node_templates:        
+    ws-pema:
+        type: tosca.nodes.QC.Container.Application.Docker
+        properties:
+            ports: 
+            - "30001:8080"   
+        artifacts:
+            image:
+                type: tosca.artifacts.Deployment.Image.Container.Docker
+                file:  alogo53/ws-pema-lifewatch
+                repository: docker_hub                 
+        interfaces:
+            Kubernetes:
+                delete:
+                    inputs:
+                        repository: https://github.com/QCAPI-DRIP/playbooks.git
+                        playbooks: 
+                            - delete_service.yml
+                create:
+                    inputs:
+                        repository: https://github.com/QCAPI-DRIP/playbooks.git
+                        playbooks: 
+                            - create_service.yml
+                scale:
+                    inputs:
+                        repository: https://github.com/QCAPI-DRIP/playbooks.git
+                        playbooks: 
+                            - scale_service.yml  
+                        replicas: 1
+                autoscale:
+                    inputs:
+                        repository: https://github.com/QCAPI-DRIP/playbooks.git                
+                        playbooks: 
+                            - autoscale_service.yml  
+                        horizontal_pod_autoscaler: horizontal_pod_autoscaler.yml  
+                info:
+                    inputs:
+                        repository: https://github.com/QCAPI-DRIP/playbooks.git   
+                        playbooks: 
+                            - get_info_service.yml                
+                
+      
+    topology:
+        type: tosca.nodes.QC.VM.topology
+        interfaces:
+            CloudsStorm:
+                provision:
+                    inputs:
+                        code_type: SEQ
+                        object_type: SubTopology
+        properties:
+            domain: UvA (Amsterdam, The Netherlands) XO Rack
+            provider: ExoGENI
+      

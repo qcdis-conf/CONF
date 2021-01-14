@@ -11,6 +11,8 @@
             type: "boolean"
         sliceName:
             type: "string"
+        diskSize:
+            type: "string"
         duration:
             type: "float"
         VMs:

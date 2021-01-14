@@ -164,7 +164,6 @@ DCMetaInfo:
       AMI: "ami-2581aa40"
    
    
-   
 - domain: "Frankfurt"
   endpoint: "ec2.eu-central-1.amazonaws.com"
   country: Germany

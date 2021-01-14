@@ -33,16 +33,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.uva.sne.drip.Swagger2SpringBoot;
+import nl.uva.sne.drip.api.NotFoundException;
+import nl.uva.sne.drip.commons.utils.Constants;
+import static nl.uva.sne.drip.commons.utils.Constants.*;
 import nl.uva.sne.drip.commons.utils.Converter;
+import nl.uva.sne.drip.commons.utils.ToscaHelper;
 import nl.uva.sne.drip.configuration.MongoConfig;
+import nl.uva.sne.drip.model.Exceptions.MissingCredentialsException;
+import nl.uva.sne.drip.model.Exceptions.MissingVMTopologyException;
+import nl.uva.sne.drip.model.Exceptions.TypeExeption;
+import nl.uva.sne.drip.model.NodeTemplate;
+import nl.uva.sne.drip.model.NodeTemplateMap;
 import nl.uva.sne.drip.model.tosca.Credential;
+import nl.uva.sne.drip.model.tosca.ToscaTemplate;
+import nl.uva.sne.drip.sure.tosca.client.ApiException;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -59,19 +73,43 @@ public class ServiceTests {
     @Autowired
     ToscaTemplateService toscaTemplateService;
 
+    @Autowired
+    DRIPService dripService;
+
+    @Value("${message.broker.queue.provisioner}")
+    private String provisionerQueueName;
+
+    @Value("${message.broker.queue.planner}")
+    private String plannerQueueName;
+
+    @Value("${message.broker.queue.deployer}")
+    private String deployerQueueName;
+
+    @Value("${message.broker.host}")
+    private String messageBrokerHost;
+
+    @Value("${db.host}")
+    private static String dbHost;
+
     private String toscaTemplateID;
     private String testApplicationExampleToscaContents;
     private static final String testApplicationExampleToscaFilePath = ".." + File.separator + "TOSCA" + File.separator + "application_example_updated.yaml";
+    private static final String testApplicationExamplePlanedToscaFilePath = ".." + File.separator + "TOSCA" + File.separator + "application_example_planed.yaml";
     private static final String testUpdatedApplicationExampleToscaFilePath = ".." + File.separator + "TOSCA" + File.separator + "application_example_updated.yaml";
-    private static final String testOutputApplicationExampleToscaFilePath = ".." + File.separator + "TOSCA" + File.separator + "application_example_updated.yaml";
     private static final String testCredentialPath = ".." + File.separator + "fake_credentials" + File.separator + "test-geni.jks";
 
     @Autowired
     CredentialService credentialService;
 
     @Autowired
+    ToscaHelper helper;
+
+    @Autowired
     private WebApplicationContext wac;
     private MockMvc mockMvc;
+
+    @Value("${sure-tosca.base.path}")
+    private String sureToscaBasePath;
 
     private static final MongodStarter starter = MongodStarter.getDefaultInstance();
     private static MongodExecutable _mongodExe;
@@ -80,6 +118,7 @@ public class ServiceTests {
     @BeforeClass
     public static void setUpClass() {
         try {
+
             _mongodExe = starter.prepare(new MongodConfigBuilder()
                     .version(Version.Main.PRODUCTION)
                     .net(new Net(MongoConfig.MONGO_TEST_HOST, MongoConfig.MONGO_TEST_PORT, Network.localhostIsIPv6()))
@@ -213,31 +252,30 @@ public class ServiceTests {
      */
     @Test
     public void testToscaTemplateServiceDeleteByID() {
-        try {
-            Logger.getLogger(ServiceTests.class.getName()).log(Level.INFO, "deleteByID");
-            if (toscaTemplateID == null) {
-                testToscaTemplateServiceSaveFile();
-            }
-            toscaTemplateService.deleteByID(toscaTemplateID);
-            String id = toscaTemplateService.findByID(toscaTemplateID);
-        } catch (Exception ex) {
-            if (!(ex instanceof NoSuchElementException)) {
-                fail(ex.getMessage());
-                Logger.getLogger(ServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } finally {
+        if (ToscaHelper.isServiceUp(sureToscaBasePath)) {
             try {
-                testToscaTemplateServiceSaveFile();
+                Logger.getLogger(ServiceTests.class.getName()).log(Level.INFO, "deleteByID");
+                FileInputStream in = new FileInputStream(testApplicationExampleToscaFilePath);
+                MultipartFile file = new MockMultipartFile("file", in);
+                String id = toscaTemplateService.saveFile(file);
+                Assert.assertNotNull(id);
+
+                toscaTemplateService.deleteByID(id);
+                toscaTemplateService.findByID(id);
             } catch (Exception ex) {
-                fail(ex.getMessage());
-                Logger.getLogger(ServiceTests.class.getName()).log(Level.SEVERE, null, ex);
+                if (!(ex instanceof NoSuchElementException)) {
+                    fail(ex.getMessage());
+                    Logger.getLogger(ServiceTests.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
+
     }
 
     /**
      * Test of getAllIds method, of class ToscaTemplateService.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -322,6 +360,7 @@ public class ServiceTests {
 
     /**
      * Test of deleteByID method, of class CredentialService.
+     *
      * @throws com.fasterxml.jackson.core.JsonProcessingException
      */
     @Test
@@ -362,5 +401,62 @@ public class ServiceTests {
         credentialService.deleteAll();
         int size = credentialService.getAllIds().size();
         assertEquals(0, size);
+    }
+
+    @Test
+    public void testSetProvisionerOperation() throws FileNotFoundException, IOException, MissingCredentialsException, ApiException, TypeExeption, JsonProcessingException, TimeoutException, InterruptedException, NotFoundException, MissingVMTopologyException {
+        if (ToscaHelper.isServiceUp(sureToscaBasePath) && ToscaHelper.isServiceUp("http://" + messageBrokerHost + ":15672")) {
+
+            addRandomCredential("ExoGENI");
+            addRandomCredential("EC2");
+
+            FileInputStream in = new FileInputStream(testApplicationExamplePlanedToscaFilePath);
+
+            MultipartFile file = new MockMultipartFile("file", in);
+            String id = toscaTemplateService.saveFile(file);
+
+            ToscaTemplate toscaTemplate = dripService.initExecution(id);
+            toscaTemplate = dripService.addCredentials(toscaTemplate);
+            helper.uploadToscaTemplate(toscaTemplate);
+            List<NodeTemplateMap> vmTopologies = helper.getVMTopologyTemplates();
+            if (vmTopologies == null || vmTopologies.isEmpty()) {
+                throw new MissingVMTopologyException("ToscaTemplate: " + toscaTemplate + " has no VM Topologies");
+            }
+            for (NodeTemplateMap vmTopology : vmTopologies) {
+                Map<String, Object> attributes = vmTopology.getNodeTemplate().getAttributes();
+                assertNotNull(attributes);
+                Assert.assertTrue(attributes.containsKey("credential"));
+                assertNotNull(attributes.get("credential"));
+                toscaTemplate = dripService.setDesieredSate(toscaTemplate, vmTopology, Constants.NODE_STATES.RUNNING);
+            }
+
+            Map<String, NodeTemplate> nodes = toscaTemplate.getTopologyTemplate().getNodeTemplates();
+            Set<String> names = nodes.keySet();
+            for (String name : names) {
+                NodeTemplate node = nodes.get(name);
+                if (node.getType().equals(VM_TOPOLOGY)) {
+                    Map<String, Object> attributes = node.getAttributes();
+                    assertNotNull(attributes);
+                    Assert.assertTrue(attributes.containsKey("credential"));
+                    assertNotNull(attributes.get("credential"));
+                    Assert.assertTrue(attributes.containsKey("desired_state"));
+                    assertNotNull(attributes.get("desired_state"));
+                }
+            }
+
+        }
+    }
+
+    private void addRandomCredential(String providerName) {
+        Credential document = new Credential();
+        document.setCloudProviderName(providerName);
+        Map<String, String> keys = new HashMap<>();
+        keys.put("keystore", "/qTlqams0Ppq2rnaOgL5am7ExGO2nMsOZYM61kiAnsvkOixUuoPy9r4d4OfhwQXXg3lZmeRITjNz4ps+hIDKuxodIQXgBtfMy9Kx8Syb9bIl/MQQls5hWyp9yHAl6vAampoxYu0170lceT1sds4OCz3tM9eF7/UoBQwXBPo94QhO1/vSbtICyVsm3Z2HeGKcBWobT3opZV2w30GqX/7OBmNeIG7RBMPuxLsUxJ9Alahi1zXOUjLkd2bmmVFREngmeubgCzPFxxCQQrZK6WratTzJKc1sRVNK5GJzTwi9BlcZSQSgprum9yVHUgQc6Ylmvdrkhn2g9SlluY2JAZyCZvHYaRBKE4o5bXBDumTy1YAPMNPTfpeeLz+YmH0GMfVwKkxtIBpjb045QseoIWcqxke60WWfJguaTqymXknmcqcLNz+UzUdfVfyurOy9X8xmTGCW5V4N");
+        document.setKeys(keys);
+        document.setToken("secret");
+        document.setTokenType("password");
+        String credentialID = credentialService.save(document);
+        assertNotNull(credentialID);
+
     }
 }

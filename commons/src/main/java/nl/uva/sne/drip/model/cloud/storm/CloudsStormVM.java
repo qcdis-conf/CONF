@@ -18,6 +18,132 @@ import javax.validation.Valid;
 public class CloudsStormVM {
 
     /**
+     * @return the iOPS
+     */
+    public Integer getiOPS() {
+        return iOPS;
+    }
+
+    /**
+     * @param iOPS the iOPS to set
+     */
+    public void setiOPS(Integer iOPS) {
+        this.iOPS = iOPS;
+    }
+
+    /**
+     * @return the vpcId
+     */
+    public String getVpcId() {
+        return vpcId;
+    }
+
+    /**
+     * @param vpcId the vpcId to set
+     */
+    public void setVpcId(String vpcId) {
+        this.vpcId = vpcId;
+    }
+
+    /**
+     * @return the subnetId
+     */
+    public String getSubnetId() {
+        return subnetId;
+    }
+
+    /**
+     * @param subnetId the subnetId to set
+     */
+    public void setSubnetId(String subnetId) {
+        this.subnetId = subnetId;
+    }
+
+    /**
+     * @return the securityGroupId
+     */
+    public String getSecurityGroupId() {
+        return securityGroupId;
+    }
+
+    /**
+     * @param securityGroupId the securityGroupId to set
+     */
+    public void setSecurityGroupId(String securityGroupId) {
+        this.securityGroupId = securityGroupId;
+    }
+
+    /**
+     * @return the instanceId
+     */
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    /**
+     * @param instanceId the instanceId to set
+     */
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
+
+    /**
+     * @return the volumeId
+     */
+    public Object getVolumeId() {
+        return volumeId;
+    }
+
+    /**
+     * @param volumeId the volumeId to set
+     */
+    public void setVolumeId(Object volumeId) {
+        this.volumeId = volumeId;
+    }
+
+    /**
+     * @return the routeTableId
+     */
+    public String getRouteTableId() {
+        return routeTableId;
+    }
+
+    /**
+     * @param routeTableId the routeTableId to set
+     */
+    public void setRouteTableId(String routeTableId) {
+        this.routeTableId = routeTableId;
+    }
+
+    /**
+     * @return the internetGatewayId
+     */
+    public String getInternetGatewayId() {
+        return internetGatewayId;
+    }
+
+    /**
+     * @param internetGatewayId the internetGatewayId to set
+     */
+    public void setInternetGatewayId(String internetGatewayId) {
+        this.internetGatewayId = internetGatewayId;
+    }
+
+    /**
+     * @return the diskSize
+     */
+    public Integer getDiskSize() {
+        return diskSize;
+    }
+
+    /**
+     * @param diskSize the diskSize to set
+     */
+    public void setDiskSize(Integer diskSize) {
+        this.diskSize = diskSize;
+    }
+
+    /**
      * @return the vEngineClass
      */
     public String getvEngineClass() {
@@ -133,8 +259,9 @@ public class CloudsStormVM {
     private String name = null;
 
     @JsonProperty("nodeType")
+    @JsonAlias({"type"})
     private String nodeType = null;
-    
+
     @JsonProperty("VEngineClass")
     private String VEngineClass = null;
 
@@ -194,6 +321,10 @@ public class CloudsStormVM {
 
     @JsonProperty("OS_GUID")
     private String OS_GUID = null;
+
+    @JsonProperty("diskSize")
+    @JsonAlias({"DiskSize"})
+    private Integer diskSize;
 
     public CloudsStormVM name(String name) {
         this.name = name;
@@ -558,4 +689,22 @@ public class CloudsStormVM {
         }
         return o.toString().replace("\n", "\n    ");
     }
+
+    @JsonProperty("IOPS")
+    private Integer iOPS;
+    @JsonProperty("vpcId")
+    private String vpcId;
+    @JsonProperty("subnetId")
+    private String subnetId;
+    @JsonProperty("securityGroupId")
+    private String securityGroupId;
+    @JsonProperty("instanceId")
+    private String instanceId;
+    @JsonProperty("volumeId")
+    private Object volumeId;
+    @JsonProperty("routeTableId")
+    private String routeTableId;
+    @JsonProperty("internetGatewayId")
+    private String internetGatewayId;
+
 }

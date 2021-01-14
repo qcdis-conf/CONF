@@ -10,11 +10,11 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <springfox-version>2.9.2</springfox-version>
-        <docker.image.prefix>alogo53</docker.image.prefix>
+        <docker.image.prefix>qcdis</docker.image.prefix>
     </properties>
     <parent>
         <groupId>nl.uva.sne.drip</groupId>
-        <artifactId>drip</artifactId>
+        <artifactId>conf</artifactId>
         <version>3.0.0</version>
     </parent>
     <build>
@@ -36,8 +36,8 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
                 <configuration>
-                                        <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    <!--<repository>${project.artifactId}</repository>-->
+                    <!--<repository>${docker.image.prefix}/${project.artifactId}</repository>-->
+                    <repository>${project.artifactId}</repository>
                     <tag>${project.version}</tag>
                 </configuration>
             </plugin>
@@ -78,7 +78,6 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
@@ -120,7 +119,7 @@
         
         <dependency>
             <groupId>nl.uva.sne.drip</groupId>
-            <artifactId>drip-commons</artifactId>
+            <artifactId>commons</artifactId>
             <version>3.0.0</version>
             <type>jar</type>
         </dependency>
@@ -142,14 +141,7 @@
             <version>1.0.12</version>
             <scope>test</scope>
         </dependency>
-        
-        
-        <!--        <dependency>
-            <groupId>nl.uva.sne.drip</groupId>
-            <artifactId>drip-manager-services</artifactId>
-            <version>3.0.0</version>
-            <type>jar</type>
-        </dependency>        -->
+       
         
     </dependencies>
 </project>

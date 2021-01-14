@@ -1,0 +1,23 @@
+tosca_definitions_version: "tosca_simple_yaml_1_0"
+topology_template:
+  node_templates:
+    kubernetes:
+      interfaces:
+        Standard:
+          configure:
+            inputs:
+              playbook: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/ansible_playbooks/k8s_dashboard.yaml"
+          create:
+            inputs:
+              playbook: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/ansible_playbooks/install_k8s.yaml"
+          delete:
+            inputs:
+              playbook: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/ansible_playbooks/k8s_delete.yaml"
+      type: "tosca.nodes.QC.docker.Orchestrator.Kubernetes"
+description: "TOSCA example"
+imports:
+- nodes: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/nodes.yaml"
+- data: "https://raw.githubusercontent.com/skoulouzis/CONF/develop/TOSCA/types/data.yml"
+- capabilities: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/capabilities.yaml"
+- policies: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/policies.yaml"
+- interfaces: "https://raw.githubusercontent.com/skoulouzis/DRIP/develop/TOSCA/types/interfaces.yml"

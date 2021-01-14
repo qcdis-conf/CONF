@@ -1,0 +1,103 @@
+version: '3'
+services:
+
+  #nginx:
+    #image: nginx
+    #volumes:
+      #- ./nginx.conf:/etc/nginx/nginx.conf
+      #- ./cert.pem:/etc/nginx/cert.pem
+      #- ./privkey.pem:/etc/nginx/privkey.pem
+      ##- ./www:/data/www
+    #ports:
+    #- "80:80"
+    #- "443:443"
+    
+  rabbit:
+    image: rabbitmq:3.8-management
+    ports:   
+      - "5671-5672:5671-5672"
+      - "15672:15672"
+      - "4369:4369"
+      - "15671:15671"     
+
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: semaphore
+      MYSQL_USER: semaphore
+      MYSQL_PASSWORD: semaphore
+    #ports:
+      #- "3306:3306"
+      
+  semaphore:
+    image: qcdis/docker_ansible_semaphore
+    environment:
+      SEMAPHORE_DB_USER: semaphore
+      SEMAPHORE_DB_PASS: semaphore
+      SEMAPHORE_DB_HOST: mysql
+      SEMAPHORE_DB_PORT: 3306
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_PLAYBOOK_PATH: /etc/semaphore
+      SEMAPHORE_ADMIN_PASSWORD: password
+      SEMAPHORE_ADMIN_NAME: "Developer"
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_WEB_ROOT: http://0.0.0.0:3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      
+  mongo:
+    image: mongo:4
+    ports:
+      - "27017:27017"               
+    
+      
+  #manager:
+    #depends_on:
+      #- rabbit
+      #- mongo
+      #- sure-tosca
+    #image: qcdis/manager:3.0.0 
+    #environment:
+      #RABBITMQ_HOST: rabbit
+      #MONGO_HOST: mongo
+      #SURE_TOSCA_BASE_PATH: http://sure-tosca:8081/tosca-sure/1.0.0
+    #ports:
+      #- "8080:8080"       
+            
+  sure-tosca:
+    image: qcdis/sure-tosca:3.0.0
+    ports: 
+      - "8081:8081"
+    
+  planner:
+    depends_on:
+      - rabbit
+      - sure-tosca
+    image: qcdis/planner:3.0.0 
+    environment:
+      RABBITMQ_HOST: rabbit
+    
+  #provisioner:
+    #depends_on:
+      #- rabbit
+      #- sure-tosca
+    #image: qcdis/provisioner:3.0.0 
+    #environment:
+      #RABBITMQ_HOST: rabbit      
+      #SURE_TOSCA_BASE_PATH: http://sure-tosca:8081/tosca-sure/1.0.0
+    
+  #deployer:
+    #depends_on:
+      #- rabbit
+      #- sure-tosca
+    #image: qcdis/deployer:3.0.0 
+    #environment:
+      #RABBITMQ_HOST: rabbit           
+      #SURE_TOSCA_BASE_PATH: http://sure-tosca:8081/tosca-sure/1.0.0
+      
+
+    

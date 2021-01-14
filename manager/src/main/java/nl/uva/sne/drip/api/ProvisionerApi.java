@@ -26,7 +26,7 @@ public interface ProvisionerApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "ToscaTemplate not found"),
         @ApiResponse(code = 405, message = "Invalid input") })
-    @RequestMapping(value = "/provisioner/provision/{id}",
+    @RequestMapping(value = "/manager/provisioner/provision/{id}",
         produces = { "text/plain" }, 
         method = RequestMethod.GET)
     ResponseEntity<String> provisionPlanToscaTemplateByID(@ApiParam(value = "ID of topolog template to plan",required=true) @PathVariable("id") String id);

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: conf
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: semaphore
+  name: semaphore
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: semaphore
+  replicas: 1
+  strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 50%
+            maxUnavailable: 50%
+  minReadySeconds: 10
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: semaphore
+    spec:
+      containers:
+      - env:
+        - name: SEMAPHORE_ADMIN
+          value: admin
+        - name: SEMAPHORE_ADMIN_EMAIL
+          value: admin@localhost
+        - name: SEMAPHORE_ADMIN_NAME
+          value: Developer
+        - name: SEMAPHORE_ADMIN_PASSWORD
+          value: password
+        - name: SEMAPHORE_DB
+          value: semaphore
+        - name: SEMAPHORE_DB_HOST
+          value: mysql
+        - name: SEMAPHORE_DB_PASS
+          value: semaphore
+        - name: SEMAPHORE_DB_PORT
+          value: "3306"
+        - name: SEMAPHORE_DB_USER
+          value: semaphore
+        - name: SEMAPHORE_PLAYBOOK_PATH
+          value: /etc/semaphore
+        - name: SEMAPHORE_WEB_ROOT
+          value: http://0.0.0.0:3000
+        image: qcdis/docker_ansible_semaphore
+        name: semaphore
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources: {}
+      restartPolicy: Always
+status: {}

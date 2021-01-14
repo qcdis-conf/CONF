@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: conf
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mysql
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: mysql
+  replicas: 1
+  strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 50%
+            maxUnavailable: 50%
+  minReadySeconds: 10
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: semaphore
+        - name: MYSQL_PASSWORD
+          value: semaphore
+        - name: MYSQL_RANDOM_ROOT_PASSWORD
+          value: "yes"
+        - name: MYSQL_USER
+          value: semaphore
+        image: mysql:5.6
+        name: mysql
+        imagePullPolicy: Always
+        resources: {}
+      restartPolicy: Always
+status: {}

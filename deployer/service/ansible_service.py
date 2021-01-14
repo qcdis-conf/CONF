@@ -1,17 +1,12 @@
 import base64
-import json
 import logging
-import os
-import tempfile
-from collections import namedtuple
-from stat import S_IREAD
-from subprocess import Popen, PIPE
+from time import sleep
+import datetime
 
-import ansible
-import requests
-from ansible.executor.playbook_executor import PlaybookExecutor
-from ansible.parsing.dataloader import DataLoader
-from ansible.vars.manager import VariableManager
+import yaml
+from semaphore_client.semaphore_helper import SemaphoreHelper
+
+yaml.Dumper.ignore_aliases = lambda *args : True
 
 logger = logging.getLogger(__name__)
 if not getattr(logger, 'handler_set', None):
@@ -23,101 +18,106 @@ if not getattr(logger, 'handler_set', None):
     logger.handler_set = True
 
 
-def write_ansible_files(vms, interfaces, tmp_path):
-    workers = []
-    k8_master = None
-    ansible_ssh_private_key_file_path = None
-    ansible_ssh_user = None
+class AnsibleService:
 
-    for vm_name in vms:
-        attributes = vms[vm_name]['attributes']
-        role = attributes['role']
-        if role == 'master':
-            k8_master = attributes['public_ip']
-        else:
-            workers.append(attributes['public_ip'])
-        if ansible_ssh_private_key_file_path is None:
-            ansible_ssh_private_key_encoded = attributes['user_key_pair']['keys']['private_key']
-            ansible_ssh_private_key = base64.b64decode(ansible_ssh_private_key_encoded).decode('utf-8')
-            ansible_ssh_private_key_file_path = tmp_path + "/id_rsa"
-
-            with open(ansible_ssh_private_key_file_path, "w") as ansible_ssh_private_key_file:
-                print(ansible_ssh_private_key, file=ansible_ssh_private_key_file)
-            os.chmod(ansible_ssh_private_key_file_path, S_IREAD)
-        if ansible_ssh_user is None:
-            ansible_ssh_user = vms[vm_name]['properties']['user_name']
-    k8s_hosts_path = tmp_path + "/k8s_hosts"
-    with open(k8s_hosts_path, "w") as k8s_hosts_file:
-        print('[k8-master]', file=k8s_hosts_file)
-        print(k8_master, file=k8s_hosts_file)
-        print('\n', file=k8s_hosts_file)
-        print('[worker]', file=k8s_hosts_file)
-        for worker in workers:
-            print(worker, file=k8s_hosts_file)
-        print('\n', file=k8s_hosts_file)
-        print('[cluster:children]', file=k8s_hosts_file)
-        print('k8-master', file=k8s_hosts_file)
-        print('worker', file=k8s_hosts_file)
-        print('\n', file=k8s_hosts_file)
-        print('[cluster:vars]', file=k8s_hosts_file)
-        print('ansible_ssh_private_key_file=' + ansible_ssh_private_key_file_path, file=k8s_hosts_file)
-        print('ansible_ssh_common_args=\'-o StrictHostKeyChecking=no\'', file=k8s_hosts_file)
-        print('ansible_ssh_user=' + ansible_ssh_user, file=k8s_hosts_file)
-
-    image_url = interfaces['Kubernetes']['install']['inputs']['playbook']
-    r = requests.get(image_url)
-    with open(tmp_path + "/playbook.yml", 'wb') as f:
-        f.write(r.content)
-    return tmp_path
+    def __init__(self, semaphore_base_url=None,semaphore_username=None,semaphore_password=None):
+        self.semaphore_base_url = semaphore_base_url
+        self.semaphore_username = semaphore_username
+        self.semaphore_password = semaphore_password
+        self.semaphore_helper = SemaphoreHelper(self.semaphore_base_url, self.semaphore_username, self.semaphore_password)
+        self.repository_id = None
+        self.template_id = None
 
 
-def run(interfaces, vms):
-    tmp_path = tempfile.mkdtemp()
-    write_ansible_files(vms, interfaces, tmp_path)
 
-    p = Popen(["ansible-playbook", "-i", tmp_path + "/k8s_hosts", tmp_path + "/playbook.yml"], stdin=PIPE, stdout=PIPE,
-              stderr=PIPE)
-    output, err = p.communicate()
-    print(output.decode('utf-8'))
-    print(err.decode('utf-8'))
-    rc = p.returncode
+    def execute(self,nodes_pair):
+        vms = nodes_pair[0]
+        application = nodes_pair[1]
+        name = application.name
+        desired_state = None
+        interfaces = application.node_template.interfaces
+        if 'current_state' in application.node_template.attributes:
+            current_state = application.node_template.attributes['current_state']
+        if 'desired_state' in application.node_template.attributes:
+            desired_state = application.node_template.attributes['desired_state']
 
-    return tmp_path
+        if desired_state:
+            now = datetime.datetime.now()
+            project_id = self.semaphore_helper.create_project(application.name+'_'+str(now))
+            inventory_contents = yaml.dump( self.build_yml_inventory(vms),default_flow_style=False)
+            private_key = self.get_private_key(vms)
+            key_id = self.semaphore_helper.create_ssh_key(application.name, project_id, private_key)
+            inventory_id = self.semaphore_helper.create_inventory(application.name, project_id, key_id,inventory_contents)
+            if 'RUNNING' == desired_state:
+                standard = interfaces['Standard']
+                create = standard['create']
+                inputs = create['inputs']
+                git_url = inputs['repository']
+                playbook_names = inputs['resources']
+                for playbook_name in playbook_names:
+                    task_id = self.run_task(name, project_id, key_id, git_url, inventory_id, playbook_name)
+                    if self.semaphore_helper.get_task(project_id, task_id).status != 'success':
+                        break
 
+                if self.semaphore_helper.get_task(project_id,task_id).status == 'success':
+                    configure = standard['configure']
+                    inputs = configure['inputs']
+                    git_url = inputs['repository']
+                    playbook_names = inputs['resources']
+                    for playbook_name in playbook_names:
+                        task_id = self.run_task(name, project_id, key_id, git_url, inventory_id, playbook_name)
+                        if self.semaphore_helper.get_task(project_id, task_id).status != 'success':
+                            break
 
-def execute_playbook(hosts, playbook_path, user, ssh_key_file, extra_vars, passwords):
-    if not os.path.exists(playbook_path):
-        logger.error('The playbook does not exist')
-        return '[ERROR] The playbook does not exist'
+    def build_yml_inventory(self, vms):
+        # loader = DataLoader()
+        # inventory = InventoryManager(loader=loader)
+        # variable_manager = VariableManager()
+        inventory = {}
+        all = {}
+        vars = {'ansible_ssh_common_args':'-o StrictHostKeyChecking=no'}
+        vars['ansible_ssh_user'] = vms[0].node_template.properties['user_name']
+        children = {}
+        for vm in vms:
+            attributes = vm.node_template.attributes
+            role = attributes['role']
+            public_ip = attributes['public_ip']
+            if role not in children:
+                hosts = {}
+            else:
+                hosts = children[role]
+            host = {}
+            host[public_ip] =  vars
+            hosts['hosts'] = host
+            children[role] = hosts
+            # inventory.add_group(role)
+            # inventory.add_host(public_ip,group=role)
+        all['children'] = children
+        inventory['all'] = all
+        return inventory
 
-    os.environ['ANSIBLE_HOST_KEY_CHECKING'] = 'false'
-    ansible.constants.HOST_KEY_CHECKING = False
+    def get_private_key(self, vms):
+        private_key = vms[0].node_template.attributes['user_key_pair']['keys']['private_key']
+        return base64.b64decode(private_key).decode('utf-8').replace(r'\n', '\n')
 
-    os.environ['ANSIBLE_SSH_RETRIES'] = 'retry_count'
-    ansible.constants.ANSIBLE_SSH_RETRIES = 3
+    def run_task(self, name, project_id, key_id, git_url, inventory_id, playbook_name):
+        logger.info('project_id: '+str(project_id)+ ' task name: ' + str(name)+ ' git url: '+git_url+' playbook: '+playbook_name)
+        self.repository_id = self.semaphore_helper.create_repository(name, project_id, key_id, git_url)
+        template_id = self.semaphore_helper.create_template(project_id, key_id, inventory_id, self.repository_id,
+                                                            playbook_name)
+        task_id = self.semaphore_helper.execute_task(project_id, template_id, playbook_name)
+        task = self.semaphore_helper.get_task(project_id, task_id)
+        last_output = ''
+        while task.status == 'waiting' or task.status == 'running':
+            task = self.semaphore_helper.get_task(project_id, task_id)
+            logger.info('task name: '+name+ ' task status: ' + str(task.status))
+            task_outputs = self.semaphore_helper.get_task_outputs(project_id, task_id)
+            this_output = task_outputs[len(task_outputs)-1].output.replace(r'\n', '\n').replace(r'\r', '\r')
+            if last_output != this_output:
+                logger.info('task output: ' + str(this_output))
+            last_output = this_output
 
-    variable_manager = VariableManager()
-    loader = DataLoader()
+            # logger.info('task output: ' + str(latask name:st_output))
+            sleep(3)
+        return task_id
 
-    # inventory = Inventory(loader=loader, variable_manager=variable_manager, host_list=hosts)
-
-    Options = namedtuple('Options',
-                         ['listtags', 'listtasks', 'listhosts', 'syntax', 'connection', 'module_path', 'forks',
-                          'remote_user', 'private_key_file', 'ssh_common_args', 'ssh_extra_args', 'sftp_extra_args',
-                          'scp_extra_args', 'become', 'become_method', 'become_user', 'verbosity', 'check',
-                          'host_key_checking', 'retries'])
-
-    options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False, connection='smart',
-                      module_path=None, forks=None, remote_user=user, private_key_file=ssh_key_file, ssh_common_args='',
-                      ssh_extra_args='', sftp_extra_args=None, scp_extra_args=None, become=True, become_method='sudo',
-                      become_user='root', verbosity=None, check=False, host_key_checking=False, retries=retry_count)
-
-    variable_manager.extra_vars = extra_vars
-
-    # pbex = PlaybookExecutor(playbooks=[playbook_path],
-    #                         inventory=inventory,
-    #                         variable_manager=variable_manager,
-    #                         loader=loader,
-    #                         options=options,
-    #                         passwords=passwords,
-    #                         )

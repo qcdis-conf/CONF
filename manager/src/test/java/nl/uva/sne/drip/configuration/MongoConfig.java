@@ -16,7 +16,6 @@
 package nl.uva.sne.drip.configuration;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -26,7 +25,7 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
  * @author S. Koulouzis
  */
 @Configuration
-@ComponentScan(basePackages = {"nl.uva.sne.drip", "nl.uva.sne.drip.api", 
+@ComponentScan(basePackages = {"nl.uva.sne.drip", "nl.uva.sne.drip.api",
     "nl.uva.sne.drip.configuration", "nl.uva.sne.drip.dao", "nl.uva.sne.drip.model", "nl.uva.sne.drip.service"})
 public class MongoConfig extends AbstractMongoConfiguration {
 

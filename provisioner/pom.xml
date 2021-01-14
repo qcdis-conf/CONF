@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.uva.sne.drip</groupId>
-        <artifactId>drip</artifactId>
+        <artifactId>conf</artifactId>
         <version>3.0.0</version>
     </parent>
     
@@ -15,7 +15,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <docker.image.prefix>alogo53</docker.image.prefix>
+        <docker.image.prefix>qcdis</docker.image.prefix>
     </properties>
     
     
@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>nl.uva.sne.drip</groupId>
-            <artifactId>drip-commons</artifactId>
+            <artifactId>commons</artifactId>
             <version>3.0.0</version>
             <type>jar</type>
         </dependency>
@@ -113,8 +113,8 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
                 <configuration>
-                                        <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    <!--<repository>${project.artifactId}</repository>-->
+                    <!--<repository>${docker.image.prefix}/${project.artifactId}</repository>-->
+                    <repository>${project.artifactId}</repository>
                     <tag>${project.version}</tag>
                 </configuration>
             </plugin>            
@@ -133,6 +133,13 @@
             <id>zh-releases</id>
             <url>https://raw.githubusercontent.com/CloudsStorm/mvn-repo/master/releases</url>
         </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>releases</id>
+            <url>https://raw.githubusercontent.com/skoulouzis/mvn-repo/master/releases</url>
+        </repository>        
     </repositories>
     <name>provisioner</name>
 </project>

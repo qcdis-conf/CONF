@@ -36,7 +36,7 @@
           artifacts:
               type: object
               additionalProperties:
-                  type: object                               
+                  type: object            
 
      
  
