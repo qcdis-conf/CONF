@@ -102,3 +102,5 @@ Now you can test the k8s cluster:
 ```
 kubectl get nodes
 ```
+
+![](http://damien.pobel.fr/images/youtube-video-github.gif)
