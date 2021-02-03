@@ -20,7 +20,7 @@ The architecture contains the following services:
 * Deployer: This service initially deploys installs and  configures k8's cluster on the virtual infatuate and next install docker containers on that cluster 
 
 
-## Quck Start
+## Quck Start with bash
 
 ### Provision 
 You can check the tosca template that will be used: 
