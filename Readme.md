@@ -21,6 +21,7 @@ The architecture contains the following services:
 
 
 ## Quck Start with bash
+![](https://github.com/QCDIS/CONF/raw/develop/docs/images/outputname.gif)
 
 ### Provision 
 You can check the tosca template that will be used: 
@@ -103,4 +104,4 @@ Now you can test the k8s cluster:
 kubectl get nodes
 ```
 
-![](http://damien.pobel.fr/images/youtube-video-github.gif)
+![](https://github.com/QCDIS/CONF/raw/develop/docs/images/outputname.gif)
