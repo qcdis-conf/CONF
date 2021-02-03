@@ -100,5 +100,5 @@ yq eval .topology_template.node_templates.compute.attributes.public_ip deploymen
 
 Now you can test the k8s cluster:
 ```
-kubctl get all 
+kubectl get nodes
 ```
