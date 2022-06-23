@@ -1,11 +1,12 @@
 package nl.uva.sne.drip.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.data.annotation.Id;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
 
 /**
  * User
@@ -46,7 +47,6 @@ public class User {
      * Get id
      *
      * @return id
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -67,7 +67,6 @@ public class User {
      * Get username
      *
      * @return username
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -88,7 +87,6 @@ public class User {
      * Get firstName
      *
      * @return firstName
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -109,7 +107,6 @@ public class User {
      * Get lastName
      *
      * @return lastName
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -130,7 +127,6 @@ public class User {
      * Get email
      *
      * @return email
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -151,7 +147,6 @@ public class User {
      * Get password
      *
      * @return password
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -172,7 +167,6 @@ public class User {
      * User Status
      *
      * @return userStatus
-  *
      */
     @ApiModelProperty(value = "User Status")
 

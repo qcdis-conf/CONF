@@ -1,15 +1,12 @@
 package nl.uva.sne.drip.model.tosca;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
 import nl.uva.sne.drip.model.NodeTemplate;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import java.util.*;
 
 /**
  * TopologyTemplate
@@ -59,7 +56,6 @@ public class TopologyTemplate {
      * Get description
      *
      * @return description
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -88,7 +84,6 @@ public class TopologyTemplate {
      * Get inputs
      *
      * @return inputs
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -117,7 +112,6 @@ public class TopologyTemplate {
      * Get nodeTemplates
      *
      * @return nodeTemplates
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -148,7 +142,6 @@ public class TopologyTemplate {
      * Get relationshipTemplates
      *
      * @return relationshipTemplates
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -177,7 +170,6 @@ public class TopologyTemplate {
      * Get outputs
      *
      * @return outputs
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -206,7 +198,6 @@ public class TopologyTemplate {
      * Get groups
      *
      * @return groups
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -235,7 +226,6 @@ public class TopologyTemplate {
      * Get substitutionMappings
      *
      * @return substitutionMappings
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -264,7 +254,6 @@ public class TopologyTemplate {
      * Get policies
      *
      * @return policies
-  *
      */
     @ApiModelProperty(value = "")
 

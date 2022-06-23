@@ -16,14 +16,13 @@
 package nl.uva.sne.drip.model.Exceptions;
 
 /**
- *
  * @author S. Koulouzis
  */
-public class MissingCredentialsException extends Exception{
+public class MissingCredentialsException extends Exception {
 
     public MissingCredentialsException(String string) {
         super(string);
     }
-    
-    
+
+
 }

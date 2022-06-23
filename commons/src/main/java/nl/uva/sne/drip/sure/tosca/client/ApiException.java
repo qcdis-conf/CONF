@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -11,8 +11,8 @@
  */
 package nl.uva.sne.drip.sure.tosca.client;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-12-28T19:11:27.492Z")
 public class ApiException extends Exception {

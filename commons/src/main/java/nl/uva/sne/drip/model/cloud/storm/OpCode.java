@@ -1,12 +1,13 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * OpCode
@@ -16,90 +17,16 @@ import javax.validation.Valid;
 
 public class OpCode {
 
-    /**
-     * Gets or Sets operation
-     */
-    public enum OperationEnum {
-        PROVISION("provision"),
-        DELETE("delete"),
-        EXECUTE("execute"),
-        PUT("put"),
-        GET("get"),
-        VSCALE("vscale"),
-        HSCALE("hscale"),
-        RECOVER("recover"),
-        START("start"),
-        STOP("stop");
-
-        private String value;
-
-        OperationEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static OperationEnum fromValue(String text) {
-            for (OperationEnum b : OperationEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("Operation")
     private OperationEnum operation = null;
-
-    /**
-     * Gets or Sets objectType
-     */
-    public enum ObjectTypeEnum {
-        SUBTOPOLOGY("SubTopology"),
-        VM("VM"),
-        REQ("REQ");
-
-        private String value;
-
-        ObjectTypeEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static ObjectTypeEnum fromValue(String text) {
-            for (ObjectTypeEnum b : ObjectTypeEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("ObjectType")
     private ObjectTypeEnum objectType = null;
-
     @JsonProperty("Objects")
     private String objects = null;
-
     @JsonProperty("Command")
     private String command = null;
-
     @JsonProperty("Log")
     private Boolean log = null;
-
     @JsonProperty("Options")
     private Options options = null;
 
@@ -112,7 +39,6 @@ public class OpCode {
      * Get operation
      *
      * @return operation
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -133,7 +59,6 @@ public class OpCode {
      * Get objectType
      *
      * @return objectType
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -154,7 +79,6 @@ public class OpCode {
      * Get objects
      *
      * @return objects
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -175,7 +99,6 @@ public class OpCode {
      * Get command
      *
      * @return command
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -196,7 +119,6 @@ public class OpCode {
      * Get log
      *
      * @return log
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -217,7 +139,6 @@ public class OpCode {
      * Get options
      *
      * @return options
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -277,5 +198,74 @@ public class OpCode {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Gets or Sets operation
+     */
+    public enum OperationEnum {
+        PROVISION("provision"),
+        DELETE("delete"),
+        EXECUTE("execute"),
+        PUT("put"),
+        GET("get"),
+        VSCALE("vscale"),
+        HSCALE("hscale"),
+        RECOVER("recover"),
+        START("start"),
+        STOP("stop");
+
+        private String value;
+
+        OperationEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static OperationEnum fromValue(String text) {
+            for (OperationEnum b : OperationEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
+    }
+
+    /**
+     * Gets or Sets objectType
+     */
+    public enum ObjectTypeEnum {
+        SUBTOPOLOGY("SubTopology"),
+        VM("VM"),
+        REQ("REQ");
+
+        private String value;
+
+        ObjectTypeEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static ObjectTypeEnum fromValue(String text) {
+            for (ObjectTypeEnum b : ObjectTypeEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 }

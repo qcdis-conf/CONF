@@ -15,52 +15,36 @@
  */
 package nl.uva.sne.drip.commons.utils;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
+
 /**
- *
  * @author S. Koulouzis
  */
 public class Converter {
 
     public static String map2YmlString(Map<String, Object> map) throws JSONException {
         JSONObject jsonObject = new JSONObject(map);
-        String yamlStr = json2Yml2(jsonObject.toString());
-        return yamlStr;
+        return json2Yml2(jsonObject.toString());
     }
 
     public static String json2Yml2(String jsonString) throws JSONException {
         Yaml yaml = new Yaml();
-        String yamlStr = yaml.dump(ymlString2Map(jsonString));
-        return yamlStr;
+        return yaml.dump(ymlString2Map(jsonString));
     }
 
     public static Map<String, Object> ymlString2Map(String yamlString) {
@@ -107,15 +91,15 @@ public class Converter {
         return new String(encodedBytes, StandardCharsets.UTF_8);
     }
 
-    public static void zipFolder(String sourceFolder, String zipFolder) throws FileNotFoundException, IOException {
+    public static void zipFolder(String sourceFolder, String zipFolder) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(zipFolder);
-                ZipOutputStream zos = new ZipOutputStream(fos)) {
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
             Path sourcePath = Paths.get(sourceFolder);
             Files.walkFileTree(sourcePath, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
                     if (!sourcePath.equals(dir)) {
-                        zos.putNextEntry(new ZipEntry(sourcePath.relativize(dir).toString() + "/"));
+                        zos.putNextEntry(new ZipEntry(sourcePath.relativize(dir) + "/"));
                         zos.closeEntry();
                     }
                     return FileVisitResult.CONTINUE;

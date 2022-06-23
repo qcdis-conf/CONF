@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -11,9 +11,10 @@
  */
 package nl.uva.sne.drip.model;
 
-import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Objects;
 
 /**
  * NodeTemplateMap
@@ -36,7 +37,6 @@ public class NodeTemplateMap {
      * Get name
      *
      * @return name
-  *
      */
     @ApiModelProperty(value = "")
     public String getName() {
@@ -56,7 +56,6 @@ public class NodeTemplateMap {
      * Get nodeTemplate
      *
      * @return nodeTemplate
-  *
      */
     @ApiModelProperty(value = "")
     public NodeTemplate getNodeTemplate() {

@@ -1,14 +1,13 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * InfrasCode
@@ -18,59 +17,26 @@ import javax.validation.Valid;
 
 public class InfrasCode {
 
-    /**
-     * Gets or Sets codeType
-     */
-    public enum CodeTypeEnum {
-        SEQ("SEQ"),
-        LOOP("LOOP");
-
-        private String value;
-
-        CodeTypeEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static CodeTypeEnum fromValue(String text) {
-            for (CodeTypeEnum b : CodeTypeEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("CodeType")
     private CodeTypeEnum codeType = null;
-
     @JsonProperty("OpCode")
     private OpCode opCode = null;
-
     @JsonProperty("Count")
     private Integer count = null;
-
-//    @JsonProperty("OpCodes")
-//    @Valid
-//    private List<OpCode> opCodes = null;
 
     public InfrasCode codeType(CodeTypeEnum codeType) {
         this.codeType = codeType;
         return this;
     }
 
+//    @JsonProperty("OpCodes")
+//    @Valid
+//    private List<OpCode> opCodes = null;
+
     /**
      * Get codeType
      *
      * @return codeType
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -91,7 +57,6 @@ public class InfrasCode {
      * Get opCode
      *
      * @return opCode
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -114,7 +79,6 @@ public class InfrasCode {
      * Get count
      *
      * @return count
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -124,6 +88,21 @@ public class InfrasCode {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        InfrasCode infrasCode = (InfrasCode) o;
+        return Objects.equals(this.codeType, infrasCode.codeType)
+                && Objects.equals(this.opCode, infrasCode.opCode)
+                && Objects.equals(this.count, infrasCode.count);
+//                && Objects.equals(this.opCodes, infrasCode.opCodes);
     }
 
 //    public InfrasCode opCodes(List<OpCode> opCodes) {
@@ -158,21 +137,6 @@ public class InfrasCode {
 //    }
 
     @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        InfrasCode infrasCode = (InfrasCode) o;
-        return Objects.equals(this.codeType, infrasCode.codeType)
-                && Objects.equals(this.opCode, infrasCode.opCode)
-                && Objects.equals(this.count, infrasCode.count);
-//                && Objects.equals(this.opCodes, infrasCode.opCodes);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(codeType, opCode, count); //, opCodes);
     }
@@ -199,5 +163,35 @@ public class InfrasCode {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Gets or Sets codeType
+     */
+    public enum CodeTypeEnum {
+        SEQ("SEQ"),
+        LOOP("LOOP");
+
+        private String value;
+
+        CodeTypeEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static CodeTypeEnum fromValue(String text) {
+            for (CodeTypeEnum b : CodeTypeEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 }

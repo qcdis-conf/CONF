@@ -1,14 +1,11 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
+import java.util.*;
 
 /**
  * CloudStormDCMetaInfo
@@ -53,7 +50,6 @@ public class CloudStormDCMetaInfo {
      * Get domain
      *
      * @return domain
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -74,7 +70,6 @@ public class CloudStormDCMetaInfo {
      * Get endpoint
      *
      * @return endpoint
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -95,7 +90,6 @@ public class CloudStormDCMetaInfo {
      * Get country
      *
      * @return country
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -116,7 +110,6 @@ public class CloudStormDCMetaInfo {
      * Get longitude
      *
      * @return longitude
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -137,7 +130,6 @@ public class CloudStormDCMetaInfo {
      * Get latitude
      *
      * @return latitude
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -158,7 +150,6 @@ public class CloudStormDCMetaInfo {
      * Get availability
      *
      * @return availability
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -187,7 +178,6 @@ public class CloudStormDCMetaInfo {
      * Get vmMetaInfo
      *
      * @return vmMetaInfo
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -218,7 +208,6 @@ public class CloudStormDCMetaInfo {
      * Get extraInfo
      *
      * @return extraInfo
-  *
      */
     @ApiModelProperty(value = "")
 

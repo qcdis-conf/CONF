@@ -1,13 +1,14 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * DB
@@ -38,7 +39,6 @@ public class DB {
      * Get cloudDBs
      *
      * @return cloudDBs
-  *
      */
     @ApiModelProperty(value = "")
 

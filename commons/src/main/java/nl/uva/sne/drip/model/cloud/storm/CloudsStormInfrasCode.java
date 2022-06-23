@@ -1,14 +1,15 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * CloudsStormInfrasCode
@@ -18,39 +19,8 @@ import javax.validation.Valid;
 
 public class CloudsStormInfrasCode {
 
-    /**
-     * Gets or Sets mode
-     */
-    public enum ModeEnum {
-        LOCAL("LOCAL"),
-        CTRL("CTRL");
-
-        private String value;
-
-        ModeEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static ModeEnum fromValue(String text) {
-            for (ModeEnum b : ModeEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("Mode")
     private ModeEnum mode = null;
-
     @JsonProperty("InfrasCodes")
     @Valid
     private List<InfrasCode> infrasCodes = null;
@@ -64,7 +34,6 @@ public class CloudsStormInfrasCode {
      * Get mode
      *
      * @return mode
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -93,7 +62,6 @@ public class CloudsStormInfrasCode {
      * Get infrasCodes
      *
      * @return infrasCodes
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -145,5 +113,35 @@ public class CloudsStormInfrasCode {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Gets or Sets mode
+     */
+    public enum ModeEnum {
+        LOCAL("LOCAL"),
+        CTRL("CTRL");
+
+        private String value;
+
+        ModeEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static ModeEnum fromValue(String text) {
+            for (ModeEnum b : ModeEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 }

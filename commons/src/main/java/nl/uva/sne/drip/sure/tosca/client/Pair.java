@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -18,9 +18,13 @@ public class Pair {
     private String name = "";
     private String value = "";
 
-    public Pair (String name, String value) {
+    public Pair(String name, String value) {
         setName(name);
         setValue(value);
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     private void setName(String name) {
@@ -29,18 +33,14 @@ public class Pair {
         this.name = name;
     }
 
+    public String getValue() {
+        return this.value;
+    }
+
     private void setValue(String value) {
         if (!isValidString(value)) return;
 
         this.value = value;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getValue() {
-        return this.value;
     }
 
     private boolean isValidString(String arg) {

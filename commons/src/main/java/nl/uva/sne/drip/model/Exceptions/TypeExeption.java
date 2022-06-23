@@ -16,13 +16,12 @@
 package nl.uva.sne.drip.model.Exceptions;
 
 /**
- *
  * @author S. Koulouzis
  */
-public class TypeExeption extends Exception{
+public class TypeExeption extends Exception {
 
     public TypeExeption(String string) {
         super(string);
     }
-    
+
 }

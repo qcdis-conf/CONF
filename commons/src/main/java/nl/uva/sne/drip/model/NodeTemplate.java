@@ -1,18 +1,12 @@
 package nl.uva.sne.drip.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.util.*;
 
 /**
  * NodeTemplate
@@ -68,7 +62,6 @@ public class NodeTemplate {
      * Get derivedFrom
      *
      * @return derivedFrom
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -97,7 +90,6 @@ public class NodeTemplate {
      * Get properties
      *
      * @return properties
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -126,7 +118,6 @@ public class NodeTemplate {
      * Get requirements
      *
      * @return requirements
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -157,7 +148,6 @@ public class NodeTemplate {
      * Get interfaces
      *
      * @return interfaces
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -186,7 +176,6 @@ public class NodeTemplate {
      * Get capabilities
      *
      * @return capabilities
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -207,7 +196,6 @@ public class NodeTemplate {
      * Get type
      *
      * @return type
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -228,7 +216,6 @@ public class NodeTemplate {
      * Get description
      *
      * @return description
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -257,7 +244,6 @@ public class NodeTemplate {
      * Get directives
      *
      * @return directives
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -286,7 +272,6 @@ public class NodeTemplate {
      * Get attributes
      *
      * @return attributes
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -315,7 +300,6 @@ public class NodeTemplate {
      * Get artifacts
      *
      * @return artifacts
-  *
      */
     @ApiModelProperty(value = "")
 

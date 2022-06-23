@@ -16,27 +16,26 @@
 package nl.uva.sne.drip.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.Map;
 
 /**
- *
  * @author S. Koulouzis.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageParameter implements Serializable {
-
-    private String url;
-    private String encoding;
-    private String value;
-    private String name;
-    private Map<String, String> attributes;
 
     public static final String NAME = "name";
     public static final String URL = "url";
     public static final String VALUE = "value";
     public static final String ENCODING = "encoding";
     public static final String TOSCA_TEMPLATE = "tosca_template";
+    private String url;
+    private String encoding;
+    private String value;
+    private String name;
+    private Map<String, String> attributes;
 
     public String getURL() {
         return this.url;
@@ -54,12 +53,12 @@ public class MessageParameter implements Serializable {
         this.encoding = encoding;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getValue() {

@@ -1,9 +1,10 @@
 package nl.uva.sne.drip.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
 
 /**
  * Provisioner
@@ -34,7 +35,6 @@ public class Provisioner {
      * Get name
      *
      * @return name
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -55,7 +55,6 @@ public class Provisioner {
      * Get version
      *
      * @return version
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -76,7 +75,6 @@ public class Provisioner {
      * Get description
      *
      * @return description
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -97,7 +95,6 @@ public class Provisioner {
      * Get toscaInterfaceType
      *
      * @return toscaInterfaceType
-  *
      */
     @ApiModelProperty(value = "")
 

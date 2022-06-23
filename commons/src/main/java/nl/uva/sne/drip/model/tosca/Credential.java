@@ -1,14 +1,15 @@
 package nl.uva.sne.drip.model.tosca;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.Id;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import org.springframework.data.annotation.Id;
+import java.util.Objects;
 
 /**
  * Credential
@@ -16,6 +17,23 @@ import org.springframework.data.annotation.Id;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-10T15:39:04.296Z")
 public class Credential {
+    @Id
+    @JsonIgnore
+    private String id;
+    @JsonProperty("protocol")
+    private String protocol = null;
+    @JsonProperty("token_type")
+    private String tokenType = null;
+    @JsonProperty("token")
+    private String token = null;
+    @JsonProperty("keys")
+    @Valid
+    private Map<String, String> keys = null;
+    @JsonProperty("user")
+    private String user = null;
+    @JsonProperty("cloud_provider_name")
+    private String cloudProviderName = null;
+
     /**
      * @return the id
      */
@@ -30,30 +48,6 @@ public class Credential {
         this.id = id;
     }
 
-    @Id
-    @JsonIgnore
-    private String id;
-
-    
-    @JsonProperty("protocol")
-    private String protocol = null;
-
-    @JsonProperty("token_type")
-    private String tokenType = null;
-
-    @JsonProperty("token")
-    private String token = null;
-
-    @JsonProperty("keys")
-    @Valid
-    private Map<String, String> keys = null;
-
-    @JsonProperty("user")
-    private String user = null;
-
-    @JsonProperty("cloud_provider_name")
-    private String cloudProviderName = null;
-
     public Credential protocol(String protocol) {
         this.protocol = protocol;
         return this;
@@ -63,7 +57,6 @@ public class Credential {
      * Get protocol
      *
      * @return protocol
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -84,7 +77,6 @@ public class Credential {
      * Get tokenType
      *
      * @return tokenType
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -105,7 +97,6 @@ public class Credential {
      * Get token
      *
      * @return token
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -134,7 +125,6 @@ public class Credential {
      * Get keys
      *
      * @return keys
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -155,7 +145,6 @@ public class Credential {
      * Get user
      *
      * @return user
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -176,7 +165,6 @@ public class Credential {
      * Get cloudProviderName
      *
      * @return cloudProviderName
-  *
      */
     @ApiModelProperty(value = "")
 

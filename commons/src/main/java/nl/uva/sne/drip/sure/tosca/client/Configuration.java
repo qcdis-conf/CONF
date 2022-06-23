@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl

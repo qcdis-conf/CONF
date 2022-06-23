@@ -1,14 +1,15 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * CloudsStormSubTopology
@@ -26,53 +27,15 @@ public class CloudsStormSubTopology {
 
     @JsonProperty("domain")
     private String domain = null;
-
-    /**
-     * Gets or Sets status
-     */
-    public enum StatusEnum {
-        FRESH("fresh"),
-        RUNNING("running"),
-        DELETED("deleted"),
-        FAILED("failed"),
-        STOPPED("stopped");
-
-        private String value;
-
-        StatusEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static StatusEnum fromValue(String text) {
-            for (StatusEnum b : StatusEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("status")
     private StatusEnum status = null;
-
     @JsonProperty("logsInfo")
     @Valid
     private Map<String, Object> logsInfo = null;
-
     @JsonProperty("subTopologyClass")
     private String subTopologyClass = null;
-
     @JsonProperty("sshKeyPairId")
     private String sshKeyPairId = null;
-
     @JsonProperty("scaledFrom")
     @Valid
     private Map<String, Object> scaledFrom = null;
@@ -81,11 +44,11 @@ public class CloudsStormSubTopology {
         this.topology = topology;
         return this;
     }
+
     /**
      * Get topology
      *
      * @return topology
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -106,7 +69,6 @@ public class CloudsStormSubTopology {
      * Get cloudProvider
      *
      * @return cloudProvider
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -127,7 +89,6 @@ public class CloudsStormSubTopology {
      * Get domain
      *
      * @return domain
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -148,7 +109,6 @@ public class CloudsStormSubTopology {
      * Get status
      *
      * @return status
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -177,7 +137,6 @@ public class CloudsStormSubTopology {
      * Get logsInfo
      *
      * @return logsInfo
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -198,7 +157,6 @@ public class CloudsStormSubTopology {
      * Get subTopologyClass
      *
      * @return subTopologyClass
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -219,7 +177,6 @@ public class CloudsStormSubTopology {
      * Get sshKeyPairId
      *
      * @return sshKeyPairId
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -248,7 +205,6 @@ public class CloudsStormSubTopology {
      * Get scaledFrom
      *
      * @return scaledFrom
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -310,5 +266,38 @@ public class CloudsStormSubTopology {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Gets or Sets status
+     */
+    public enum StatusEnum {
+        FRESH("fresh"),
+        RUNNING("running"),
+        DELETED("deleted"),
+        FAILED("failed"),
+        STOPPED("stopped");
+
+        private String value;
+
+        StatusEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static StatusEnum fromValue(String text) {
+            for (StatusEnum b : StatusEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 }

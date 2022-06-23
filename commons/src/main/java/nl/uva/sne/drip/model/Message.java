@@ -16,21 +16,26 @@
 package nl.uva.sne.drip.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import nl.uva.sne.drip.model.tosca.ToscaTemplate;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.io.Serializable;
-import java.util.List;
+import nl.uva.sne.drip.model.tosca.ToscaTemplate;
+
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
- *
- *
- *
  * @author S. Koulouzis.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Message implements Serializable {
+
+    @NotNull
+    private String owner;
+    @NotNull
+    private Long creationDate;
+    //    private List<MessageParameter> parameters;
+    private ToscaTemplate toscaTemplate;
+    private Exception exception;
 
     /**
      * @return the exception
@@ -45,17 +50,6 @@ public class Message implements Serializable {
     public void setException(Exception exception) {
         this.exception = exception;
     }
-
-    @NotNull
-    private String owner;
-    @NotNull
-    private Long creationDate;
-
-//    private List<MessageParameter> parameters;
-    private ToscaTemplate toscaTemplate;
-    
-    
-    private Exception exception;
 
     public Long getCreationDate() {
         return this.creationDate;

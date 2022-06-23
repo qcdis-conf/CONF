@@ -1,19 +1,15 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import nl.uva.sne.drip.model.cloud.storm.CloudsStormSubTopology;
-import nl.uva.sne.drip.model.cloud.storm.CloudsStormSubnets;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.util.Objects;
 
 /**
  * CloudsStormTopTopology
@@ -22,6 +18,20 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-11T15:13:55.016Z")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CloudsStormTopTopology {
+
+    @JsonProperty("userName")
+    private String userName = null;
+    @JsonProperty("publicKeyPath")
+    private String publicKeyPath = null;
+    @JsonProperty("topologies")
+    @Valid
+    private List<CloudsStormSubTopology> topologies = null;
+    @JsonProperty("subnets")
+    @Valid
+    private List<CloudsStormSubnets> subnets = null;
+    @JsonProperty("connections")
+    @Valid
+    private Map<String, Object> connections = null;
 
     /**
      * @return the connections
@@ -36,23 +46,6 @@ public class CloudsStormTopTopology {
     public void setConnections(Map<String, Object> connections) {
         this.connections = connections;
     }
-    @JsonProperty("userName")
-    private String userName = null;
-
-    @JsonProperty("publicKeyPath")
-    private String publicKeyPath = null;
-
-    @JsonProperty("topologies")
-    @Valid
-    private List<CloudsStormSubTopology> topologies = null;
-
-    @JsonProperty("subnets")
-    @Valid
-    private List<CloudsStormSubnets> subnets = null;
-
-    @JsonProperty("connections")
-    @Valid
-    private Map<String, Object> connections = null;
 
     public CloudsStormTopTopology userName(String userName) {
         this.userName = userName;
@@ -63,7 +56,6 @@ public class CloudsStormTopTopology {
      * Get userName
      *
      * @return userName
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -84,7 +76,6 @@ public class CloudsStormTopTopology {
      * Get publicKeyPath
      *
      * @return publicKeyPath
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -113,7 +104,6 @@ public class CloudsStormTopTopology {
      * Get topologies
      *
      * @return topologies
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -144,7 +134,6 @@ public class CloudsStormTopTopology {
      * Get subnets
      *
      * @return subnets
-  *
      */
     @ApiModelProperty(value = "")
 

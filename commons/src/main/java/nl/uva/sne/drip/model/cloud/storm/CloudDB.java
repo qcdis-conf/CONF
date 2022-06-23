@@ -1,11 +1,12 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
 
 /**
  * CloudDB
@@ -15,40 +16,8 @@ import org.springframework.validation.annotation.Validated;
 
 public class CloudDB {
 
-    /**
-     * Gets or Sets cloudProvider
-     */
-    public enum CloudProviderEnum {
-        EC2("EC2"),
-        EXOGENI("ExoGENI"),
-        EGI("EGI");
-
-        private String value;
-
-        CloudProviderEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static CloudProviderEnum fromValue(String text) {
-            for (CloudProviderEnum b : CloudProviderEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("cloudProvider")
     private CloudProviderEnum cloudProvider = null;
-
     @JsonProperty("dbInfoFile")
     private String dbInfoFile = null;
 
@@ -61,7 +30,6 @@ public class CloudDB {
      * Get cloudProvider
      *
      * @return cloudProvider
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -82,7 +50,6 @@ public class CloudDB {
      * Get dbInfoFile
      *
      * @return dbInfoFile
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -132,5 +99,36 @@ public class CloudDB {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Gets or Sets cloudProvider
+     */
+    public enum CloudProviderEnum {
+        EC2("EC2"),
+        EXOGENI("ExoGENI"),
+        EGI("EGI");
+
+        private String value;
+
+        CloudProviderEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static CloudProviderEnum fromValue(String text) {
+            for (CloudProviderEnum b : CloudProviderEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 }

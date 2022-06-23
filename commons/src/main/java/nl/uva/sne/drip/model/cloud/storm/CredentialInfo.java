@@ -1,9 +1,10 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
 
 /**
  * CredentialInfo
@@ -43,7 +44,6 @@ public class CredentialInfo {
      * Get userKeyName
      *
      * @return userKeyName
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -64,7 +64,6 @@ public class CredentialInfo {
      * Get keyAlias
      *
      * @return keyAlias
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -85,7 +84,6 @@ public class CredentialInfo {
      * Get keyPassword
      *
      * @return keyPassword
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -106,7 +104,6 @@ public class CredentialInfo {
      * Get proxyFileName
      *
      * @return proxyFileName
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -127,7 +124,6 @@ public class CredentialInfo {
      * Get trustedCertDirName
      *
      * @return trustedCertDirName
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -148,7 +144,6 @@ public class CredentialInfo {
      * Get accessKey
      *
      * @return accessKey
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -169,7 +164,6 @@ public class CredentialInfo {
      * Get secretKey
      *
      * @return secretKey
-  *
      */
     @ApiModelProperty(value = "")
 

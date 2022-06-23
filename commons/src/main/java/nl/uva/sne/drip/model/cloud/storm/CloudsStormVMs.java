@@ -1,13 +1,14 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * CloudsStormVMs
@@ -16,6 +17,25 @@ import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-12T18:26:54.530Z")
 
 public class CloudsStormVMs {
+
+    @JsonProperty("extraInfo")
+    @Valid
+    private Map<String, Object> extraInfo = null;
+    @JsonProperty("VMs")
+    @Valid
+    private List<CloudsStormVM> vms = null;
+    @JsonProperty("WhetherCreateVPC")
+    @Valid
+    private Boolean whetherCreateVPC;
+    @JsonProperty("SEngineClass")
+    @Valid
+    private String sEngineClass = null;
+    @JsonProperty("sliceName")
+    @Valid
+    private String sliceName = null;
+    @JsonProperty("duration")
+    @Valid
+    private Float duration = null;
 
     /**
      * @return the whetherCreateVPC
@@ -80,36 +100,12 @@ public class CloudsStormVMs {
         return sEngineClass;
     }
 
-    @JsonProperty("extraInfo")
-    @Valid
-    private Map<String, Object> extraInfo = null;
-
     /**
      * @param sEngineClass the sEngineClass to set
      */
     public void setsEngineClass(String sEngineClass) {
         this.sEngineClass = sEngineClass;
     }
-
-    @JsonProperty("VMs")
-    @Valid
-    private List<CloudsStormVM> vms = null;
-
-    @JsonProperty("WhetherCreateVPC")
-    @Valid
-    private Boolean whetherCreateVPC;
-
-    @JsonProperty("SEngineClass")
-    @Valid
-    private String sEngineClass = null;
-
-    @JsonProperty("sliceName")
-    @Valid
-    private String sliceName = null;
-
-    @JsonProperty("duration")
-    @Valid
-    private Float duration = null;
 
     public CloudsStormVMs vms(List<CloudsStormVM> vms) {
         this.vms = vms;
@@ -128,7 +124,6 @@ public class CloudsStormVMs {
      * Get vms
      *
      * @return vms
-     *
      */
     @ApiModelProperty(value = "")
 
