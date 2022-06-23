@@ -21,20 +21,11 @@ logger = logging.getLogger(__name__)
 done = False
 
 
-# if not getattr(logger, 'handler_set', None):
-# logger.setLevel(logging.INFO)
-# h = logging.StreamHandler()
-# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# h.setFormatter(formatter)
-# logger.addHandler(h)
-# logger.handler_set = True
-
-
-def init_chanel(rabbitmq_host, queue_name):
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
-    channel = connection.channel()
-    channel.queue_declare(queue=queue_name)
-    return channel, connection
+def init_chanel(rabbitmq_host, input_queue_name):
+    connection_param = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
+    channel = connection_param.channel()
+    channel.queue_declare(queue=input_queue_name)
+    return channel, connection_param
 
 
 def start(this_channel):
