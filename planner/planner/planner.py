@@ -88,7 +88,7 @@ class Planner:
         if ancestors_properties:
             for ancestors_property in ancestors_properties:
                 for node_prop in node.get_properties_objects():
-                    if ancestors_property.name == node_prop.name and isinstance(node_prop.value,dict) \
+                    if ancestors_property.name == node_prop.name and isinstance(node_prop.value, dict) \
                             and 'required' in node_prop.value and 'type' in node_prop.value:
                         default_property = get_default_value(ancestors_property)
                         if default_property:
@@ -137,7 +137,6 @@ class Planner:
             if new_spec_occurrences.name not in added_node_names:
                 self.tosca_template.nodetemplates.append(new_spec_occurrences)
         return self.tosca_template
-
 
     def get_node_template_property(self, prop_key, node_prop_dict):
         prop_value = self.spec_service.get_property(prop_key)
@@ -199,11 +198,6 @@ class Planner:
             all_requirements = def_type['requirements']
             logger.info('      Found requirements: ' + str(all_requirements) + ' for node: ' + node_type_name)
 
-        # Get the requirements for this node from the template. e.g. wordpress: connectsTo mysql
-        # node_requirements =  tosca_helper.get_node_requirements(node)
-        # if node_requirements:
-        #     all_requirements += node_requirements
-
         # Put them all together
         parent_requirements = tosca_helper.get_ancestors_requirements(node, self.all_node_types, self.all_custom_def)
         parent_type = tosca_helper.get_node_type_name(node)
@@ -259,7 +253,7 @@ class Planner:
         for req in all_requirements:
             key = next(iter(req))
             if not req[key]:
-                raise Exception('Requirement: '+str(req)+ ' is not properly defined')
+                raise Exception('Requirement: ' + str(req) + ' is not properly defined')
             if 'capability' in req[key]:
                 capability = req[key]['capability']
                 # Find all nodes in the definitions that have the capability: capability

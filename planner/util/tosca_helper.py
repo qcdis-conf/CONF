@@ -31,6 +31,7 @@ node_type_key_names_to_remove = ['capabilities', 'derived_from']
 
 def get_node_type_name(node):
     """Returns the node's type name as string"""
+    global node_type
     if isinstance(node, NodeTemplate):
         if node.type:
             if node.type and isinstance(node.type, str):
@@ -76,10 +77,11 @@ def get_node_type_requirements(type_name, all_nodes):
 
 def get_ancestors_requirements(node, all_nodes, all_custom_def, parent_requirements=None):
     """Recursively get all requirements all the way to the ROOT including the input node's"""
+    global parent_template
     if not parent_requirements:
         parent_requirements = []
     if isinstance(node, NodeTemplate):
-        # If node has parent and parent has requirements add them
+        # If node has parented and parent has requirements add them
         if node.parent_type and node.parent_type.requirements:
             if isinstance(node.parent_type.requirements, dict):
                 parent_requirements.append(node.parent_type.requirements)
@@ -151,13 +153,14 @@ def get_tosca_template_2_topology_template_dictionary(template):
 
 
 def contains_node_type(node_types_list, node_type_name):
+    global type_name
     if not node_types_list:
         return False
-    for node_type in node_types_list:
-        if isinstance(node_type, NodeTemplate):
-            type_name = node_type.type
-        elif isinstance(node_type, dict):
-            type_name = next(iter(node_type))
+    for a_node_type in node_types_list:
+        if isinstance(a_node_type, NodeTemplate):
+            type_name = a_node_type.type
+        elif isinstance(a_node_type, dict):
+            type_name = next(iter(a_node_type))
         if type_name == node_type_name:
             return True
     return False

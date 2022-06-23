@@ -25,14 +25,6 @@ from util import tosca_helper
 
 logger = logging.getLogger(__name__)
 
-# if not getattr(logger, 'handler_set', None):
-# logger.setLevel(logging.INFO)
-# h = logging.StreamHandler()
-# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# h.setFormatter(formatter)
-# logger.addHandler(h)
-# logger.handler_set = True
-
 done = False
 
 
@@ -40,13 +32,13 @@ def init_chanel(args):
     global rabbitmq_host
     if len(args) > 1:
         rabbitmq_host = args[1]
-        queue_name = args[2]  # planner
+        input_queue_name = args[2]  # planner
     else:
         rabbitmq_host = '127.0.0.1'
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
     channel = connection.channel()
-    channel.queue_declare(queue=queue_name)
+    channel.queue_declare(queue=input_queue_name)
     return channel, connection
 
 
