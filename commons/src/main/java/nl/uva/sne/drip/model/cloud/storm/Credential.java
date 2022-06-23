@@ -1,12 +1,13 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * Credential
@@ -44,7 +45,6 @@ public class Credential {
      * The optional protocol name. e.g. http,xauth,oauth2,ssh
      *
      * @return protocol
-  *
      */
     @ApiModelProperty(value = "The optional protocol name. e.g. http,xauth,oauth2,ssh")
 
@@ -66,7 +66,6 @@ public class Credential {
      * bearer, identifier
      *
      * @return tokenType
-  *
      */
     @ApiModelProperty(value = "The required token type. default: password. e.g. basic_auth,X-Auth-Token, bearer, identifier")
 
@@ -89,7 +88,6 @@ public class Credential {
      * 604bbe45ac7143a79e14f3158df67091, keypair_id
      *
      * @return token
-  *
      */
     @ApiModelProperty(value = "The required token used as a credential for authorization or access to a networked resource. e.g. mypassword, myusername:mypassword,  604bbe45ac7143a79e14f3158df67091, keypair_id")
 
@@ -118,7 +116,6 @@ public class Credential {
      * The optional list of protocol-specific keys or assertions.
      *
      * @return keys
-  *
      */
     @ApiModelProperty(value = "The optional list of protocol-specific keys or assertions.")
 
@@ -139,7 +136,6 @@ public class Credential {
      * The optional user (name or ID) used for non-token based credentials.
      *
      * @return user
-  *
      */
     @ApiModelProperty(value = "The optional user (name or ID) used for non-token based credentials.")
 
@@ -160,7 +156,6 @@ public class Credential {
      * The cloud provider name e.g. ec2.
      *
      * @return cloudProviderName
-  *
      */
     @ApiModelProperty(value = "The cloud provider name e.g. ec2.")
 

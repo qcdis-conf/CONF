@@ -24,33 +24,30 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
+import nl.uva.sne.drip.model.Exceptions.TypeExeption;
+import nl.uva.sne.drip.model.NodeTemplate;
+import nl.uva.sne.drip.model.NodeTemplateMap;
+import nl.uva.sne.drip.model.cloud.storm.CloudsStormSubTopology.StatusEnum;
+import nl.uva.sne.drip.model.cloud.storm.OpCode;
+import nl.uva.sne.drip.model.tosca.Credential;
+import nl.uva.sne.drip.model.tosca.ToscaTemplate;
+import nl.uva.sne.drip.sure.tosca.client.ApiException;
+import nl.uva.sne.drip.sure.tosca.client.Configuration;
+import nl.uva.sne.drip.sure.tosca.client.DefaultApi;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.uva.sne.drip.model.Exceptions.TypeExeption;
-import nl.uva.sne.drip.model.NodeTemplate;
-import nl.uva.sne.drip.model.NodeTemplateMap;
-import nl.uva.sne.drip.model.tosca.Credential;
-import nl.uva.sne.drip.model.tosca.ToscaTemplate;
-import nl.uva.sne.drip.sure.tosca.client.DefaultApi;
-import org.apache.commons.io.FileUtils;
-import nl.uva.sne.drip.sure.tosca.client.ApiException;
-import nl.uva.sne.drip.sure.tosca.client.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import static nl.uva.sne.drip.commons.utils.Constants.*;
-import nl.uva.sne.drip.model.cloud.storm.CloudsStormSubTopology.StatusEnum;
-import nl.uva.sne.drip.model.cloud.storm.OpCode;
 
 /**
- *
  * @author S. Koulouzis
  */
 public class ToscaHelper {
@@ -79,6 +76,58 @@ public class ToscaHelper {
         return true;
     }
 
+    public static NODE_STATES cloudStormStatus2NodeState(StatusEnum cloudStormStatus) {
+        if (cloudStormStatus.equals(StatusEnum.FRESH)) {
+            return null;
+        }
+        String cloudStormStatusStr = cloudStormStatus.toString().toUpperCase();
+        return NODE_STATES.valueOf(cloudStormStatusStr);
+    }
+
+    public static OpCode.OperationEnum NodeDesiredState2CloudStormOperation(NODE_STATES nodeDesiredState) {
+        switch (nodeDesiredState) {
+            case RUNNING:
+                return OpCode.OperationEnum.PROVISION;
+            case DELETED:
+                return OpCode.OperationEnum.DELETE;
+            case STARTED:
+                return OpCode.OperationEnum.START;
+            case STOPPED:
+                return OpCode.OperationEnum.STOP;
+            case H_SCALED:
+                return OpCode.OperationEnum.HSCALE;
+            case V_SCALED:
+                return OpCode.OperationEnum.VSCALE;
+            default:
+                return null;
+        }
+    }
+
+    public static StatusEnum nodeCurrentState2CloudStormStatus(NODE_STATES currentState) {
+        if (currentState == null) {
+            return StatusEnum.FRESH;
+        }
+        switch (currentState) {
+            case RUNNING:
+                return StatusEnum.RUNNING;
+            case DELETED:
+                return StatusEnum.DELETED;
+            case STARTED:
+                return StatusEnum.RUNNING;
+            case STOPPED:
+                return StatusEnum.STOPPED;
+            case H_SCALED:
+                return StatusEnum.RUNNING;
+            case V_SCALED:
+                return StatusEnum.RUNNING;
+            case FAILED:
+                return StatusEnum.FAILED;
+            default:
+                return null;
+        }
+
+    }
+
     /**
      * @return the id
      */
@@ -97,7 +146,7 @@ public class ToscaHelper {
 
     }
 
-    public void uploadToscaTemplate(ToscaTemplate toscaTemplate) throws JsonProcessingException, IOException, ApiException {
+    public void uploadToscaTemplate(ToscaTemplate toscaTemplate) throws IOException, ApiException {
         String ymlStr = objectMapper.writeValueAsString(toscaTemplate);
         File toscaTemplateFile = File.createTempFile("temp-toscaTemplate", ".yml");
         FileUtils.writeByteArrayToFile(toscaTemplateFile, ymlStr.getBytes());
@@ -334,14 +383,6 @@ public class ToscaHelper {
         return node;
     }
 
-    public static NODE_STATES cloudStormStatus2NodeState(StatusEnum cloudStormStatus) {
-        if (cloudStormStatus.equals(StatusEnum.FRESH)) {
-            return null;
-        }
-        String cloudStormStatusStr = cloudStormStatus.toString().toUpperCase();
-        return NODE_STATES.valueOf(cloudStormStatusStr);
-    }
-
     public KeyPair getKeyPairsFromVM(NodeTemplate vmMap) throws ApiException, TypeExeption, JSchException {
         if (vmMap.getType().equals(VM_TYPE)) {
             Map<String, Object> attributes = vmMap.getAttributes();
@@ -362,50 +403,6 @@ public class ToscaHelper {
             throw new TypeExeption("NodeTemplate is not of type: " + VM_TYPE + " it is of type: " + vmMap.getType());
         }
         return null;
-    }
-
-    public static OpCode.OperationEnum NodeDesiredState2CloudStormOperation(NODE_STATES nodeDesiredState) {
-        switch (nodeDesiredState) {
-            case RUNNING:
-                return OpCode.OperationEnum.PROVISION;
-            case DELETED:
-                return OpCode.OperationEnum.DELETE;
-            case STARTED:
-                return OpCode.OperationEnum.START;
-            case STOPPED:
-                return OpCode.OperationEnum.STOP;
-            case H_SCALED:
-                return OpCode.OperationEnum.HSCALE;
-            case V_SCALED:
-                return OpCode.OperationEnum.VSCALE;
-            default:
-                return null;
-        }
-    }
-
-    public static StatusEnum nodeCurrentState2CloudStormStatus(NODE_STATES currentState) {
-        if (currentState == null) {
-            return StatusEnum.FRESH;
-        }
-        switch (currentState) {
-            case RUNNING:
-                return StatusEnum.RUNNING;
-            case DELETED:
-                return StatusEnum.DELETED;
-            case STARTED:
-                return StatusEnum.RUNNING;
-            case STOPPED:
-                return StatusEnum.STOPPED;
-            case H_SCALED:
-                return StatusEnum.RUNNING;
-            case V_SCALED:
-                return StatusEnum.RUNNING;
-            case FAILED:
-                return StatusEnum.FAILED;
-            default:
-                return null;
-        }
-
     }
 
     public Map<String, Object> getNodeArtifacts(NodeTemplate nodeTemplate) {

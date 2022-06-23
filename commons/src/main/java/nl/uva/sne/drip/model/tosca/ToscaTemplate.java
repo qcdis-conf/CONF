@@ -1,16 +1,13 @@
 package nl.uva.sne.drip.model.tosca;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
 import org.springframework.data.annotation.Id;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import java.util.*;
 
 /**
  * ToscaTemplate
@@ -19,6 +16,60 @@ import org.springframework.data.annotation.Id;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-10T15:39:04.296Z")
 
 public class ToscaTemplate {
+
+    @Id
+    @JsonIgnore
+    private String id;
+    @JsonProperty("tosca_definitions_version")
+    private String toscaDefinitionsVersion = null;
+    @JsonProperty("tosca_default_namespace")
+    private String toscaDefaultNamespace = null;
+    @JsonProperty("template_name")
+    private String templateName = null;
+    @JsonProperty("topology_template")
+    private TopologyTemplate topologyTemplate = null;
+    @JsonProperty("template_author")
+    private String templateAuthor = null;
+    @JsonProperty("template_version")
+    private String templateVersion = null;
+    @JsonProperty("description")
+    private String description = null;
+    @JsonProperty("imports")
+    @Valid
+    private List<Map<String, Object>> imports = null;
+    @JsonProperty("dsl_definitions")
+    @Valid
+    private Map<String, Object> dslDefinitions = null;
+    @JsonProperty("node_types")
+    @Valid
+    private Map<String, Object> nodeTypes = null;
+    @JsonProperty("relationship_types")
+    @Valid
+    private Map<String, Object> relationshipTypes = null;
+    @JsonProperty("relationship_templates")
+    @Valid
+    private Map<String, Object> relationshipTemplates = null;
+    @JsonProperty("capability_types")
+    @Valid
+    private Map<String, Object> capabilityTypes = null;
+    @JsonProperty("artifact_types")
+    @Valid
+    private Map<String, Object> artifactTypes = null;
+    @JsonProperty("data_types")
+    @Valid
+    private Map<String, Object> dataTypes = null;
+    @JsonProperty("interface_types")
+    @Valid
+    private Map<String, Object> interfaceTypes = null;
+    @JsonProperty("policy_types")
+    @Valid
+    private Map<String, Object> policyTypes = null;
+    @JsonProperty("group_types")
+    @Valid
+    private Map<String, Object> groupTypes = null;
+    @JsonProperty("repositories")
+    @Valid
+    private Map<String, Object> repositories = null;
 
     public String getId() {
         return id;
@@ -31,79 +82,6 @@ public class ToscaTemplate {
         this.id = id;
     }
 
-    @Id
-    @JsonIgnore
-    private String id;
-
-    @JsonProperty("tosca_definitions_version")
-    private String toscaDefinitionsVersion = null;
-
-    @JsonProperty("tosca_default_namespace")
-    private String toscaDefaultNamespace = null;
-
-    @JsonProperty("template_name")
-    private String templateName = null;
-
-    @JsonProperty("topology_template")
-    private TopologyTemplate topologyTemplate = null;
-
-    @JsonProperty("template_author")
-    private String templateAuthor = null;
-
-    @JsonProperty("template_version")
-    private String templateVersion = null;
-
-    @JsonProperty("description")
-    private String description = null;
-
-    @JsonProperty("imports")
-    @Valid
-    private List<Map<String, Object>> imports = null;
-
-    @JsonProperty("dsl_definitions")
-    @Valid
-    private Map<String, Object> dslDefinitions = null;
-
-    @JsonProperty("node_types")
-    @Valid
-    private Map<String, Object> nodeTypes = null;
-
-    @JsonProperty("relationship_types")
-    @Valid
-    private Map<String, Object> relationshipTypes = null;
-
-    @JsonProperty("relationship_templates")
-    @Valid
-    private Map<String, Object> relationshipTemplates = null;
-
-    @JsonProperty("capability_types")
-    @Valid
-    private Map<String, Object> capabilityTypes = null;
-
-    @JsonProperty("artifact_types")
-    @Valid
-    private Map<String, Object> artifactTypes = null;
-
-    @JsonProperty("data_types")
-    @Valid
-    private Map<String, Object> dataTypes = null;
-
-    @JsonProperty("interface_types")
-    @Valid
-    private Map<String, Object> interfaceTypes = null;
-
-    @JsonProperty("policy_types")
-    @Valid
-    private Map<String, Object> policyTypes = null;
-
-    @JsonProperty("group_types")
-    @Valid
-    private Map<String, Object> groupTypes = null;
-
-    @JsonProperty("repositories")
-    @Valid
-    private Map<String, Object> repositories = null;
-
     public ToscaTemplate toscaDefinitionsVersion(String toscaDefinitionsVersion) {
         this.toscaDefinitionsVersion = toscaDefinitionsVersion;
         return this;
@@ -113,7 +91,6 @@ public class ToscaTemplate {
      * Get toscaDefinitionsVersion
      *
      * @return toscaDefinitionsVersion
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -134,7 +111,6 @@ public class ToscaTemplate {
      * Get toscaDefaultNamespace
      *
      * @return toscaDefaultNamespace
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -155,7 +131,6 @@ public class ToscaTemplate {
      * Get templateName
      *
      * @return templateName
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -176,7 +151,6 @@ public class ToscaTemplate {
      * Get topologyTemplate
      *
      * @return topologyTemplate
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -199,7 +173,6 @@ public class ToscaTemplate {
      * Get templateAuthor
      *
      * @return templateAuthor
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -220,7 +193,6 @@ public class ToscaTemplate {
      * Get templateVersion
      *
      * @return templateVersion
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -241,7 +213,6 @@ public class ToscaTemplate {
      * Get description
      *
      * @return description
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -270,7 +241,6 @@ public class ToscaTemplate {
      * Get imports
      *
      * @return imports
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -301,7 +271,6 @@ public class ToscaTemplate {
      * Get dslDefinitions
      *
      * @return dslDefinitions
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -330,7 +299,6 @@ public class ToscaTemplate {
      * Get nodeTypes
      *
      * @return nodeTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -359,7 +327,6 @@ public class ToscaTemplate {
      * Get relationshipTypes
      *
      * @return relationshipTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -388,7 +355,6 @@ public class ToscaTemplate {
      * Get relationshipTemplates
      *
      * @return relationshipTemplates
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -417,7 +383,6 @@ public class ToscaTemplate {
      * Get capabilityTypes
      *
      * @return capabilityTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -446,7 +411,6 @@ public class ToscaTemplate {
      * Get artifactTypes
      *
      * @return artifactTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -475,7 +439,6 @@ public class ToscaTemplate {
      * Get dataTypes
      *
      * @return dataTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -504,7 +467,6 @@ public class ToscaTemplate {
      * Get interfaceTypes
      *
      * @return interfaceTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -533,7 +495,6 @@ public class ToscaTemplate {
      * Get policyTypes
      *
      * @return policyTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -562,7 +523,6 @@ public class ToscaTemplate {
      * Get groupTypes
      *
      * @return groupTypes
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -591,7 +551,6 @@ public class ToscaTemplate {
      * Get repositories
      *
      * @return repositories
-     *
      */
     @ApiModelProperty(value = "")
 

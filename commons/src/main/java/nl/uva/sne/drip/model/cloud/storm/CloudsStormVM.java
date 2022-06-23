@@ -1,13 +1,14 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * CloudsStormVM
@@ -16,6 +17,73 @@ import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-12T18:26:54.530Z")
 
 public class CloudsStormVM {
+
+    @JsonProperty("name")
+    private String name = null;
+    @JsonProperty("nodeType")
+    @JsonAlias({"type"})
+    private String nodeType = null;
+    @JsonProperty("VEngineClass")
+    private String VEngineClass = null;
+    @JsonProperty("OStype")
+    @JsonAlias({"os", "OS"})
+    private String ostype = null;
+    @JsonProperty("script")
+    private String script = null;
+    @JsonProperty("publicAddress")
+    private String publicAddress = null;
+    @JsonProperty("extraInfo")
+    @Valid
+    private Map<String, Object> extraInfo = null;
+    @JsonProperty("CPU")
+    @JsonAlias({"cpu"})
+    private String CPU = null;
+    @JsonProperty("MEM")
+    @JsonAlias({"Mem"})
+    private String MEM = null;
+    @JsonProperty("VMType")
+    @JsonAlias({"type"})
+    private String vmType = null;
+    @JsonProperty("Price")
+    private String price = null;
+    @JsonProperty("DefaultSSHAccount")
+    @JsonAlias({"defaultSSHAccount"})
+    private String defaultSSHAccount = null;
+    @JsonProperty("availability")
+    private String availability = null;
+    @JsonProperty("selfEthAddresses")
+    private String selfEthAddresses = null;
+    @JsonProperty("VEngineClass")
+    private String vEngineClass = null;
+    @JsonProperty("VNFType")
+    private String vNFType = null;
+    @JsonProperty("scaledFrom")
+    private String scaledFrom = null;
+    @JsonProperty("fake")
+    private String fake = null;
+    @JsonProperty("OS_URL")
+    private String OS_URL = null;
+    @JsonProperty("OS_GUID")
+    private String OS_GUID = null;
+    @JsonProperty("diskSize")
+    @JsonAlias({"DiskSize"})
+    private Integer diskSize;
+    @JsonProperty("IOPS")
+    private Integer iOPS;
+    @JsonProperty("vpcId")
+    private String vpcId;
+    @JsonProperty("subnetId")
+    private String subnetId;
+    @JsonProperty("securityGroupId")
+    private String securityGroupId;
+    @JsonProperty("instanceId")
+    private String instanceId;
+    @JsonProperty("volumeId")
+    private Object volumeId;
+    @JsonProperty("routeTableId")
+    private String routeTableId;
+    @JsonProperty("internetGatewayId")
+    private String internetGatewayId;
 
     /**
      * @return the iOPS
@@ -255,77 +323,6 @@ public class CloudsStormVM {
         this.selfEthAddresses = selfEthAddresses;
     }
 
-    @JsonProperty("name")
-    private String name = null;
-
-    @JsonProperty("nodeType")
-    @JsonAlias({"type"})
-    private String nodeType = null;
-
-    @JsonProperty("VEngineClass")
-    private String VEngineClass = null;
-
-    @JsonProperty("OStype")
-    @JsonAlias({"os", "OS"})
-    private String ostype = null;
-
-    @JsonProperty("script")
-    private String script = null;
-
-    @JsonProperty("publicAddress")
-    private String publicAddress = null;
-
-    @JsonProperty("extraInfo")
-    @Valid
-    private Map<String, Object> extraInfo = null;
-
-    @JsonProperty("CPU")
-    @JsonAlias({"cpu"})
-    private String CPU = null;
-
-    @JsonProperty("MEM")
-    @JsonAlias({"Mem"})
-    private String MEM = null;
-
-    @JsonProperty("VMType")
-    @JsonAlias({"type"})
-    private String vmType = null;
-
-    @JsonProperty("Price")
-    private String price = null;
-
-    @JsonProperty("DefaultSSHAccount")
-    @JsonAlias({"defaultSSHAccount"})
-    private String defaultSSHAccount = null;
-
-    @JsonProperty("availability")
-    private String availability = null;
-
-    @JsonProperty("selfEthAddresses")
-    private String selfEthAddresses = null;
-
-    @JsonProperty("VEngineClass")
-    private String vEngineClass = null;
-
-    @JsonProperty("VNFType")
-    private String vNFType = null;
-
-    @JsonProperty("scaledFrom")
-    private String scaledFrom = null;
-
-    @JsonProperty("fake")
-    private String fake = null;
-
-    @JsonProperty("OS_URL")
-    private String OS_URL = null;
-
-    @JsonProperty("OS_GUID")
-    private String OS_GUID = null;
-
-    @JsonProperty("diskSize")
-    @JsonAlias({"DiskSize"})
-    private Integer diskSize;
-
     public CloudsStormVM name(String name) {
         this.name = name;
         return this;
@@ -335,7 +332,6 @@ public class CloudsStormVM {
      * Get name
      *
      * @return name
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -356,7 +352,6 @@ public class CloudsStormVM {
      * Get nodeType
      *
      * @return nodeType
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -377,7 +372,6 @@ public class CloudsStormVM {
      * Get ostype
      *
      * @return ostype
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -398,7 +392,6 @@ public class CloudsStormVM {
      * Get script
      *
      * @return script
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -419,7 +412,6 @@ public class CloudsStormVM {
      * Get publicAddress
      *
      * @return publicAddress
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -431,7 +423,7 @@ public class CloudsStormVM {
         this.publicAddress = publicAddress;
     }
 
-//    public CloudsStormVM type(String type) {
+    //    public CloudsStormVM type(String type) {
 //        this.type = type;
 //        return this;
 //    }
@@ -468,7 +460,6 @@ public class CloudsStormVM {
      * Get extraInfo
      *
      * @return extraInfo
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -480,7 +471,7 @@ public class CloudsStormVM {
         this.extraInfo = extraInfo;
     }
 
-//    public CloudsStormVM OS(String OS) {
+    //    public CloudsStormVM OS(String OS) {
 //        this.OS = OS;
 //        return this;
 //    }
@@ -509,7 +500,6 @@ public class CloudsStormVM {
      * Get CPU
      *
      * @return CPU
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -530,7 +520,6 @@ public class CloudsStormVM {
      * Get MEM
      *
      * @return MEM
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -551,7 +540,6 @@ public class CloudsStormVM {
      * Get vmType
      *
      * @return vmType
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -572,7 +560,6 @@ public class CloudsStormVM {
      * Get price
      *
      * @return price
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -593,7 +580,6 @@ public class CloudsStormVM {
      * Get defaultSSHAccount
      *
      * @return defaultSSHAccount
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -614,7 +600,6 @@ public class CloudsStormVM {
      * Get availability
      *
      * @return availability
-     *
      */
     @ApiModelProperty(value = "")
 
@@ -689,22 +674,5 @@ public class CloudsStormVM {
         }
         return o.toString().replace("\n", "\n    ");
     }
-
-    @JsonProperty("IOPS")
-    private Integer iOPS;
-    @JsonProperty("vpcId")
-    private String vpcId;
-    @JsonProperty("subnetId")
-    private String subnetId;
-    @JsonProperty("securityGroupId")
-    private String securityGroupId;
-    @JsonProperty("instanceId")
-    private String instanceId;
-    @JsonProperty("volumeId")
-    private Object volumeId;
-    @JsonProperty("routeTableId")
-    private String routeTableId;
-    @JsonProperty("internetGatewayId")
-    private String internetGatewayId;
 
 }

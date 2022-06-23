@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -14,16 +14,16 @@
 package nl.uva.sne.drip.sure.tosca.auth;
 
 
-
-import java.util.Map;
-import java.util.List;
 import nl.uva.sne.drip.sure.tosca.client.Pair;
+
+import java.util.List;
+import java.util.Map;
 
 public interface Authentication {
     /**
      * Apply authentication settings to header and query params.
      *
-     * @param queryParams List of query parameters
+     * @param queryParams  List of query parameters
      * @param headerParams Map of header parameters
      */
     void applyToParams(List<Pair> queryParams, Map<String, String> headerParams);

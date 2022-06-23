@@ -16,7 +16,6 @@
 package nl.uva.sne.drip.commons.utils;
 
 /**
- *
  * @author S. Koulouzis
  */
 public class Constants {
@@ -33,7 +32,7 @@ public class Constants {
     public static final String ENCODED_FILE_DATATYPE = "tosca.datatypes.QC.encodedFile";
     public static final String CLOUD_STORM_FILES_ZIP_SUFIX = "cloudStromFiles.zip";
 
-    public static enum NODE_STATES {
+    public enum NODE_STATES {
         DELETED, STARTED, STOPPED, H_SCALED, V_SCALED, CONFIGURED, RUNNING, FAILED
     }
 

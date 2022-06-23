@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -12,19 +12,17 @@
 package nl.uva.sne.drip.sure.tosca.client;
 
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
+import nl.uva.sne.drip.model.NodeTemplateMap;
+import nl.uva.sne.drip.model.tosca.TopologyTemplate;
+import nl.uva.sne.drip.model.tosca.ToscaTemplate;
 
 import java.io.File;
-
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import nl.uva.sne.drip.model.NodeTemplateMap;
-import nl.uva.sne.drip.model.tosca.TopologyTemplate;
-import nl.uva.sne.drip.model.tosca.ToscaTemplate;
 
 public class DefaultApi {
 
@@ -49,9 +47,9 @@ public class DefaultApi {
     /**
      * Build call for getAllAncestorProperties
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -61,8 +59,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/ancestors_properties"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -72,7 +70,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -118,15 +116,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Recursively get all requirements all the way to the ROOT including the
      * input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return List&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<Map<String, Object>> getAllAncestorProperties(String id, String nodeName) throws ApiException {
         ApiResponse<List<Map<String, Object>>> resp = getAllAncestorPropertiesWithHttpInfo(id, nodeName);
@@ -134,15 +131,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Recursively get all requirements all the way to the ROOT including the
      * input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<Map<String, Object>>> getAllAncestorPropertiesWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getAllAncestorPropertiesValidateBeforeCall(id, nodeName, null, null);
@@ -155,12 +151,12 @@ public class DefaultApi {
      * (asynchronously) Recursively get all requirements all the way to the ROOT
      * including the input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getAllAncestorPropertiesAsync(String id, String nodeName, final ApiCallback<List<Map<String, Object>>> callback) throws ApiException {
 
@@ -193,9 +189,9 @@ public class DefaultApi {
     /**
      * Build call for getAllAncestorTypes
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -205,8 +201,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/ancestors_types"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -216,7 +212,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -262,15 +258,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Recursively get all requirements all the way to the ROOT including the
      * input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return List&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<String> getAllAncestorTypes(String id, String nodeName) throws ApiException {
         ApiResponse<List<String>> resp = getAllAncestorTypesWithHttpInfo(id, nodeName);
@@ -278,15 +273,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Recursively get all requirements all the way to the ROOT including the
      * input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;List&lt;String&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<String>> getAllAncestorTypesWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getAllAncestorTypesValidateBeforeCall(id, nodeName, null, null);
@@ -299,12 +293,12 @@ public class DefaultApi {
      * (asynchronously) Recursively get all requirements all the way to the ROOT
      * including the input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getAllAncestorTypesAsync(String id, String nodeName, final ApiCallback<List<String>> callback) throws ApiException {
 
@@ -337,9 +331,9 @@ public class DefaultApi {
     /**
      * Build call for getAncestorsRequirements
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -349,8 +343,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/ancestors_requirements"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -360,7 +354,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -406,15 +400,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Recursively get all requirements all the way to the ROOT including the
      * input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return Map&lt;String, Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public Map<String, Object> getAncestorsRequirements(String id, String nodeName) throws ApiException {
         ApiResponse<Map<String, Object>> resp = getAncestorsRequirementsWithHttpInfo(id, nodeName);
@@ -422,15 +415,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Recursively get all requirements all the way to the ROOT including the
      * input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<Map<String, Object>> getAncestorsRequirementsWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getAncestorsRequirementsValidateBeforeCall(id, nodeName, null, null);
@@ -443,12 +435,12 @@ public class DefaultApi {
      * (asynchronously) Recursively get all requirements all the way to the ROOT
      * including the input node&#39;s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getAncestorsRequirementsAsync(String id, String nodeName, final ApiCallback<Map<String, Object>> callback) throws ApiException {
 
@@ -481,11 +473,11 @@ public class DefaultApi {
     /**
      * Build call for getDefaultInterface
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param interfaceType type to instantiate (required)
-     * @param instanceName the name of the instance to retrun (required)
-     * @param operationName the name of operation (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param interfaceType           type to instantiate (required)
+     * @param instanceName            the name of the instance to retrun (required)
+     * @param operationName           the name of operation (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -495,8 +487,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/interface/{interface_type}/default"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "interface_type" + "\\}", apiClient.escapeString(interfaceType.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "interface_type" + "\\}", apiClient.escapeString(interfaceType));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -512,7 +504,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -568,16 +560,15 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns an interface instance with the default required values.
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id            ID of topolog template uplodaed (required)
      * @param interfaceType type to instantiate (required)
-     * @param instanceName the name of the instance to retrun (required)
+     * @param instanceName  the name of the instance to retrun (required)
      * @param operationName the name of operation (required)
      * @return Map&lt;String, Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public Map<String, Object> getDefaultInterface(String id, String interfaceType, String instanceName, String operationName) throws ApiException {
         ApiResponse<Map<String, Object>> resp = getDefaultInterfaceWithHttpInfo(id, interfaceType, instanceName, operationName);
@@ -585,16 +576,15 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns an interface instance with the default required values.
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id            ID of topolog template uplodaed (required)
      * @param interfaceType type to instantiate (required)
-     * @param instanceName the name of the instance to retrun (required)
+     * @param instanceName  the name of the instance to retrun (required)
      * @param operationName the name of operation (required)
      * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<Map<String, Object>> getDefaultInterfaceWithHttpInfo(String id, String interfaceType, String instanceName, String operationName) throws ApiException {
         com.squareup.okhttp.Call call = getDefaultInterfaceValidateBeforeCall(id, interfaceType, instanceName, operationName, null, null);
@@ -607,14 +597,14 @@ public class DefaultApi {
      * (asynchronously) returns an interface instance with the default required
      * values.
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id            ID of topolog template uplodaed (required)
      * @param interfaceType type to instantiate (required)
-     * @param instanceName the name of the instance to retrun (required)
+     * @param instanceName  the name of the instance to retrun (required)
      * @param operationName the name of operation (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param callback      The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getDefaultInterfaceAsync(String id, String interfaceType, String instanceName, String operationName, final ApiCallback<Map<String, Object>> callback) throws ApiException {
 
@@ -647,10 +637,10 @@ public class DefaultApi {
     /**
      * Build call for getDefaultNodeType
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeType type to instantiate (required)
-     * @param instanceName the name of tghe instance to retrun (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeType                type to instantiate (required)
+     * @param instanceName            the name of tghe instance to retrun (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -660,8 +650,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/node_types/{node_type}/default"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_type" + "\\}", apiClient.escapeString(nodeType.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_type" + "\\}", apiClient.escapeString(nodeType));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -674,7 +664,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -725,15 +715,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns an node templaye instance with the default required values.
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeType type to instantiate (required)
+     * @param id           ID of topolog template uplodaed (required)
+     * @param nodeType     type to instantiate (required)
      * @param instanceName the name of tghe instance to retrun (required)
      * @return NodeTemplateMap
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public NodeTemplateMap getDefaultNodeType(String id, String nodeType, String instanceName) throws ApiException {
         ApiResponse<NodeTemplateMap> resp = getDefaultNodeTypeWithHttpInfo(id, nodeType, instanceName);
@@ -741,15 +730,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns an node templaye instance with the default required values.
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeType type to instantiate (required)
+     * @param id           ID of topolog template uplodaed (required)
+     * @param nodeType     type to instantiate (required)
      * @param instanceName the name of tghe instance to retrun (required)
      * @return ApiResponse&lt;NodeTemplateMap&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<NodeTemplateMap> getDefaultNodeTypeWithHttpInfo(String id, String nodeType, String instanceName) throws ApiException {
         com.squareup.okhttp.Call call = getDefaultNodeTypeValidateBeforeCall(id, nodeType, instanceName, null, null);
@@ -762,13 +750,13 @@ public class DefaultApi {
      * (asynchronously) returns an node templaye instance with the default
      * required values.
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeType type to instantiate (required)
+     * @param id           ID of topolog template uplodaed (required)
+     * @param nodeType     type to instantiate (required)
      * @param instanceName the name of tghe instance to retrun (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param callback     The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getDefaultNodeTypeAsync(String id, String nodeType, String instanceName, final ApiCallback<NodeTemplateMap> callback) throws ApiException {
 
@@ -801,10 +789,10 @@ public class DefaultApi {
     /**
      * Build call for getDslDefinitions
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param anchors the anchors the definition is for (optional)
-     * @param derivedFrom derived from (optional)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param anchors                 the anchors the definition is for (optional)
+     * @param derivedFrom             derived from (optional)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -814,7 +802,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/dsl_definitions"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -830,7 +818,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -871,15 +859,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param anchors the anchors the definition is for (optional)
+     * @param id          ID of topolog template uplodaed (required)
+     * @param anchors     the anchors the definition is for (optional)
      * @param derivedFrom derived from (optional)
      * @return List&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<Map<String, Object>> getDslDefinitions(String id, List<String> anchors, String derivedFrom) throws ApiException {
         ApiResponse<List<Map<String, Object>>> resp = getDslDefinitionsWithHttpInfo(id, anchors, derivedFrom);
@@ -887,15 +874,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param anchors the anchors the definition is for (optional)
+     * @param id          ID of topolog template uplodaed (required)
+     * @param anchors     the anchors the definition is for (optional)
      * @param derivedFrom derived from (optional)
      * @return ApiResponse&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<Map<String, Object>>> getDslDefinitionsWithHttpInfo(String id, List<String> anchors, String derivedFrom) throws ApiException {
         com.squareup.okhttp.Call call = getDslDefinitionsValidateBeforeCall(id, anchors, derivedFrom, null, null);
@@ -907,13 +893,13 @@ public class DefaultApi {
     /**
      * (asynchronously) returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param anchors the anchors the definition is for (optional)
+     * @param id          ID of topolog template uplodaed (required)
+     * @param anchors     the anchors the definition is for (optional)
      * @param derivedFrom derived from (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param callback    The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getDslDefinitionsAsync(String id, List<String> anchors, String derivedFrom, final ApiCallback<List<Map<String, Object>>> callback) throws ApiException {
 
@@ -946,8 +932,8 @@ public class DefaultApi {
     /**
      * Build call for getImports
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -957,7 +943,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/imports"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -967,7 +953,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1008,13 +994,12 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
      * @param id ID of topolog template uplodaed (required)
      * @return List&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<Map<String, Object>> getImports(String id) throws ApiException {
         ApiResponse<List<Map<String, Object>>> resp = getImportsWithHttpInfo(id);
@@ -1022,13 +1007,12 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
      * @param id ID of topolog template uplodaed (required)
      * @return ApiResponse&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<Map<String, Object>>> getImportsWithHttpInfo(String id) throws ApiException {
         com.squareup.okhttp.Call call = getImportsValidateBeforeCall(id, null, null);
@@ -1040,11 +1024,11 @@ public class DefaultApi {
     /**
      * (asynchronously) returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getImportsAsync(String id, final ApiCallback<List<Map<String, Object>>> callback) throws ApiException {
 
@@ -1077,9 +1061,9 @@ public class DefaultApi {
     /**
      * Build call for getNodeAttributes
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1089,8 +1073,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/attributes"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1100,7 +1084,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1146,13 +1130,11 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return Map&lt;String, Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public Map<String, Object> getNodeAttributes(String id, String nodeName) throws ApiException {
         ApiResponse<Map<String, Object>> resp = getNodeAttributesWithHttpInfo(id, nodeName);
@@ -1160,13 +1142,11 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<Map<String, Object>> getNodeAttributesWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getNodeAttributesValidateBeforeCall(id, nodeName, null, null);
@@ -1178,12 +1158,12 @@ public class DefaultApi {
     /**
      * (asynchronously)
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getNodeAttributesAsync(String id, String nodeName, final ApiCallback<Map<String, Object>> callback) throws ApiException {
 
@@ -1216,9 +1196,9 @@ public class DefaultApi {
     /**
      * Build call for getNodeOutputs
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1228,8 +1208,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/outputs"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1239,7 +1219,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1285,14 +1265,13 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return List&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<Map<String, Object>> getNodeOutputs(String id, String nodeName) throws ApiException {
         ApiResponse<List<Map<String, Object>>> resp = getNodeOutputsWithHttpInfo(id, nodeName);
@@ -1300,14 +1279,13 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<Map<String, Object>>> getNodeOutputsWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getNodeOutputsValidateBeforeCall(id, nodeName, null, null);
@@ -1319,12 +1297,12 @@ public class DefaultApi {
     /**
      * (asynchronously) s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getNodeOutputsAsync(String id, String nodeName, final ApiCallback<List<Map<String, Object>>> callback) throws ApiException {
 
@@ -1357,9 +1335,9 @@ public class DefaultApi {
     /**
      * Build call for getNodeProperties
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1369,8 +1347,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/properties"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1380,7 +1358,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1426,14 +1404,13 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return Map&lt;String, Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public Map<String, Object> getNodeProperties(String id, String nodeName) throws ApiException {
         ApiResponse<Map<String, Object>> resp = getNodePropertiesWithHttpInfo(id, nodeName);
@@ -1441,14 +1418,13 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<Map<String, Object>> getNodePropertiesWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getNodePropertiesValidateBeforeCall(id, nodeName, null, null);
@@ -1460,12 +1436,12 @@ public class DefaultApi {
     /**
      * (asynchronously) s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getNodePropertiesAsync(String id, String nodeName, final ApiCallback<Map<String, Object>> callback) throws ApiException {
 
@@ -1498,9 +1474,9 @@ public class DefaultApi {
     /**
      * Build call for getNodeRequirements
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1510,8 +1486,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/requirements"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1521,7 +1497,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1567,15 +1543,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Returns the requirements for an input node as described in the template
      * not in the node&#39;s definition
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return Map&lt;String, Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public Map<String, Object> getNodeRequirements(String id, String nodeName) throws ApiException {
         ApiResponse<Map<String, Object>> resp = getNodeRequirementsWithHttpInfo(id, nodeName);
@@ -1583,15 +1558,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * Returns the requirements for an input node as described in the template
      * not in the node&#39;s definition
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<Map<String, Object>> getNodeRequirementsWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getNodeRequirementsValidateBeforeCall(id, nodeName, null, null);
@@ -1604,12 +1578,12 @@ public class DefaultApi {
      * (asynchronously) Returns the requirements for an input node as described
      * in the template not in the node&#39;s definition
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getNodeRequirementsAsync(String id, String nodeName, final ApiCallback<Map<String, Object>> callback) throws ApiException {
 
@@ -1642,16 +1616,16 @@ public class DefaultApi {
     /**
      * Build call for getNodeTemplates
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The type (optional)
-     * @param nodeName the name (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
-     * @param hasRequirements filter if has requirements (optional)
-     * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param typeName                The type (optional)
+     * @param nodeName                the name (optional)
+     * @param hasInterfaces           filter if has interfaces (optional)
+     * @param hasProperties           filter if has properties (optional)
+     * @param hasAttributes           filter if has attributes (optional)
+     * @param hasRequirements         filter if has requirements (optional)
+     * @param hasCapabilities         filter if has capabilities (optional)
+     * @param hasArtifacts            filter if has artifacts (optional)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1661,7 +1635,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1695,7 +1669,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1736,21 +1710,20 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns nodes templates in topology
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The type (optional)
-     * @param nodeName the name (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
+     * @param id              ID of topolog template uplodaed (required)
+     * @param typeName        The type (optional)
+     * @param nodeName        the name (optional)
+     * @param hasInterfaces   filter if has interfaces (optional)
+     * @param hasProperties   filter if has properties (optional)
+     * @param hasAttributes   filter if has attributes (optional)
      * @param hasRequirements filter if has requirements (optional)
      * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
+     * @param hasArtifacts    filter if has artifacts (optional)
      * @return List&lt;NodeTemplateMap&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<NodeTemplateMap> getNodeTemplates(String id, String typeName, String nodeName, Boolean hasInterfaces, Boolean hasProperties, Boolean hasAttributes, Boolean hasRequirements, Boolean hasCapabilities, Boolean hasArtifacts) throws ApiException {
         ApiResponse<List<NodeTemplateMap>> resp = getNodeTemplatesWithHttpInfo(id, typeName, nodeName, hasInterfaces, hasProperties, hasAttributes, hasRequirements, hasCapabilities, hasArtifacts);
@@ -1758,21 +1731,20 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns nodes templates in topology
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The type (optional)
-     * @param nodeName the name (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
+     * @param id              ID of topolog template uplodaed (required)
+     * @param typeName        The type (optional)
+     * @param nodeName        the name (optional)
+     * @param hasInterfaces   filter if has interfaces (optional)
+     * @param hasProperties   filter if has properties (optional)
+     * @param hasAttributes   filter if has attributes (optional)
      * @param hasRequirements filter if has requirements (optional)
      * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
+     * @param hasArtifacts    filter if has artifacts (optional)
      * @return ApiResponse&lt;List&lt;NodeTemplateMap&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<NodeTemplateMap>> getNodeTemplatesWithHttpInfo(String id, String typeName, String nodeName, Boolean hasInterfaces, Boolean hasProperties, Boolean hasAttributes, Boolean hasRequirements, Boolean hasCapabilities, Boolean hasArtifacts) throws ApiException {
         com.squareup.okhttp.Call call = getNodeTemplatesValidateBeforeCall(id, typeName, nodeName, hasInterfaces, hasProperties, hasAttributes, hasRequirements, hasCapabilities, hasArtifacts, null, null);
@@ -1784,19 +1756,19 @@ public class DefaultApi {
     /**
      * (asynchronously) returns nodes templates in topology
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The type (optional)
-     * @param nodeName the name (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
+     * @param id              ID of topolog template uplodaed (required)
+     * @param typeName        The type (optional)
+     * @param nodeName        the name (optional)
+     * @param hasInterfaces   filter if has interfaces (optional)
+     * @param hasProperties   filter if has properties (optional)
+     * @param hasAttributes   filter if has attributes (optional)
      * @param hasRequirements filter if has requirements (optional)
      * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param hasArtifacts    filter if has artifacts (optional)
+     * @param callback        The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getNodeTemplatesAsync(String id, String typeName, String nodeName, Boolean hasInterfaces, Boolean hasProperties, Boolean hasAttributes, Boolean hasRequirements, Boolean hasCapabilities, Boolean hasArtifacts, final ApiCallback<List<NodeTemplateMap>> callback) throws ApiException {
 
@@ -1829,9 +1801,9 @@ public class DefaultApi {
     /**
      * Build call for getNodeTypeName
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1841,8 +1813,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/type_name"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1852,7 +1824,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1898,13 +1870,11 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public String getNodeTypeName(String id, String nodeName) throws ApiException {
         ApiResponse<String> resp = getNodeTypeNameWithHttpInfo(id, nodeName);
@@ -1912,13 +1882,11 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<String> getNodeTypeNameWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getNodeTypeNameValidateBeforeCall(id, nodeName, null, null);
@@ -1930,12 +1898,12 @@ public class DefaultApi {
     /**
      * (asynchronously)
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getNodeTypeNameAsync(String id, String nodeName, final ApiCallback<String> callback) throws ApiException {
 
@@ -1968,9 +1936,9 @@ public class DefaultApi {
     /**
      * Build call for getParentTypeName
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1980,8 +1948,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/derived_from"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1991,7 +1959,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2037,13 +2005,11 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public String getParentTypeName(String id, String nodeName) throws ApiException {
         ApiResponse<String> resp = getParentTypeNameWithHttpInfo(id, nodeName);
@@ -2051,13 +2017,11 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<String> getParentTypeNameWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getParentTypeNameValidateBeforeCall(id, nodeName, null, null);
@@ -2069,12 +2033,12 @@ public class DefaultApi {
     /**
      * (asynchronously)
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getParentTypeNameAsync(String id, String nodeName, final ApiCallback<String> callback) throws ApiException {
 
@@ -2107,9 +2071,9 @@ public class DefaultApi {
     /**
      * Build call for getRelatedNodes
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2119,8 +2083,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/related"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2130,7 +2094,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2176,14 +2140,13 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return List&lt;NodeTemplateMap&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<NodeTemplateMap> getRelatedNodes(String id, String nodeName) throws ApiException {
         ApiResponse<List<NodeTemplateMap>> resp = getRelatedNodesWithHttpInfo(id, nodeName);
@@ -2191,14 +2154,13 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @return ApiResponse&lt;List&lt;NodeTemplateMap&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<NodeTemplateMap>> getRelatedNodesWithHttpInfo(String id, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = getRelatedNodesValidateBeforeCall(id, nodeName, null, null);
@@ -2210,12 +2172,12 @@ public class DefaultApi {
     /**
      * (asynchronously) s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param nodeName node_name (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getRelatedNodesAsync(String id, String nodeName, final ApiCallback<List<NodeTemplateMap>> callback) throws ApiException {
 
@@ -2248,10 +2210,10 @@ public class DefaultApi {
     /**
      * Build call for getRelationshipTemplates
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The relationship type (optional)
-     * @param derivedFrom derived from (optional)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param typeName                The relationship type (optional)
+     * @param derivedFrom             derived from (optional)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2261,7 +2223,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/relationship_templates"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2277,7 +2239,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2318,15 +2280,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The relationship type (optional)
+     * @param id          ID of topolog template uplodaed (required)
+     * @param typeName    The relationship type (optional)
      * @param derivedFrom derived from (optional)
      * @return List&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<Map<String, Object>> getRelationshipTemplates(String id, String typeName, String derivedFrom) throws ApiException {
         ApiResponse<List<Map<String, Object>>> resp = getRelationshipTemplatesWithHttpInfo(id, typeName, derivedFrom);
@@ -2334,15 +2295,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The relationship type (optional)
+     * @param id          ID of topolog template uplodaed (required)
+     * @param typeName    The relationship type (optional)
      * @param derivedFrom derived from (optional)
      * @return ApiResponse&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<Map<String, Object>>> getRelationshipTemplatesWithHttpInfo(String id, String typeName, String derivedFrom) throws ApiException {
         com.squareup.okhttp.Call call = getRelationshipTemplatesValidateBeforeCall(id, typeName, derivedFrom, null, null);
@@ -2354,13 +2314,13 @@ public class DefaultApi {
     /**
      * (asynchronously) returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param typeName The relationship type (optional)
+     * @param id          ID of topolog template uplodaed (required)
+     * @param typeName    The relationship type (optional)
      * @param derivedFrom derived from (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param callback    The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getRelationshipTemplatesAsync(String id, String typeName, String derivedFrom, final ApiCallback<List<Map<String, Object>>> callback) throws ApiException {
 
@@ -2393,8 +2353,8 @@ public class DefaultApi {
     /**
      * Build call for getTopologyTemplate
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2404,7 +2364,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2414,7 +2374,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2455,13 +2415,12 @@ public class DefaultApi {
     }
 
     /**
-     *
      * r
      *
      * @param id ID of topolog template uplodaed (required)
      * @return TopologyTemplate
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public TopologyTemplate getTopologyTemplate(String id) throws ApiException {
         ApiResponse<TopologyTemplate> resp = getTopologyTemplateWithHttpInfo(id);
@@ -2469,13 +2428,12 @@ public class DefaultApi {
     }
 
     /**
-     *
      * r
      *
      * @param id ID of topolog template uplodaed (required)
      * @return ApiResponse&lt;TopologyTemplate&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<TopologyTemplate> getTopologyTemplateWithHttpInfo(String id) throws ApiException {
         com.squareup.okhttp.Call call = getTopologyTemplateValidateBeforeCall(id, null, null);
@@ -2487,11 +2445,11 @@ public class DefaultApi {
     /**
      * (asynchronously) r
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getTopologyTemplateAsync(String id, final ApiCallback<TopologyTemplate> callback) throws ApiException {
 
@@ -2524,8 +2482,8 @@ public class DefaultApi {
     /**
      * Build call for getToscaTemplate
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2535,7 +2493,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2545,7 +2503,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2586,12 +2544,10 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
      * @param id ID of topolog template uplodaed (required)
      * @return ToscaTemplate
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ToscaTemplate getToscaTemplate(String id) throws ApiException {
         ApiResponse<ToscaTemplate> resp = getToscaTemplateWithHttpInfo(id);
@@ -2599,12 +2555,10 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
      * @param id ID of topolog template uplodaed (required)
      * @return ApiResponse&lt;ToscaTemplate&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<ToscaTemplate> getToscaTemplateWithHttpInfo(String id) throws ApiException {
         com.squareup.okhttp.Call call = getToscaTemplateValidateBeforeCall(id, null, null);
@@ -2616,11 +2570,11 @@ public class DefaultApi {
     /**
      * (asynchronously)
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id       ID of topolog template uplodaed (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getToscaTemplateAsync(String id, final ApiCallback<ToscaTemplate> callback) throws ApiException {
 
@@ -2653,18 +2607,18 @@ public class DefaultApi {
     /**
      * Build call for getTypes
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param kindOfType the type we are looking for e.g. capability_types,
-     * artifact_types. etc. (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param typeName The type_name (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
-     * @param hasRequirements filter if has requirements (optional)
-     * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
-     * @param derivedFrom derived from (optional)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param kindOfType              the type we are looking for e.g. capability_types,
+     *                                artifact_types. etc. (optional)
+     * @param hasInterfaces           filter if has interfaces (optional)
+     * @param typeName                The type_name (optional)
+     * @param hasProperties           filter if has properties (optional)
+     * @param hasAttributes           filter if has attributes (optional)
+     * @param hasRequirements         filter if has requirements (optional)
+     * @param hasCapabilities         filter if has capabilities (optional)
+     * @param hasArtifacts            filter if has artifacts (optional)
+     * @param derivedFrom             derived from (optional)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2674,7 +2628,7 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/types"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2711,7 +2665,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2752,23 +2706,22 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param kindOfType the type we are looking for e.g. capability_types,
-     * artifact_types. etc. (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param typeName The type_name (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
+     * @param id              ID of topolog template uplodaed (required)
+     * @param kindOfType      the type we are looking for e.g. capability_types,
+     *                        artifact_types. etc. (optional)
+     * @param hasInterfaces   filter if has interfaces (optional)
+     * @param typeName        The type_name (optional)
+     * @param hasProperties   filter if has properties (optional)
+     * @param hasAttributes   filter if has attributes (optional)
      * @param hasRequirements filter if has requirements (optional)
      * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
-     * @param derivedFrom derived from (optional)
+     * @param hasArtifacts    filter if has artifacts (optional)
+     * @param derivedFrom     derived from (optional)
      * @return List&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public List<Map<String, Object>> getTypes(String id, String kindOfType, Boolean hasInterfaces, String typeName, Boolean hasProperties, Boolean hasAttributes, Boolean hasRequirements, Boolean hasCapabilities, Boolean hasArtifacts, String derivedFrom) throws ApiException {
         ApiResponse<List<Map<String, Object>>> resp = getTypesWithHttpInfo(id, kindOfType, hasInterfaces, typeName, hasProperties, hasAttributes, hasRequirements, hasCapabilities, hasArtifacts, derivedFrom);
@@ -2776,23 +2729,22 @@ public class DefaultApi {
     }
 
     /**
-     *
      * returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param kindOfType the type we are looking for e.g. capability_types,
-     * artifact_types. etc. (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param typeName The type_name (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
+     * @param id              ID of topolog template uplodaed (required)
+     * @param kindOfType      the type we are looking for e.g. capability_types,
+     *                        artifact_types. etc. (optional)
+     * @param hasInterfaces   filter if has interfaces (optional)
+     * @param typeName        The type_name (optional)
+     * @param hasProperties   filter if has properties (optional)
+     * @param hasAttributes   filter if has attributes (optional)
      * @param hasRequirements filter if has requirements (optional)
      * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
-     * @param derivedFrom derived from (optional)
+     * @param hasArtifacts    filter if has artifacts (optional)
+     * @param derivedFrom     derived from (optional)
      * @return ApiResponse&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<List<Map<String, Object>>> getTypesWithHttpInfo(String id, String kindOfType, Boolean hasInterfaces, String typeName, Boolean hasProperties, Boolean hasAttributes, Boolean hasRequirements, Boolean hasCapabilities, Boolean hasArtifacts, String derivedFrom) throws ApiException {
         com.squareup.okhttp.Call call = getTypesValidateBeforeCall(id, kindOfType, hasInterfaces, typeName, hasProperties, hasAttributes, hasRequirements, hasCapabilities, hasArtifacts, derivedFrom, null, null);
@@ -2804,21 +2756,21 @@ public class DefaultApi {
     /**
      * (asynchronously) returns the interface types
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param kindOfType the type we are looking for e.g. capability_types,
-     * artifact_types. etc. (optional)
-     * @param hasInterfaces filter if has interfaces (optional)
-     * @param typeName The type_name (optional)
-     * @param hasProperties filter if has properties (optional)
-     * @param hasAttributes filter if has attributes (optional)
+     * @param id              ID of topolog template uplodaed (required)
+     * @param kindOfType      the type we are looking for e.g. capability_types,
+     *                        artifact_types. etc. (optional)
+     * @param hasInterfaces   filter if has interfaces (optional)
+     * @param typeName        The type_name (optional)
+     * @param hasProperties   filter if has properties (optional)
+     * @param hasAttributes   filter if has attributes (optional)
      * @param hasRequirements filter if has requirements (optional)
      * @param hasCapabilities filter if has capabilities (optional)
-     * @param hasArtifacts filter if has artifacts (optional)
-     * @param derivedFrom derived from (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param hasArtifacts    filter if has artifacts (optional)
+     * @param derivedFrom     derived from (optional)
+     * @param callback        The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call getTypesAsync(String id, String kindOfType, Boolean hasInterfaces, String typeName, Boolean hasProperties, Boolean hasAttributes, Boolean hasRequirements, Boolean hasCapabilities, Boolean hasArtifacts, String derivedFrom, final ApiCallback<List<Map<String, Object>>> callback) throws ApiException {
 
@@ -2851,10 +2803,10 @@ public class DefaultApi {
     /**
      * Build call for setNodeAttributes
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param properties (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param properties              (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2864,8 +2816,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/attributes"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2875,7 +2827,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2926,14 +2878,12 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id         ID of topolog template uplodaed (required)
      * @param properties (required)
-     * @param nodeName node_name (required)
+     * @param nodeName   node_name (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public String setNodeAttributes(String id, Object properties, String nodeName) throws ApiException {
         ApiResponse<String> resp = setNodeAttributesWithHttpInfo(id, properties, nodeName);
@@ -2941,14 +2891,12 @@ public class DefaultApi {
     }
 
     /**
-     *
-     *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id         ID of topolog template uplodaed (required)
      * @param properties (required)
-     * @param nodeName node_name (required)
+     * @param nodeName   node_name (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<String> setNodeAttributesWithHttpInfo(String id, Object properties, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = setNodeAttributesValidateBeforeCall(id, properties, nodeName, null, null);
@@ -2960,13 +2908,13 @@ public class DefaultApi {
     /**
      * (asynchronously)
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id         ID of topolog template uplodaed (required)
      * @param properties (required)
-     * @param nodeName node_name (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param nodeName   node_name (required)
+     * @param callback   The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call setNodeAttributesAsync(String id, Object properties, String nodeName, final ApiCallback<String> callback) throws ApiException {
 
@@ -2999,10 +2947,10 @@ public class DefaultApi {
     /**
      * Build call for setNodeProperties
      *
-     * @param id ID of topolog template uplodaed (required)
-     * @param properties (required)
-     * @param nodeName node_name (required)
-     * @param progressListener Progress listener
+     * @param id                      ID of topolog template uplodaed (required)
+     * @param properties              (required)
+     * @param nodeName                node_name (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -3012,8 +2960,8 @@ public class DefaultApi {
 
         // create path and map variables
         String localVarPath = "/tosca_template/{id}/topology_template/node_templates/{node_name}/properties"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()))
-                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName.toString()));
+                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id))
+                .replaceAll("\\{" + "node_name" + "\\}", apiClient.escapeString(nodeName));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -3023,7 +2971,7 @@ public class DefaultApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -3074,15 +3022,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id         ID of topolog template uplodaed (required)
      * @param properties (required)
-     * @param nodeName node_name (required)
+     * @param nodeName   node_name (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public String setNodeProperties(String id, Object properties, String nodeName) throws ApiException {
         ApiResponse<String> resp = setNodePropertiesWithHttpInfo(id, properties, nodeName);
@@ -3090,15 +3037,14 @@ public class DefaultApi {
     }
 
     /**
-     *
      * s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id         ID of topolog template uplodaed (required)
      * @param properties (required)
-     * @param nodeName node_name (required)
+     * @param nodeName   node_name (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<String> setNodePropertiesWithHttpInfo(String id, Object properties, String nodeName) throws ApiException {
         com.squareup.okhttp.Call call = setNodePropertiesValidateBeforeCall(id, properties, nodeName, null, null);
@@ -3110,13 +3056,13 @@ public class DefaultApi {
     /**
      * (asynchronously) s
      *
-     * @param id ID of topolog template uplodaed (required)
+     * @param id         ID of topolog template uplodaed (required)
      * @param properties (required)
-     * @param nodeName node_name (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param nodeName   node_name (required)
+     * @param callback   The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call setNodePropertiesAsync(String id, Object properties, String nodeName, final ApiCallback<String> callback) throws ApiException {
 
@@ -3149,8 +3095,8 @@ public class DefaultApi {
     /**
      * Build call for uploadToscaTemplate
      *
-     * @param file tosca Template description (required)
-     * @param progressListener Progress listener
+     * @param file                    tosca Template description (required)
+     * @param progressListener        Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -3178,7 +3124,7 @@ public class DefaultApi {
         }
 
         final String[] localVarContentTypes = {
-            "multipart/form-data"
+                "multipart/form-data"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -3219,7 +3165,7 @@ public class DefaultApi {
      * @param file tosca Template description (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public String uploadToscaTemplate(File file) throws ApiException {
         ApiResponse<String> resp = uploadToscaTemplateWithHttpInfo(file);
@@ -3233,7 +3179,7 @@ public class DefaultApi {
      * @param file tosca Template description (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot
-     * deserialize the response body
+     *                      deserialize the response body
      */
     public ApiResponse<String> uploadToscaTemplateWithHttpInfo(File file) throws ApiException {
         com.squareup.okhttp.Call call = uploadToscaTemplateValidateBeforeCall(file, null, null);
@@ -3246,11 +3192,11 @@ public class DefaultApi {
      * upload a tosca template description file (asynchronously) upload and
      * validate a tosca template description file
      *
-     * @param file tosca Template description (required)
+     * @param file     tosca Template description (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing
-     * the request body object
+     *                      the request body object
      */
     public com.squareup.okhttp.Call uploadToscaTemplateAsync(File file, final ApiCallback<String> callback) throws ApiException {
 

@@ -1,9 +1,10 @@
 package nl.uva.sne.drip.model.cloud.storm;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
 
 /**
  * CloudCred
@@ -28,7 +29,6 @@ public class CloudCred {
      * Get cloudProvider
      *
      * @return cloudProvider
-  *
      */
     @ApiModelProperty(value = "")
 
@@ -49,7 +49,6 @@ public class CloudCred {
      * Get credInfoFile
      *
      * @return credInfoFile
-  *
      */
     @ApiModelProperty(value = "")
 

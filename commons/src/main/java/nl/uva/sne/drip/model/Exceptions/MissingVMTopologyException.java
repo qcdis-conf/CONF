@@ -16,7 +16,6 @@
 package nl.uva.sne.drip.model.Exceptions;
 
 /**
- *
  * @author S. Koulouzis
  */
 public class MissingVMTopologyException extends Exception {

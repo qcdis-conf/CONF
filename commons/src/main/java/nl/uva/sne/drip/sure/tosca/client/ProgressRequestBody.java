@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -15,23 +15,13 @@ package nl.uva.sne.drip.sure.tosca.client;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
+import okio.*;
 
 import java.io.IOException;
 
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.ForwardingSink;
-import okio.Okio;
-import okio.Sink;
-
 public class ProgressRequestBody extends RequestBody {
 
-    public interface ProgressRequestListener {
-        void onRequestProgress(long bytesWritten, long contentLength, boolean done);
-    }
-
     private final RequestBody requestBody;
-
     private final ProgressRequestListener progressListener;
 
     public ProgressRequestBody(RequestBody requestBody, ProgressRequestListener progressListener) {
@@ -73,5 +63,9 @@ public class ProgressRequestBody extends RequestBody {
                 progressListener.onRequestProgress(bytesWritten, contentLength, bytesWritten == contentLength);
             }
         };
+    }
+
+    public interface ProgressRequestListener {
+        void onRequestProgress(long bytesWritten, long contentLength, boolean done);
     }
 }

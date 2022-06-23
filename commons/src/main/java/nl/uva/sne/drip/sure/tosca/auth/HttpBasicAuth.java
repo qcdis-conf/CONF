@@ -1,6 +1,6 @@
 /*
  * tosca-sure
- * TOSCA Simple qUeRy sErvice (SURE). 
+ * TOSCA Simple qUeRy sErvice (SURE).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: S.Koulouzis@uva.nl
@@ -14,14 +14,11 @@
 package nl.uva.sne.drip.sure.tosca.auth;
 
 
-
 import com.squareup.okhttp.Credentials;
-
-import java.util.Map;
-import java.util.List;
-
-import java.io.UnsupportedEncodingException;
 import nl.uva.sne.drip.sure.tosca.client.Pair;
+
+import java.util.List;
+import java.util.Map;
 
 public class HttpBasicAuth implements Authentication {
     private String username;
@@ -49,7 +46,7 @@ public class HttpBasicAuth implements Authentication {
             return;
         }
         headerParams.put("Authorization", Credentials.basic(
-            username == null ? "" : username,
-            password == null ? "" : password));
+                username == null ? "" : username,
+                password == null ? "" : password));
     }
 }
