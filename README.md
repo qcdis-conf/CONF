@@ -25,8 +25,8 @@ sudo docker stack deploy conf -c docker-compose.yml
 
 ### Kubernetes 
 
-To run the engine on a kubernetes cluster use the resouces at the [k8s folder]( https://github.com/qcdis-conf/CONF/tree/master/k8s/CONF )
-To deploy go to the [k8s folder]( https://github.com/qcdis-conf/CONF/tree/master/k8s/CONF ) and run the following:
+To run the engine on a kubernetes cluster use the resouces at the [k8s folder]( https://github.com/qcdis-conf/CONF/tree/master/k8s/CONF ).
+To deploy clone this project on your K8s master node or configure your kubectl context accordingly. Next go to the k8s/CONF and run the following:
 Create the namespace 
 ```
 kubectl create -f namespace/conf-namespace.yaml
@@ -41,6 +41,8 @@ Create the CONF services
 ```
 kubectl apply -f .
 ```
+
+# CONF API usage 
 
 ## Quck Start with bash
 
