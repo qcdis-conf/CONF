@@ -10,20 +10,18 @@ of the University of Amsterdam. The development of CONF is coordinated by Dr. Zh
 include Junchao Wang, Huan Zhou, Yang Hu, Paul Martin, Arie Taal and Spiros Koulouzis.
  
 
+# Install 
 
-# CONF
-This is the integration of the CONF services as docker conatiners. All components of this architecture are build as docker containers. 
+All components of this architecture are build as docker containers. 
 
-## Install 
-
-### Docker Stack
+## Docker Stack
 
 To run the engine using docker stack use [docker-compose.yaml](https://github.com/qcdis-conf/CONF/blob/master/docker-compose/docker-compose.yml)
 ```
 sudo docker stack deploy conf -c docker-compose.yml
 ```
 
-### Kubernetes 
+## Kubernetes 
 
 To run the engine on a kubernetes cluster use the resouces at the [k8s folder]( https://github.com/qcdis-conf/CONF/tree/master/k8s/CONF ).
 To deploy clone this project on your K8s master node or configure your kubectl context accordingly. Next go to the k8s/CONF and run the following:
