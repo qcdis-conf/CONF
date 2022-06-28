@@ -14,7 +14,7 @@ include Junchao Wang, Huan Zhou, Yang Hu, Paul Martin, Arie Taal and Spiros Koul
 # CONF
 This is the integration of the CONF services as docker conatiners. All components of this architecture are build as docker containers. 
 
-## Run 
+## Install 
 
 ### Docker Stack
 
