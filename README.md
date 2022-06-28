@@ -42,7 +42,8 @@ kubectl apply -f .
 
 # CONF API usage 
 
-## Quck Start with bash
+## Quck Start with curl
+
 
 ### Provision 
 You can check the tosca template that will be used: 
