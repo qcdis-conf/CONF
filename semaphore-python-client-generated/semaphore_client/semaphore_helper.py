@@ -1,11 +1,8 @@
-import os
-import sys
 from datetime import datetime
 
 import urllib3
-
-from semaphore_client import Configuration, ApiClient, api, ProjectRequest, Login, Repository, Inventory, \
-    AccessKeyRequest, InventoryRequest, RepositoryRequest, TemplateRequest, Task
+from semaphore_client import Configuration, ApiClient, api, ProjectRequest, Login, AccessKeyRequest, InventoryRequest, \
+    RepositoryRequest, TemplateRequest, Task
 
 
 class SemaphoreHelper:

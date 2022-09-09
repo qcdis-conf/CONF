@@ -1,22 +1,18 @@
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
+import copy
 import json
+import logging
 import os
 import os.path
+import sys
 import tempfile
 import time
-import logging
-from concurrent.futures import thread
-from threading import Thread
+from time import sleep
 
 import pika
 import yaml
-import sys
-import copy
-
-from time import sleep
-
 from toscaparser.tosca_template import ToscaTemplate
 
 from planner.planner import Planner

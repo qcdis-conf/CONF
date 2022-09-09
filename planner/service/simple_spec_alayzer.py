@@ -1,11 +1,5 @@
 import copy
 
-from toscaparser.nodetemplate import NodeTemplate
-from toscaparser.properties import Property
-
-import networkx as nx
-import logging
-
 from service.specification_analyzer import SpecificationAnalyzer
 from util import tosca_helper
 

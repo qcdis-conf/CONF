@@ -6,9 +6,6 @@ class DeployService:
 
     def __init__(self, polemarch_base_url=None,polemarch_username=None,polemarch_password=None,
                  semaphore_base_url=None,semaphore_username=None,semaphore_password=None):
-        # self.polemarch_base_url = polemarch_base_url
-        # self.polemarch_username=polemarch_username
-        # self.polemarch_password = polemarch_password
         self.semaphore_base_url = semaphore_base_url
         self.semaphore_username = semaphore_username
         self.semaphore_password = semaphore_password
